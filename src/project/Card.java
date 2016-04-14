@@ -2,7 +2,7 @@ package project;
 
 public class Card {
 	private static final char[] suits = new char[] {'C','D','S','H'};
-	private static final char[] types = new char[] {'N','J','K','Q'};
+	private static final char[] types = new char[] {'N','J','K','Q','A'};
 	private final int suit;
 	private final int symbol;
 	private int score;
@@ -33,9 +33,8 @@ public class Card {
 	@Override
 	public String toString(){
 		String str;
-		if(types[symbol] == 'N') str = "[" + score + suits[suit] + "]";
-		else str = "[" + types[symbol] + suits[suit] + "]";
+		if(types[this.getSymbol()] == 'N') str = "[" + score + suits[this.getSuit()] + "]";
+		else str = "[" + types[this.getSymbol()] + suits[this.getSuit()] + "]";
 		return str;
-		//dfjaf
 	}
 }
