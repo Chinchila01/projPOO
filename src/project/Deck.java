@@ -4,8 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ListIterator;
 
+/** Deck Class
+* Class description  
+*
+* @author Filipe Correia
+* @author Helder Duarte
+* @author Joao Vieira
+* @version 1.0
+*/
 public class Deck {
 	ArrayList<Card> cards;
+	/** vector suits 
+	 * C: Clubs
+	 * D: Diamonds 
+	 * S: Spades
+	 * H: Hearts */
 	private static final char[] suits = new char[] {'C','D','S','H'};
 	//private static final char[] types = new char[] {'N','J','K','Q','A'};
 	//private int[] nCardsPerValue;
