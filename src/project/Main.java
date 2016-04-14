@@ -13,7 +13,7 @@ public class Main {
 		System.out.println("Deck state:");
 		System.out.println(deck.toString());
 		
-		deck.addLast(new Card('C','N',10));
+		deck.addLast(new Card(0,4,10));
 
 		System.out.println("Deck state:");
 		System.out.println(deck.toString());

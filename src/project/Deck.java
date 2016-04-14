@@ -7,50 +7,50 @@ import java.util.ListIterator;
 public class Deck {
 	ArrayList<Card> cards;
 	private static final char[] suits = new char[] {'C','D','S','H'};
-	private static final char[] types = new char[] {'N','J','K','Q','A'};
-	private int[] nCardsPerValue;
-	private int[] nCardsPerSuit;
+	//private static final char[] types = new char[] {'N','J','K','Q','A'};
+	//private int[] nCardsPerValue;
+	//private int[] nCardsPerSuit;
 	private int total;
 	
 	public Deck(){
-		nCardsPerValue = new int[13];
-		nCardsPerSuit = new int[4];
+		//nCardsPerValue = new int[13];
+		//nCardsPerSuit = new int[4];
 		cards = new ArrayList<Card>();
 		//Creating number cards
 		for(int i = 2; i <= 10; i++){
 			for(int j= 0; j < suits.length; j++){
 				cards.add(new Card(j,0,i));
-				nCardsPerValue[i-1] += 1;
-				nCardsPerSuit[j] += 1;
+				//nCardsPerValue[i-1] += 1;
+				//nCardsPerSuit[j] += 1;
 				total++;
 			}
 		}
 		//Creating aces
 		for(int j = 0; j < suits.length; j++){
 				cards.add(new Card(j,4,11)); 
-				nCardsPerValue[0] += 1; 
-				nCardsPerSuit[j] += 1;
+				//nCardsPerValue[0] += 1; 
+				//nCardsPerSuit[j] += 1;
 				total++;
 		}
 		//Creating jacks
 		for(int j = 0; j < suits.length; j++){
 			cards.add(new Card(j,1,10)); 
-			nCardsPerValue[10] += 1; 
-			nCardsPerSuit[j] += 1;
+			//nCardsPerValue[10] += 1; 
+			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating queens
 		for(int j = 0; j < suits.length; j++){
 			cards.add(new Card(j,3,10));
-			nCardsPerValue[11] += 1;
-			nCardsPerSuit[j] += 1;
+			//nCardsPerValue[11] += 1;
+			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating kings
 		for(int j = 0; j < suits.length; j++){
 			cards.add(new Card(j,2,10));
-			nCardsPerValue[12] += 1;
-			nCardsPerSuit[j] += 1;
+			//nCardsPerValue[12] += 1;
+			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Shuffling
@@ -70,13 +70,12 @@ public class Deck {
 		return aux;
 	}
 	
-	public boolean addLast(Card c){
-		if(total == 52) return false;
-		if(!validate(c)) return false;
+	public void addLast(Card c){
 		cards.add(total,c);
-		return true;
+		total++;
 	}
 	
+	/*
 	public boolean validate(Card c){
 		switch(c.getSymbol()) {
 		case 'N': if(nCardsPerValue[c.getScore()] == 4) return false; break;
@@ -89,7 +88,7 @@ public class Deck {
 		if(nCardsPerSuit[c.getSuit()] == 13) return false;
 		
 		return true;
-	}
+	}*/
 	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
