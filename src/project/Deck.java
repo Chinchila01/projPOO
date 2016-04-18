@@ -3,13 +3,14 @@ package project;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ListIterator;
-/** 
+
+/** Deck Class
  * This class contains all methods that operate/are related to the Deck object
  * 
  * @author Filipe Correia
  * @author Hélder Duarte
  * @author João Vieira
- *
+ * @version 1.0
  */
 public class Deck {
 	/**
