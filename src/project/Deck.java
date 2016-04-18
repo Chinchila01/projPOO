@@ -3,15 +3,47 @@ package project;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ListIterator;
-
+/** 
+ * This class contains all methods that operate/are related to the Deck object
+ * 
+ * @author Filipe Correia
+ * @author Hélder Duarte
+ * @author João Vieira
+ *
+ */
 public class Deck {
+	/**
+	 * Array where the cards from the {@link Deck} are stored, in order
+	 * 
+	 * @see Deck
+	 */
 	ArrayList<Card> cards;
+	/**
+	 * Available suits to be used on the {@link Deck}
+	 * 
+	 * @see Deck
+	 */
 	private static final char[] suits = new char[] {'C','D','S','H'};
 	//private static final char[] types = new char[] {'N','J','K','Q','A'};
 	//private int[] nCardsPerValue;
 	//private int[] nCardsPerSuit;
+	/**
+	 * Total number of cards currently in the {@link Deck}
+	 * 
+	 * @see Deck
+	 */
 	private int total;
 	
+	/**
+	 * <p>Constructs a Deck object with 52 cards.</p>
+	 * <p>Consists of each of the following cards in the 4 {@link suits} available: <br>
+	 * 	Number cards: 2,3,4,5,6,7,8,9,10 <br>
+	 *  Face cards: A, J, Q, K </p>
+	 * 
+	 * @author Filipe Correia
+	 * @author Hélder Duarte
+	 * @author João Vieira
+	 */
 	public Deck(){
 		//nCardsPerValue = new int[13];
 		//nCardsPerSuit = new int[4];
@@ -57,11 +89,24 @@ public class Deck {
 		shuffle();
 	}
 	
+	/**
+	 * Uses the {@link Collections.shuffle} method to shuffle the {@link Deck}
+	 * 
+	 * @return void
+	 * @see Deck
+	 * @see Collections.shuffle 
+	 */
 	public void shuffle(){
 		Collections.shuffle(cards);
 	}
 	
-	//Incomplete - Decrement nCardsPerValue and nCardsPerSuit
+	/**
+	 * Gets the card on top of the {@link Deck}
+	 * 
+	 * @return Card
+	 * @see Deck
+	 * @see Card
+	 */
 	public Card getNext(){
 		ListIterator<Card> iterator = cards.listIterator();
 		Card aux = iterator.next();
@@ -70,6 +115,15 @@ public class Deck {
 		return aux;
 	}
 	
+	/**
+	 * Adds a {@link Card} to the bottom of the {@link Deck}
+	 * 
+	 * @param c {@link Card} object to be added to the {@link Deck}
+	 * @return void
+	 * @see Deck
+	 * @see Card
+	 * @see Deck.getNext
+	 */
 	public void addLast(Card c){
 		cards.add(total,c);
 		total++;
