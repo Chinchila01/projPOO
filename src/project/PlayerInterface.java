@@ -8,7 +8,7 @@ package project;
  * @author João Vieira
  */
 public interface PlayerInterface {
-
+	
 	/**
 	 * This method is used to ask for one card that will be randomly picked from shoe
 	 * 
@@ -23,8 +23,6 @@ public interface PlayerInterface {
 	 * @see Stand
 	 */
 	public void stand();
-	
-	
 	
 	
 }
