@@ -5,7 +5,12 @@ import java.util.Collections;
 import java.util.ListIterator;
 
 /** Deck Class
- * This class contains all methods that operate/are related to the Deck object
+ * This class contains all methods that operate/are related to the Deck object<br>
+ * A {@link Deck} is composed of 52 cards: <br>
+ * Number cards: 2,3,4,5,6,7,8,9,10<br>
+ * Face cards: A,J,Q,K<br>
+ * <br>
+ * The deck has each of the above cards in each of the 4 suits: Clubs, Diamonds, Spades, Hearts
  * 
  * @author Filipe Correia
  * @author Hélder Duarte
