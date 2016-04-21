@@ -39,7 +39,8 @@ public class Deck {
 	 * @see Deck
 	 */
 	private int total;
-	
+	private boolean isEmpty;
+	private boolean isFull;
 	/**
 	 * <p>Constructs a Deck object with 52 cards.</p>
 	 * <p>Consists of each of the following cards in the 4 {@link suits} available: <br>
@@ -93,6 +94,8 @@ public class Deck {
 		}
 		//Shuffling
 		shuffle();
+		isEmpty = false;
+		isFull  = true;
 	}
 	
 	/**
@@ -118,6 +121,8 @@ public class Deck {
 		Card aux = iterator.next();
 		iterator.remove();
 		total--;
+		if(total == 0) isEmpty = true;
+		if(total < 52) isFull = false;
 		return aux;
 	}
 	
@@ -133,8 +138,17 @@ public class Deck {
 	public void addLast(Card c){
 		cards.add(total,c);
 		total++;
+		if(total != 0) isEmpty = false;
+		if(total == 52) isFull = true;
 	}
 	
+	public boolean isEmpty(){
+		return this.isEmpty;
+	}
+	
+	public boolean isFull(){
+		return this.isFull;
+	}
 	/*
 	public boolean validate(Card c){
 		switch(c.getSymbol()) {

@@ -25,6 +25,15 @@ public class Main {
 		
 		System.out.println("Deck state:");
 		System.out.println(deck.toString());
+		
+		Shoe shoe1 = new Shoe(3);
+		
+		System.out.println("Shoe: ");
+		System.out.println(shoe1.toString());
+		System.out.println(shoe1.isFull());
+		shoe1.addLast(shoe1.getNext());
+		System.out.println(shoe1.isFull());
+		System.out.println(shoe1.toString());
 	}
 
 }
