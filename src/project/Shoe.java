@@ -15,10 +15,20 @@ import java.util.ListIterator;
  * @see Card
  */
 public class Shoe {
+	/**
+	 * Array with decks in order
+	 * 
+	 * @see Deck
+	 * @see Card
+	 */
 	private Deck[] decks;
 	private int currentDeck;
 	private int totalDecks;
 	
+	/**
+	 * Constructor for a Shoe of n decks
+	 * @param n is the number of decks in the deck array. Must be between 2 and 8
+	 */
 	public Shoe(int n){
 		if(n >= 2 && n <= 8){
 			this.totalDecks = n;
@@ -29,12 +39,27 @@ public class Shoe {
 		/*que fazer caso n seja menor que 2 ou maior que 8? */
 	}
 	
+	/**
+	 * Default no-constructor - defaults to 4 decks
+	 */
+	public Shoe(){
+		this(4);
+	}
+	
+	/**
+	 * Gets the next available card from the shoe
+	 * @return next available card from the shoe
+	 */
 	public Card getNext(){
 		Card aux = decks[currentDeck].getNext();
 		if(decks[currentDeck].isEmpty()) currentDeck++;
 		return aux;
 	}
 	
+	/**
+	 * Adds a card to the bottom of the shoe
+	 * @param c card to add to the bottom of the shoe
+	 */
 	public void addLast(Card c){
 		Card aux;
 		Card aux2 = c;
