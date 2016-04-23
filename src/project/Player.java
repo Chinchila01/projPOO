@@ -4,7 +4,7 @@ import java.util.ListIterator;
 
 public class Player implements PlayerInterface{
 
-	Player player1;
+	
 	private int playerMoney;
 	private Hand[] hand;
 	private short nrHands;
@@ -14,8 +14,7 @@ public class Player implements PlayerInterface{
 	 * @param Object player
 	 * @see Player Constructor
 	 */
-	public Player(Player p, int initialMoney){
-		player1=p;
+	public Player(int initialMoney){
 		playerMoney=initialMoney;
 		hand[0]=new Hand(null, null);//depois o dealer é que vai dar as cartas
 		nrHands = 1;
@@ -51,24 +50,24 @@ public class Player implements PlayerInterface{
 	 * 
 	 * @param Hand h to be split 
 	 * @param Shoe s, from which the new card will be picked through hit method
-	 * @return new Hand
+	 * 
 	 * 
 	 * @see 
 	 */
-	public Hand split(Shoe s){
+	public void split(Hand h, Shoe s){
 		
-		if(hand[nrHands-1].getSize() != 2) return null;
-		
-		//falta acabar
-		ListIterator<Card> iterator = hand[nrHands-1].getHand().listIterator();
+		if(h.getSize() != 2);//TODO: Add exception
+		if(h.getHand().iterator().next().getScore()>=10);//TODO: throw exception
+			
+		ListIterator<Card> iterator = h.getHand().listIterator();
 		Card aux = iterator.next();
 		if(aux.equals(iterator.next())){
 			iterator.remove();
-			return aux;
 		}
-		Hand newHand = new Hand(h.split(), hit(s));
-
-		return newHand;
+		
+		h.addCard(this.hit(s));//get a card from shoe
+		hand[nrHands-1+1] = new Hand(aux, this.hit(s));//create a new hand 
+		
 	}
 	
 	/**
@@ -78,7 +77,7 @@ public class Player implements PlayerInterface{
 	 * 
 	 * @see 
 	 */
-	public void insure(){
+	public void insurance(){
 		
 		
 	}
