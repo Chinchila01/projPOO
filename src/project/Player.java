@@ -60,7 +60,7 @@ public class Player implements PlayerInterface{
 		if(hand[nrHands-1].getSize() != 2) return null;
 		
 		//falta acabar
-		ListIterator<Card> iterator = hand[nrHands-1].listIterator();
+		ListIterator<Card> iterator = hand[nrHands-1].getHand().listIterator();
 		Card aux = iterator.next();
 		if(aux.equals(iterator.next())){
 			iterator.remove();

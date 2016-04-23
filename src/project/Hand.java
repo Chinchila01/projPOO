@@ -15,7 +15,7 @@ public class Hand {
 	 * ArrayList where the Hand is stored. Minimum size is 2, as that is the amount of cards first dealt by the dealer to each player
 	 * @see Card
 	 */
-	ArrayList<Card> hand;
+	private ArrayList<Card> hand;
 	
 	/**
 	 * Constructor for a Hand object. Needs 2 cards to be created.
@@ -40,7 +40,7 @@ public class Hand {
 	 * @see Card
 	 */
 	public ArrayList<Card> getHand(){
-		return hand;
+		return this.hand;
 	}
 	
 	/**
