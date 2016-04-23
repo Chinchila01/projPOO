@@ -1,9 +1,5 @@
 package project;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ListIterator;
-
 /**Shoe class
  * Contains all the decks used during a blackjack game
  * 
@@ -36,7 +32,8 @@ public class Shoe {
 			for(int i = 0; i < this.totalDecks; i++) this.decks[i] = new Deck();
 			this.currentDeck = 0;
 		}
-		/*que fazer caso n seja menor que 2 ou maior que 8? */
+		/*que fazer caso n seja menor que 2 ou maior que 8? 
+		 * R: mandar uma mensagem de erro/exception? ass:vieira*/
 	}
 	
 	/**

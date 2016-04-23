@@ -15,7 +15,7 @@ public class Hand {
 	 * ArrayList where the Hand is stored. Minimum size is 2, as that is the amount of cards first dealt by the dealer to each player
 	 * @see Card
 	 */
-	ArrayList<Card> hand = new ArrayList<Card>();
+	ArrayList<Card> hand;
 	
 	/**
 	 * Constructor for a Hand object. Needs 2 cards to be created.
@@ -25,10 +25,12 @@ public class Hand {
 	 * @see Card
 	 */
 	public Hand(Card first, Card second){
+		hand = new ArrayList<Card>();
 		if(first != null && second != null){
 			hand.add(first);
 			hand.add(second);
 		}
+		
 	}
 	
 	/**
@@ -51,21 +53,12 @@ public class Hand {
 	}
 	
 	/**
-	 * Used to split a two card hand. The cards must be equal.
-	 * 
-	 * @return the first card in the hand
+	 * get number of cards in this hand
+	 * @return integer number of cards in this hand
 	 * @see Card
 	 */
-	public Card split(){
-		if(hand.size() != 2) return null;
-		ListIterator<Card> iterator = hand.listIterator();
-		Card aux = iterator.next();
-		if(aux.equals(iterator.next())){
-			iterator.remove();
-			return aux;
-		}
-		
-		return null;
+	public int getSize(){
+		return hand.size();
 	}
 	
 	@Override
