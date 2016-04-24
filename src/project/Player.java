@@ -6,18 +6,21 @@ public class Player implements PlayerInterface{
 
 	
 	private int playerMoney;
+	
 	private Hand[] hand;
 	private short nrHands;
+	int minBet;
 	/**
 	 * Constructor for a Player object. Needs a object player to be created.
 	 * 
 	 * @param Object player
 	 * @see Player Constructor
 	 */
-	public Player(int initialMoney){
+	public Player(int initialMoney, int minBet){
 		playerMoney=initialMoney;
-		hand[0]=new Hand(null, null);//depois o dealer é que vai dar as cartas
+		hand[0]=new Hand(null, null, minBet);//depois o dealer é que vai dar as cartas
 		nrHands = 1;
+		this.minBet=minBet;
 	}
 	
 	/**
@@ -66,20 +69,27 @@ public class Player implements PlayerInterface{
 		}
 		
 		h.addCard(this.hit(s));//get a card from shoe
-		hand[nrHands-1+1] = new Hand(aux, this.hit(s));//create a new hand 
+		hand[nrHands-1+1] = new Hand(aux, this.hit(s), minBet);//create a new hand 
 		
 	}
 	
 	/**
-	 * 
-	 * @param
-	 * @return
+	 * When the dealer’s face-up card is an ace, each player gets the chance to bet on whether the
+	 * dealer has a blackjack. 
+	 * @param Hand dh -  dealer's hand
+	 * @return insurance bet value
 	 * 
 	 * @see 
 	 */
-	public void insurance(){
+	public int insurance(Hand dh, Hand ph){
 		
-		
+		//only check the card that is initially faced up
+		if (dh.getHand().iterator().next().getType()=='A')
+			return ph.bet;//insurance bet 
+		else
+			;//TODO:throw a exception
+		return 0;
+	
 	}
 	
 	/**

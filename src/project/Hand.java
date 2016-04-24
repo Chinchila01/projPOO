@@ -16,21 +16,22 @@ public class Hand {
 	 * @see Card
 	 */
 	private ArrayList<Card> hand;
-	
+	protected int bet;
 	/**
 	 * Constructor for a Hand object. Needs 2 cards to be created.
 	 * 
 	 * @param first card to add to the {@link Hand}
 	 * @param second card to add to the {@link Hand}
+	 * @param minimum bet value
 	 * @see Card
 	 */
-	public Hand(Card first, Card second){
+	public Hand(Card first, Card second, int minBet){
 		hand = new ArrayList<Card>();
 		if(first != null && second != null){
 			hand.add(first);
 			hand.add(second);
 		}
-		
+		bet = minBet;
 	}
 	
 	/**

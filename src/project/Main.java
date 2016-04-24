@@ -20,7 +20,7 @@ public class Main {
 		System.out.println(deck.toString());
 		
 		System.out.println("Creating a hand:");
-		hand = new Hand(deck.getNext(),deck.getNext());
+		hand = new Hand(deck.getNext(),deck.getNext(),10);
 		System.out.println(hand.toString());
 		
 		System.out.println("Deck state:");

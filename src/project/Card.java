@@ -78,6 +78,15 @@ public class Card {
 	public int getSymbol() {
 		return symbol;
 	}
+	
+	/**
+	 * Returns the type of the {@link Card} object, according to {@link Card#types}.
+	 * @return character type of this card
+	 */
+	public char getType() {
+		return types[this.getSymbol()];
+	}
+	
 	/**
 	 * Returns the score of the {@link Card} object in blackjack.
 	 * @return score of the {@link Card}
