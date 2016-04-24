@@ -81,13 +81,14 @@ public class PlayingArea {
 	private void bet(int bet) {
 		
 		
+		
 	}
 	
 	
 	public static void main(String[] args) {
 		
 		PlayingArea pa = new PlayingArea(args);
-		Player player = new Player(pa.balance);
+		Player player = new Player(pa.balance, pa.minBet);
 		Dealer dealer = new Dealer();
 		Scanner reader = new Scanner(System.in);
 		StringBuffer userArgs = new StringBuffer();
@@ -102,10 +103,34 @@ public class PlayingArea {
 			//player's turn
 			userArgs.replace(0, userArgs.length(), reader.nextLine());	//player input
 			cmd = new Command(userArgs);
-			//switch(cmd.command) {
-			//case 'b':
+			switch(cmd.command) {
+			case 'b':
 				
-			//}
+			case '$':
+				System.out.println("Current balance: " + player.getPlayerMoney());
+				break;
+			case 'd':
+				break;
+			case 'h':
+				player.hit(pa.shoe);
+				break;
+			case 's':
+				player.stand();
+				break;
+			case 'i':
+				player.insurance(null, null);
+				break;
+			case 'u':
+				player.surrender();
+				break;
+			case 'p':
+				player.split(null, pa.shoe);
+				break;
+			case '2':
+				break;
+			//case "ad":	isto sao strings, ha que mudar o command para devolver string em vez de char para estes casos
+			//case "st":
+			}
 			break;
 			
 		case 'd':
