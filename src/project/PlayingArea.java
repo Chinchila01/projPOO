@@ -98,7 +98,7 @@ public class PlayingArea {
 		switch(pa.gameMode) {
 		
 		case 'i':
-			Shoe shoe = new Shoe(pa.nbDecksInShoe);
+			pa.shoe = new Shoe(pa.nbDecksInShoe);
 			//dar cartas
 			//player's turn
 			userArgs.replace(0, userArgs.length(), reader.nextLine());	//player input
