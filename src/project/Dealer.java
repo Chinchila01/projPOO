@@ -21,5 +21,7 @@ public class Dealer implements PlayerInterface{
 	 * @see stand
 	 */
 	public void stand(){
+	
+	}
 
 }

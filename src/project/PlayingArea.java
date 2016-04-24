@@ -27,7 +27,10 @@ public class PlayingArea {
 	int nbShuffles;
 	int strategy;
 	
-	public PlayingArea(String[] args {
+	int previousBet;
+	public static int minimumBet;
+	
+	public PlayingArea(String[] args) {
 		
 		this.gameMode = args[0].charAt(1);
 		
@@ -69,6 +72,13 @@ public class PlayingArea {
 			this.cmdFile = args[5];		
 		}
 		
+		previousBet = minBet;
+			
+		}
+		
+	
+
+	private void bet(int bet) {
 		
 		
 	}
@@ -77,7 +87,7 @@ public class PlayingArea {
 	public static void main(String[] args) {
 		
 		PlayingArea pa = new PlayingArea(args);
-		Player player = new Player();
+		Player player = new Player(pa.balance);
 		Dealer dealer = new Dealer();
 		Scanner reader = new Scanner(System.in);
 		StringBuffer userArgs = new StringBuffer();
@@ -92,6 +102,10 @@ public class PlayingArea {
 			//player's turn
 			userArgs.replace(0, userArgs.length(), reader.nextLine());	//player input
 			cmd = new Command(userArgs);
+			//switch(cmd.command) {
+			//case 'b':
+				
+			//}
 			break;
 			
 		case 'd':
