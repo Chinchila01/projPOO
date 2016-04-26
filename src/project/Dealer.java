@@ -9,10 +9,8 @@ public class Dealer implements PlayerInterface{
 	 * @return Card object
 	 * @see hit
 	 */
-	public Card hit(Shoe s){
-		
-		
-		return null;
+	public void hit(Hand h, Shoe s){
+	
 	}
 	
 	/**
@@ -20,8 +18,9 @@ public class Dealer implements PlayerInterface{
 	 * 
 	 * @see stand
 	 */
-	public void stand(){
+	public int stand(int curHand){
 	
+		return 0;
 	}
 
 }

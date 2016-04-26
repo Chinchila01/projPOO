@@ -12,10 +12,6 @@ import java.util.Scanner;
  */
 public class PlayingArea {
 	
-	Player player;
-	Dealer dealer;
-	Shoe shoe;
-	
 	char gameMode;
 	int maxBet;
 	int minBet;
@@ -26,12 +22,13 @@ public class PlayingArea {
 	String cmdFile;
 	int nbShuffles;
 	int strategy;
+	int handIndex;
 	
 	int previousBet;
 	public static int minimumBet;
 	
 	public PlayingArea(String[] args) {
-		
+		handIndex = 0;//initial hand number to be used in hand array index
 		this.gameMode = args[0].charAt(1);
 		
 		if(gameMode == 'i') {
@@ -77,13 +74,6 @@ public class PlayingArea {
 		}
 		
 	
-
-	private void bet(int bet) {
-		
-		
-		
-	}
-	
 	
 	public static void main(String[] args) {
 		
@@ -91,20 +81,27 @@ public class PlayingArea {
 		Player player = new Player(pa.balance, pa.minBet);
 		Dealer dealer = new Dealer();
 		Scanner reader = new Scanner(System.in);
+		Shoe shoe = new Shoe(pa.nbDecksInShoe);
 		StringBuffer userArgs = new StringBuffer();
 		Command cmd;
 		
 		
 		switch(pa.gameMode) {
 		
-		case 'i':
-			pa.shoe = new Shoe(pa.nbDecksInShoe);
+		case 'i'://
 			//dar cartas
+			player.hit(player.hand[0], shoe);
+			player.hit(player.hand[0], shoe);
 			//player's turn
 			userArgs.replace(0, userArgs.length(), reader.nextLine());	//player input
 			cmd = new Command(userArgs);
 			switch(cmd.command) {
 			case 'b':
+				//se não receber argumentos no comando
+				//System.out.println("player is betting " + player.hand[pa.handIndex].addBet());
+
+				//se receber
+				//System.out.println("player is betting " + player.hand[pa.handIndex].addBet(valor a ser apostado));
 				
 			case '$':
 				System.out.println("Current balance: " + player.getPlayerMoney());
@@ -112,10 +109,12 @@ public class PlayingArea {
 			case 'd':
 				break;
 			case 'h':
-				player.hit(pa.shoe);
+				player.hit(player.hand[pa.handIndex], shoe);
+				System.out.println("player hits");
+				System.out.println("player's hand" + player.hand);
 				break;
 			case 's':
-				player.stand();
+				//player.stand();
 				break;
 			case 'i':
 				player.insurance(null, null);
@@ -124,7 +123,7 @@ public class PlayingArea {
 				player.surrender();
 				break;
 			case 'p':
-				player.split(null, pa.shoe);
+				player.split(null, shoe);
 				break;
 			case '2':
 				break;

@@ -75,6 +75,7 @@ public class Shoe {
 		else decks[totalDecks-1].addLast(c);
 	}
 	
+	
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();

@@ -7,9 +7,9 @@ public class Player implements PlayerInterface{
 	
 	private int playerMoney;
 	
-	private Hand[] hand;
-	private short nrHands;
-	int minBet;
+	Hand[] hand;
+	short nrHands;
+	int minBet,maxBet;
 	/**
 	 * Constructor for a Player object. Needs a object player to be created.
 	 * 
@@ -18,7 +18,9 @@ public class Player implements PlayerInterface{
 	 */
 	public Player(int initialMoney, int minBet){
 		playerMoney=initialMoney;
-		hand[0]=new Hand(null, null, minBet);//depois o dealer é que vai dar as cartas
+		hand = new Hand[4];
+		
+		hand[0] = new Hand(null, null, minBet, maxBet);//depois o dealer é que vai dar as cartas
 		nrHands = 1;
 		this.minBet=minBet;
 	}
@@ -31,8 +33,8 @@ public class Player implements PlayerInterface{
 	 * @return Card object
 	 * @see hit
 	 */
-	public Card hit(Shoe s){
-		return s.getNext();
+	public void hit(Hand h,Shoe s){
+		h.addCard(s.getNext());
 	}
 	
 	/**
@@ -40,10 +42,15 @@ public class Player implements PlayerInterface{
 	 * This move is supposed to not get any further card and stick with the actual hand
 	 * against the Dealer's Hand
 	 * 
+	 * @return index of the next hand to be played; If returned value=-1 : there are no more hands to be played
 	 * @see stand
 	 */
-	public void stand(){
-		
+	public int stand(int curHand){
+		if (curHand<nrHands){//if exists return the next hand to be played
+			System.out.println("playing "+ curHand + "nd hand...\n");
+			return curHand ++;
+		}
+		return -1;
 		
 	}
 	
@@ -60,7 +67,6 @@ public class Player implements PlayerInterface{
 	public void split(Hand h, Shoe s){
 		
 		if(h.getSize() != 2);//TODO: Add exception
-		if(h.getHand().iterator().next().getScore()>=10);//TODO: throw exception
 			
 		ListIterator<Card> iterator = h.getHand().listIterator();
 		Card aux = iterator.next();
@@ -68,8 +74,12 @@ public class Player implements PlayerInterface{
 			iterator.remove();
 		}
 		
-		h.addCard(this.hit(s));//get a card from shoe
-		hand[nrHands-1+1] = new Hand(aux, this.hit(s), minBet);//create a new hand 
+		hit(h,s);//get a card from shoe
+		Hand newHand = hand[nrHands-1+1];
+		newHand = new Hand(aux, null, minBet, maxBet);//create a new hand 
+		nrHands++; 
+		hit(newHand,s);
+		newHand.curBet=h.curBet;
 		
 	}
 	
@@ -85,7 +95,7 @@ public class Player implements PlayerInterface{
 		
 		//only check the card that is initially faced up
 		if (dh.getHand().iterator().next().getType()=='A')
-			return ph.bet;//insurance bet 
+			return ph.curBet;//insurance bet 
 		else
 			;//TODO:throw a exception
 		return 0;
@@ -100,18 +110,6 @@ public class Player implements PlayerInterface{
 	 * @see 
 	 */
 	public void surrender(){
-		
-		
-	}
-	
-	/**
-	 * 
-	 * @param
-	 * @return
-	 * 
-	 * @see 
-	 */
-	public void getCurrentBet(){
 		
 		
 	}

@@ -99,15 +99,17 @@ public class Deck {
 	}
 	
 	/**
-	 * Uses the {@link Collections.shuffle} method to shuffle the {@link Deck}
+	 * Uses the {@link Collections.shuffle} method to shuffle the {@link Shoe}
 	 * 
 	 * @return void
 	 * @see Deck
 	 * @see Collections.shuffle 
 	 */
 	public void shuffle(){
+		//TODO:fazer shuffle do shoe em vez dos decks
 		Collections.shuffle(cards);
 	}
+	
 	
 	/**
 	 * Gets the card on top of the {@link Deck}

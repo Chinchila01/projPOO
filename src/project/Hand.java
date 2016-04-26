@@ -16,7 +16,8 @@ public class Hand {
 	 * @see Card
 	 */
 	private ArrayList<Card> hand;
-	protected int bet;
+	int curBet, minBet, maxBet;
+	
 	/**
 	 * Constructor for a Hand object. Needs 2 cards to be created.
 	 * 
@@ -25,13 +26,15 @@ public class Hand {
 	 * @param minimum bet value
 	 * @see Card
 	 */
-	public Hand(Card first, Card second, int minBet){
+	public Hand(Card first, Card second, int minBet, int maxBet){
 		hand = new ArrayList<Card>();
 		if(first != null && second != null){
 			hand.add(first);
 			hand.add(second);
 		}
-		bet = minBet;
+		this.minBet=minBet;
+		this.maxBet=maxBet;
+		curBet=0;
 	}
 	
 	/**
@@ -61,6 +64,30 @@ public class Hand {
 	public int getSize(){
 		return hand.size();
 	}
+	
+	/**
+	 * Adds the value passed to the current bet, if it's higher than maxBet, adds maxBet instead
+	 * @return value that was bet
+	 * @see addBetValue
+	 */
+	public int addBet(int b){
+		if (b>maxBet) b=maxBet;
+		curBet=curBet + b;
+		
+		return b;
+	}
+	
+	/**
+	 * If no value is passed, the default minBet is added to the current bet(curBet)
+	 * @return value that was bet
+	 * @see addBet
+	 */
+	public int addBet(){
+		curBet=curBet + minBet;
+		return minBet;
+	}
+	
+
 	
 	@Override
 	public String toString(){
