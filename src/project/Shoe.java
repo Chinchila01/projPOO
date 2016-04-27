@@ -37,7 +37,7 @@ public class Shoe {
 	}
 	
 	/**
-	 * Default no-constructor - defaults to 4 decks
+	 * Default no-arg constructor - defaults to 4 decks
 	 */
 	public Shoe(){
 		this(4);

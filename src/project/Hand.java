@@ -19,11 +19,12 @@ public class Hand {
 	int curBet, minBet, maxBet;
 	
 	/**
-	 * Constructor for a Hand object. Needs 2 cards to be created.
+	 * Constructor for a Hand object. Needs 2 cards to be created, a minimum bet value and a maximum bet value
 	 * 
 	 * @param first card to add to the {@link Hand}
 	 * @param second card to add to the {@link Hand}
 	 * @param minimum bet value
+	 * @param maximum bet value
 	 * @see Card
 	 */
 	public Hand(Card first, Card second, int minBet, int maxBet){

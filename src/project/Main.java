@@ -20,7 +20,7 @@ public class Main {
 		System.out.println(deck.toString());
 		
 		System.out.println("Creating a hand:");
-		hand = new Hand(deck.getNext(),deck.getNext(),10);
+		hand = new Hand(deck.getNext(),deck.getNext(),10,100);
 		System.out.println(hand.toString());
 		
 		System.out.println("Deck state:");
@@ -34,6 +34,9 @@ public class Main {
 		shoe1.addLast(shoe1.getNext());
 		System.out.println(shoe1.isFull());
 		System.out.println(shoe1.toString());
+		
+		Pot pot = new Pot(1457);
+		System.out.println(pot);
 	}
 
 }

@@ -1,6 +1,7 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 
 /** Pot Class
@@ -40,9 +41,20 @@ public class Pot {
 		}
 		totalValue = totalValue - totalValue/5*5;
 		for(i=0; i<totalValue; i++) {
-			chips.add(new Chip(5));
+			chips.add(new Chip(1));
 		}
 		
+	}
+	
+	@Override
+	public String toString(){
+		ListIterator<Chip> it = this.chips.listIterator();
+		StringBuilder sb = new StringBuilder();
+		
+		while(it.hasNext()){
+			sb.append(it.next().toString());
+		}
+		return sb.toString();
 	}
 
 }

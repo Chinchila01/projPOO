@@ -70,5 +70,13 @@ public class Chip {
 			//TODO: throw exception
 		}
 	}
+	
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.color);
+		sb.append(this.value);
+		return sb.toString();
+	}
 
 }

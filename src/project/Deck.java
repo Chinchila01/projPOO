@@ -167,10 +167,11 @@ public class Deck {
 	}*/
 	
 	public String toString(){
+		ListIterator<Card> it = cards.listIterator();
 		StringBuilder sb = new StringBuilder();
-		for(Card c : cards){
-			sb.append(c.toString());
-			sb.append(",");
+		while(it.hasNext()){
+			sb.append(it.next().toString());
+			if(it.hasNext()) sb.append(",");
 		}
 		return sb.toString();
 	}
