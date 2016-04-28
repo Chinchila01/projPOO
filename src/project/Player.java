@@ -66,7 +66,7 @@ public class Player implements PlayerInterface{
 	 */
 	public void split(Hand h, Shoe s){
 		
-		if(h.getSize() != 2);//TODO: Add exception
+		if(h.getSize() != 2);//Check if the hand has 2 cards TODO: if not Add exception
 			
 		ListIterator<Card> iterator = h.getHand().listIterator();
 		Card aux = iterator.next();
@@ -76,10 +76,10 @@ public class Player implements PlayerInterface{
 		
 		hit(h,s);//get a card from shoe
 		Hand newHand = hand[nrHands-1+1];
-		newHand = new Hand(aux, null, minBet, maxBet);//create a new hand 
+		newHand = new Hand(aux, null, minBet, maxBet);//create a new hand with same card
 		nrHands++; 
-		hit(newHand,s);
-		newHand.curBet=h.curBet;
+		hit(newHand,s); //Immediately get a new card for newHand
+		newHand.curBet=h.curBet; //set the same bet for newHand
 		
 	}
 	

@@ -15,7 +15,7 @@ public class Hand {
 	 * ArrayList where the Hand is stored. Minimum size is 2, as that is the amount of cards first dealt by the dealer to each player
 	 * @see Card
 	 */
-	private ArrayList<Card> hand;
+	ArrayList<Card> hand;
 	int curBet, minBet, maxBet;
 	
 	/**
@@ -36,6 +36,14 @@ public class Hand {
 		this.minBet=minBet;
 		this.maxBet=maxBet;
 		curBet=0;
+	}
+	
+	public Hand(Card first, Card second){
+		hand = new ArrayList<Card>();
+		if(first != null && second != null){
+			hand.add(first);
+			hand.add(second);
+		}
 	}
 	
 	/**

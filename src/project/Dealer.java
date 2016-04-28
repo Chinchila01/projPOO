@@ -11,8 +11,14 @@ public class Dealer implements PlayerInterface{
 	 * @return Card object
 	 * @see hit
 	 */
+	
+	public Dealer (){
+		hand = new Hand(null,null);
+	}
+	
+	//nao precisa de receber a hand pois o dealer apenas tem uma hand a cada jogada
 	public void hit(Hand h, Shoe s){
-		h.addCard(s.getNext());
+		hand.addCard(s.getNext());
 	}
 	
 	/**

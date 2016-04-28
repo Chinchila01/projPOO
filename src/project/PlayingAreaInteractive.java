@@ -57,8 +57,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 			// give cards to dealer
 			dealer.hit(dealer.hand, shoe);
 			dealer.hit(dealer.hand, shoe);
-			dealer.hand.hand[0].turnCard();	//TODO: hand da hand é private, corrigir
-			
+			dealer.hand.getHand().iterator().next().turnCard();
 			
 			// player's turn
 			userArgs = reader.nextLine();	//player input
