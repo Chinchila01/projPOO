@@ -16,13 +16,13 @@ public class Player implements PlayerInterface{
 	 * @param Object player
 	 * @see Player Constructor
 	 */
-	public Player(int initialMoney, int minBet){
+	public Player(int initialMoney){
 		playerMoney=initialMoney;
 		hand = new Hand[4];
 		
-		hand[0] = new Hand(null, null, minBet, maxBet);//depois o dealer é que vai dar as cartas
+		hand[0] = new Hand(null, null);//depois o dealer é que vai dar as cartas
 		nrHands = 1;
-		this.minBet=minBet;
+		
 	}
 	
 	/**
@@ -46,10 +46,11 @@ public class Player implements PlayerInterface{
 	 * @see stand
 	 */
 	public int stand(int curHand){
-		if (curHand<nrHands){//if exists return the next hand to be played
+		if (curHand<nrHands){	//if exists return the next hand to be played
 			System.out.println("playing "+ curHand + "nd hand...\n");
 			return curHand ++;
 		}
+		
 		return -1;
 		
 	}
@@ -76,7 +77,7 @@ public class Player implements PlayerInterface{
 		
 		hit(h,s);//get a card from shoe
 		Hand newHand = hand[nrHands-1+1];
-		newHand = new Hand(aux, null, minBet, maxBet);//create a new hand with same card
+		newHand = new Hand(aux, null);//create a new hand with same card
 		nrHands++; 
 		hit(newHand,s); //Immediately get a new card for newHand
 		newHand.curBet=h.curBet; //set the same bet for newHand
@@ -84,7 +85,7 @@ public class Player implements PlayerInterface{
 	}
 	
 	/**
-	 * When the dealer’s face-up card is an ace, each player gets the chance to bet on whether the
+	 * When the dealer's face-up card is an ace, each player gets the chance to bet on whether the
 	 * dealer has a blackjack. 
 	 * @param Hand dh -  dealer's hand
 	 * @return insurance bet value
@@ -121,4 +122,27 @@ public class Player implements PlayerInterface{
 	public void addPlayerMoney(int playerMoney) {
 		this.playerMoney = this.playerMoney + playerMoney;
 	}
+	
+	public String getHands() {
+		StringBuilder sb = new StringBuilder();
+		int score=0;
+		for(Hand h : hand) {
+			if(h != null) {
+				sb.append(h.toString());
+				score += h.getScore();
+			}
+		}
+		sb.append(" (" + score + ")");
+		return sb.toString();
+	}
+	
+	public int getScore(Hand h) {
+		int score=0;
+		for(Card c : h.cards) {
+			score += c.getScore();
+		}
+		return score;
+	}
+	
+	
 }

@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Deck deck = new Deck();
+		/*Deck deck = new Deck();
 		Hand hand;
 		
 		System.out.println(deck.toString());
@@ -36,7 +36,9 @@ public class Main {
 		System.out.println(shoe1.toString());
 		
 		Pot pot = new Pot(1457);
-		System.out.println(pot);
+		System.out.println(pot);*/
+		
+		
 	}
 
 }

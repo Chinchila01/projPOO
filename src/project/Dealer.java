@@ -13,7 +13,7 @@ public class Dealer implements PlayerInterface{
 	 */
 	
 	public Dealer (){
-		hand = new Hand(null,null);
+		hand = new Hand(null, null);
 	}
 	
 	//nao precisa de receber a hand pois o dealer apenas tem uma hand a cada jogada
@@ -30,5 +30,17 @@ public class Dealer implements PlayerInterface{
 	
 		return 0;
 	}
+	
+	public String getHands() {
+		StringBuilder sb = new StringBuilder();
+		for(Card c : hand.getHand()) {
+			if(c.isTurnedUp)
+				sb.append(c.toString());
+			else
+				sb.append("[X]");
+		}
+		return sb.toString();
+	}
+	
 
 }

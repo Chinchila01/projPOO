@@ -11,14 +11,14 @@ public abstract class PlayingArea {
 	/**
 	 * Common attributes to all game modes
 	 */
-	int maxBet;
 	int minBet;
-	int balance;
+	int maxBet;
+	int initBalance;
 	
-	public PlayingArea(int maxBet, int minBet, int balance) {
-		this.maxBet = maxBet;
+	public PlayingArea(int minBet, int maxBet, int initBalance) {
 		this.minBet = minBet;
-		this.balance = balance;
+		this.maxBet = maxBet;
+		this.initBalance = initBalance;
 	}
 
 }

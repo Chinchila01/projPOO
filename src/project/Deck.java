@@ -151,6 +151,10 @@ public class Deck {
 	public boolean isFull(){
 		return this.isFull;
 	}
+	
+	public int getTotal(){
+		return total;
+	}
 	/*
 	public boolean validate(Card c){
 		switch(c.getSymbol()) {

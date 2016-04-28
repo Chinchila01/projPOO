@@ -7,8 +7,8 @@ import java.util.Collections;
  * Contains all the decks used during a blackjack game
  * 
  * @author Filipe Correia
- * @author Hélder Duarte
- * @author João Vieira
+ * @author Helder Duarte
+ * @author Joao Vieira
  *
  * @see Deck
  * @see Card
@@ -34,6 +34,7 @@ public class Shoe {
 			this.decks = new Deck[totalDecks];
 			for(int i = 0; i < this.totalDecks; i++) this.decks[i] = new Deck();
 			this.currentDeck = 0;
+			shuffle();
 		}
 		/*que fazer caso n seja menor que 2 ou maior que 8? 
 		 * R: mandar uma mensagem de erro/exception? ass:vieira*/
@@ -106,7 +107,7 @@ public class Shoe {
 		for(int i=0; i<totalDecks; i++) {
 			cardsToShuffle.addAll(decks[i].cards);
 		}
-		
+		System.out.println("shuffling the shoe...");
 		Collections.shuffle(cardsToShuffle);
 		
 	}
