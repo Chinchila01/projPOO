@@ -40,7 +40,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 	//TODO: isto vai tudo para o game (?)
 	public static void main(String[] args) {
 		
-		PlayingArea pa = new PlayingArea(args);
+		PlayingAreaInteractive pa = new PlayingAreaInteractive(args);
 		Player player = new Player(pa.balance, pa.minBet);
 		Dealer dealer = new Dealer();
 		Scanner reader = new Scanner(System.in);
@@ -49,58 +49,79 @@ public class PlayingAreaInteractive extends PlayingArea{
 		Command cmd;
 		
 		
-		switch(pa.gameMode) {
+		//dar cartas
+		player.hit(player.hand[0], shoe);
+		player.hit(player.hand[0], shoe);
 		
-		case 'i'://
-			//dar cartas
-			player.hit(player.hand[0], shoe);
-			player.hit(player.hand[0], shoe);
-			//player's turn
-			userArgs.replace(0, userArgs.length(), reader.nextLine());	//player input
-			cmd = new Command(userArgs);
-			switch(cmd.command) {
-			case 'b':
-				//se não receber argumentos no comando
-				//System.out.println("player is betting " + player.hand[pa.handIndex].addBet());
+		//player's turn
+		userArgs.replace(0, userArgs.length(), reader.nextLine());	//player input
+		cmd = new Command(userArgs);
+		
+		switch(cmd.command) {
+		
+		case "b0":	// betting without specifying amount, defaults to last bet
+			
+			System.out.println("player is betting " + player.hand[pa.handIndex].addBet(pa.previousBet));
+			
+			break;
+			
+		case "b1":	// betting with amount specified
 
-				//se receber
-				//System.out.println("player is betting " + player.hand[pa.handIndex].addBet(valor a ser apostado));
-				
-			case '$':
-				System.out.println("Current balance: " + player.getPlayerMoney());
-				break;
-			case 'd':
-				break;
-			case 'h':
-				player.hit(player.hand[pa.handIndex], shoe);
-				System.out.println("player hits");
-				System.out.println("player's hand" + player.hand);
-				break;
-			case 's':
-				//player.stand();
-				break;
-			case 'i':
-				player.insurance(null, null);
-				break;
-			case 'u':
-				player.surrender();
-				break;
-			case 'p':
-				player.split(null, shoe);
-				break;
-			case '2':
-				break;
-			//case "ad":	isto sao strings, ha que mudar o command para devolver string em vez de char para estes casos
-			//case "st":
-			}
+			System.out.println("player is betting " + player.hand[pa.handIndex].addBet(cmd.arg));
+			
 			break;
 			
-		case 'd':
+		case "$":	// prints current player balance
+			
+			System.out.println("Current balance: " + player.getPlayerMoney());
 			break;
 			
-		case 's':
+		case "d":
+			
 			break;
 			
+		case "h":
+			
+			player.hit(player.hand[pa.handIndex], shoe);
+			System.out.println("player hits");
+			System.out.println("player's hand" + player.hand);
+			break;
+			
+		case "s":
+			
+			//player.stand();
+			break;
+			
+		case "i":
+			
+			player.insurance(null, null);
+			break;
+			
+		case "u":
+			
+			player.surrender();
+			break;
+			
+		case "p":
+			
+			player.split(null, shoe);
+			break;
+			
+		case "2":
+			
+			break;
+			
+		case "ad":	
+			
+			break;
+			
+		case "st":
+			
+			break;
+			
+		default:
+			System.out.println("Invaid command.");
+			break;
 		}
 		
 		

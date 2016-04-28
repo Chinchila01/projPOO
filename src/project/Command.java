@@ -11,28 +11,31 @@ package project;
  */
 public class Command {
 	
-	char command;
-	int arg;
+	StringBuffer command="";
+	int arg=0;
 	
 	/** Constructor for a Command object
+	 * 
+	 * Stores user input in attribute command. If user input is
+	 * 'b' then checks for a second argument. If it exists, it is 
+	 * stored in attribute arg. 
 	 * 
 	 * @param string user input
 	 */
 	public Command(String string) {
-		this.command = string.charAt(0);
-		if(this.command=='b')
-			this.arg = Integer.parseInt(string.substring(2));
+		
+		String[] args = string.split(" ");
+		
+		this.command.append(args[0]);
+		if(this.command.charAt(0)=='b' && args.length==2) {
+			this.command.append("1");
+			this.arg = Integer.parseInt(args[1]);
+		}
+		else if(this.command.charAt(0)=='b' && args.length==1) {
+			this.command.append("0");
+		}
 	}
 	
-	/** Constructor for a Command object
-	 * 
-	 * @param string user input
-	 */
-	public Command(StringBuffer string) {
-		this.command = string.charAt(0);
-		if(this.command=='b')
-			this.arg = Integer.parseInt(string.substring(2));
-	}
 	
 
 }

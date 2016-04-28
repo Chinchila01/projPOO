@@ -73,6 +73,7 @@ public class Hand {
 	 */
 	public int addBet(int b){
 		if (b>maxBet) b=maxBet;
+		if (b<minBet) b=minBet;
 		curBet=curBet + b;
 		
 		return b;
