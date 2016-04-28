@@ -50,18 +50,27 @@ public class Card {
 	 */
 	private int score;
 	
+	/**
+	 * Attribute that indicates if the {@link Card} is turned up.
+	 * Only useful if owner of {@link Card} is {@link Dealer}.
+	 */
+	boolean isTurnedUp;
+	
 	/**Card Constructor
 	 * Constructor of a {@link Card} object
+	 * 
+	 * By default, the card is constructed turned up. 
 	 * 
 	 * @return new {@link Card} object
 	 * @param suit of the card being created, according to {@link Card#suits}
 	 * @param symbol of the card being created, according to {@link Card#types}
 	 * @param score is the value of the card in blackjack
 	 */
-	public Card(int suit,int symbol,int score){
+	public Card(int suit, int symbol, int score){
 		this.suit = suit;
 		this.symbol = symbol;
 		this.score = score;
+		this.isTurnedUp = true;
 	}
 
 	/**
@@ -101,6 +110,13 @@ public class Card {
 	public void setScore(int newScore){
 		//The Ace has multiple possible values
 		this.score = newScore;
+	}
+	
+	/**
+	 * Turns card up or down.
+	 */
+	public void turnCard() {
+		isTurnedUp = !isTurnedUp;
 	}
 	
 	@Override

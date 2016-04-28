@@ -89,6 +89,21 @@ public class Hand {
 		return minBet;
 	}
 	
+	/**
+	 * Iterates over cards and returns sum of each card's score.
+	 * 
+	 * @return total score of hand
+	 */
+	public int getPoints() {
+		
+		int points=0;
+		for(Card c : hand) {
+			points += c.getScore();
+		}
+		
+		return points;
+	}
+	
 
 	
 	@Override

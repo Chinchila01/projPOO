@@ -45,83 +45,91 @@ public class PlayingAreaInteractive extends PlayingArea{
 		Dealer dealer = new Dealer();
 		Scanner reader = new Scanner(System.in);
 		Shoe shoe = new Shoe(pa.nbDecksInShoe);
-		StringBuffer userArgs = new StringBuffer();
+		String userArgs = new String();
 		Command cmd;
 		
-		
-		//dar cartas
-		player.hit(player.hand[0], shoe);
-		player.hit(player.hand[0], shoe);
-		
-		//player's turn
-		userArgs.replace(0, userArgs.length(), reader.nextLine());	//player input
-		cmd = new Command(userArgs);
-		
-		switch(cmd.command) {
-		
-		case "b0":	// betting without specifying amount, defaults to last bet
+		while(true) {
 			
-			System.out.println("player is betting " + player.hand[pa.handIndex].addBet(pa.previousBet));
+			// give cards to player
+			player.hit(player.hand[0], shoe);
+			player.hit(player.hand[0], shoe);
 			
-			break;
+			// give cards to dealer
+			dealer.hit(dealer.hand, shoe);
+			dealer.hit(dealer.hand, shoe);
+			dealer.hand.hand[0].turnCard();	//TODO: hand da hand é private, corrigir
 			
-		case "b1":	// betting with amount specified
-
-			System.out.println("player is betting " + player.hand[pa.handIndex].addBet(cmd.arg));
 			
-			break;
+			// player's turn
+			userArgs = reader.nextLine();	//player input
+			cmd = new Command(userArgs);
+					
+			if(cmd.command.equals("b0")) {	// betting without specifying amount, defaults to last bet
+				
+				System.out.println("player is betting " + player.hand[pa.handIndex].addBet(pa.previousBet));
+			}
+				
+			if(cmd.command.equals("b1")) {	// betting with amount specified
+	
+				System.out.println("player is betting " + player.hand[pa.handIndex].addBet(cmd.arg));
+			}
+				
+			if(cmd.command.equals("$")) {	// prints current player balance
+				
+				System.out.println("Current balance: " + player.getPlayerMoney());
+			}
+				
+			if(cmd.command.equals("d")) {
 			
-		case "$":	// prints current player balance
+			}
+				
+			if(cmd.command.equals("h")) {
+				
+				player.hit(player.hand[pa.handIndex], shoe);
+				System.out.println("player hits");
+				System.out.println("player's hand" + player.hand);
+			}
+				
+			if(cmd.command.equals("s")) {
+				
+				//player.stand();
+			}
+				
+			if(cmd.command.equals("i")) {
+				
+				player.insurance(null, null);
+			}
+				
+			if(cmd.command.equals("u")) {
+				
+				player.surrender();
+			}
+				
+			if(cmd.command.equals("p")) {
+				
+				player.split(null, shoe);
+			}
+				
+			if(cmd.command.equals("2")) {
+				
+			}
+				
+			if(cmd.command.equals("ad")) {	
+				
+			}
+				
+			if(cmd.command.equals("st")) {
+				
+			}
 			
-			System.out.println("Current balance: " + player.getPlayerMoney());
-			break;
+			if(cmd.command.equals("q")) {	// player inputs 'q' to quit the game
+				System.exit(0);
+			}
 			
-		case "d":
+			// dealer's turn
 			
-			break;
 			
-		case "h":
 			
-			player.hit(player.hand[pa.handIndex], shoe);
-			System.out.println("player hits");
-			System.out.println("player's hand" + player.hand);
-			break;
-			
-		case "s":
-			
-			//player.stand();
-			break;
-			
-		case "i":
-			
-			player.insurance(null, null);
-			break;
-			
-		case "u":
-			
-			player.surrender();
-			break;
-			
-		case "p":
-			
-			player.split(null, shoe);
-			break;
-			
-		case "2":
-			
-			break;
-			
-		case "ad":	
-			
-			break;
-			
-		case "st":
-			
-			break;
-			
-		default:
-			System.out.println("Invaid command.");
-			break;
 		}
 		
 		

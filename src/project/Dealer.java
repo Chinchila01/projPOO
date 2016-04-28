@@ -2,6 +2,8 @@ package project;
 
 public class Dealer implements PlayerInterface{
 	
+	Hand hand;
+	
 	/**
 	 * Implementation of inherited method hit
 	 * 
@@ -10,7 +12,7 @@ public class Dealer implements PlayerInterface{
 	 * @see hit
 	 */
 	public void hit(Hand h, Shoe s){
-	
+		h.addCard(s.getNext());
 	}
 	
 	/**
