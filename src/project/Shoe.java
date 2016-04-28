@@ -1,5 +1,8 @@
 package project;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**Shoe class
  * Contains all the decks used during a blackjack game
  * 
@@ -87,6 +90,25 @@ public class Shoe {
 	
 	public boolean isFull(){
 		return decks[0].isFull();
+	}
+	
+	//TODO: solucao temporaria. Acrescentar metodo getTotal no Deck.
+	//		Usar o Deck apenas como classe utilitaria, i.e., no Shoe nao ter Decks
+	//		mas sim um ArayList de Cards, usar o Deck apenas para gerar as cards iniciais.
+	public void shuffle() {
+		
+		int totalCards = 0;
+		for(int i=0; i<totalDecks; i++) {
+			totalCards += decks[i].getTotal();
+		}
+		
+		ArrayList<Card> cardsToShuffle = new ArrayList<Card>(totalCards);
+		for(int i=0; i<totalDecks; i++) {
+			cardsToShuffle.addAll(decks[i].cards);
+		}
+		
+		Collections.shuffle(cardsToShuffle);
+		
 	}
 	
 }
