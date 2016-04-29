@@ -18,7 +18,10 @@ public class Dealer implements PlayerInterface{
 	
 	//nao precisa de receber a hand pois o dealer apenas tem uma hand a cada jogada
 	public void hit(Hand h, Shoe s){
-		hand.addCard(s.getNext());
+		// se a carta recebida for um ace e fizer bust, ace passa a valer 1
+		Card c = s.getNext();
+		if(c.getSymbol() == 4) c.setScore(1);
+		hand.addCard(c);
 	}
 	
 	/**
@@ -41,7 +44,10 @@ public class Dealer implements PlayerInterface{
 		return sb.toString();
 	}
 	
-	public void resetHands(){
+	public void resetHands(Shoe s){
+		for(Card c : hand.getHand()){
+			s.addLast(c);
+		}
 		hand = new Hand(null,null);
 	}
 

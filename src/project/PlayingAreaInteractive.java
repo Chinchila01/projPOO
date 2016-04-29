@@ -44,6 +44,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 		Shoe shoe = new Shoe(pa.nbDecksInShoe);
 		Player player = new Player(pa.initBalance);
 		Dealer dealer = new Dealer();
+		Statistics stat = new Statistics(pa.initBalance);
 		Scanner reader = new Scanner(System.in);
 		String cmd;
 		int bet=0;
@@ -76,8 +77,13 @@ public class PlayingAreaInteractive extends PlayingArea{
 					else {
 						bet = pa.previousBet;
 					}
-					System.out.println("player is betting " + player.hand[pa.handIndex].addBet(bet));
-					player.addPlayerMoney(-bet);
+					if(player.addPlayerMoney(-bet)){
+						System.out.println("player is betting " + player.hand[pa.handIndex].addBet(bet));
+					}
+					else {
+						System.out.println("player not able to bet, not enough money");
+					}
+					//player.addPlayerMoney(-bet);
 				}
 					
 				if(cmd.equals("$")) {	// prints current player balance
@@ -117,7 +123,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 					
 				if(cmd.equals("u")) {	// surrender
 					
-					player.surrender();
+					player.addPlayerMoney(player.surrender(dealer.hand, player.hand[pa.handIndex]));
 				}
 					
 				if(cmd.equals("p")) {	// splitting
@@ -126,11 +132,10 @@ public class PlayingAreaInteractive extends PlayingArea{
 				}
 					
 				if(cmd.equals("2")) {	// double
-					int handScore = player.hand[pa.handIndex].getScore(); // score of current hand
-					int nbCards = player.hand[pa.handIndex].getSize(); // number of cards in current hand
-					if(player.nrHands == 1 && nbCards == 2 && handScore > 8 && handScore < 12){
-						player.hand[pa.handIndex].addBet(player.hand[pa.handIndex].curBet);
+					if(!player.doubleBet(pa.handIndex)){
+						System.out.println("Doubling bet not possible, not enough money");
 					}
+					else System.out.println("");
 				}
 					
 				if(cmd.equals("ad")) {	// advice
@@ -138,7 +143,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 				}
 					
 				if(cmd.equals("st")) {	// statistics
-					
+					stat.presentStatistics();
 				}
 				
 				if(cmd.equals("q")) {	// player inputs 'q' to quit the game
@@ -166,35 +171,49 @@ public class PlayingAreaInteractive extends PlayingArea{
 				//TODO: atencao mais que uma mao, iterar -- done 
 				//TODO: no hit verificar bust -- done
 				//TODO: escolher valor do as
+				//TODO: pushes
 				
 				// O jogador tem um blackjack
 				if(player.hand[i].getScore() == 21 && player.hand[i].getSize() == 2){
-					if(dealer.hand.getScore() == 21 && dealer.hand.getSize() == 2) {
-						player.addPlayerMoney(bet);
+					stat.addPlayerBJ();
+					if(dealer.hand.getScore() == 21 && dealer.hand.getSize() == 2) { // dealer tambem tem blackjack
+						player.addPlayerMoney(player.hand[pa.handIndex].curBet);
 						System.out.println("blackjack!!");
 						System.out.println("player pushes and his current balance is " + player.getPlayerMoney());
+						// Update statistics
+						stat.addPush();
+						stat.addDealerBJ();
 					}
-					else{
-						player.addPlayerMoney(2.5*bet);
+					else{ // dealer nao tem blackjack
+						player.addPlayerMoney(2.5*player.hand[pa.handIndex].curBet);
 						System.out.println("player wins with a blackjack and his current balance is " + player.getPlayerMoney());
+						stat.addWin();
 					}
 				}
 				
-				if(dealer.hand.getScore() > 21) {	// Bust
-					player.addPlayerMoney(2*bet);
+				else if(dealer.hand.getScore() > 21) {	// dealer Bust
+					player.addPlayerMoney(2*player.hand[pa.handIndex].curBet);
 					System.out.println("player wins and his current balance is " + player.getPlayerMoney());
+					stat.addWin();
 				}
-				else if(player.hand[i].getScore() > 21 || dealer.hand.getScore() > player.hand[i].getScore()) {
+				else if(player.hand[i].getScore() > 21 || dealer.hand.getScore() > player.hand[i].getScore()) { // player bust ou dealer tem mais pontos
 					System.out.println("player loses and his current balance is " + player.getPlayerMoney());
+					stat.addLoss();
 				}
-				else {
-					player.addPlayerMoney(2*bet);
+				else if(player.hand[i].getScore() == dealer.hand.getScore()){
+					player.addPlayerMoney(player.hand[pa.handIndex].curBet);
+					System.out.println("player pushes and his current balance is " + player.getPlayerMoney());
+					stat.addPush();
+				}
+				else { //player tem mais pontos
+					player.addPlayerMoney(2*player.hand[pa.handIndex].curBet);
 					System.out.println("player wins and his current balance is " + player.getPlayerMoney());
+					stat.addWin();
 				}
 			}
-			//TODO: Deitar fora as hands e nrHands
-			player.resetHands();
-			dealer.resetHands();
+			//TODO: Shuffling se a percentagem de shuffle for > que o threshold
+			player.resetHands(shoe);
+			dealer.resetHands(shoe);
 			pa.handIndex = 0;
 			System.out.println("Starting a new round");
 		}//end_rounds

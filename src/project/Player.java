@@ -69,14 +69,16 @@ public class Player implements PlayerInterface{
 	 */
 	public void split(Hand h, Shoe s){
 		
-		if(h.getSize() != 2);//Check if the hand has 2 cards TODO: if not Add exception
+		if(h.getSize() != 2) { //Check if the hand has 2 cards TODO: if not Add exception
+			
+		}
 			
 		ListIterator<Card> iterator = h.getHand().listIterator();
 		Card aux = iterator.next();
-		if(aux.equals(iterator.next())){
-			iterator.remove();
-		}
-		
+		if(!aux.equals(iterator.next())){ // TODO: throw exception if false
+			
+		} 
+		iterator.remove();
 		hit(h,s);//get a card from shoe
 		//Hand newHand = hand[nrHands-1+1];
 		Hand newHand = new Hand(aux, null);//create a new hand with same card
@@ -95,11 +97,11 @@ public class Player implements PlayerInterface{
 	 * 
 	 * @see 
 	 */
-	public int insurance(Hand dh, Hand ph){
+	public int insurance(Hand dealerHand,Hand playerHand){
 		
 		//only check the card that is initially faced up
-		if (dh.getHand().iterator().next().getType()=='A')
-			return ph.curBet;//insurance bet 
+		if (dealerHand.getHand().iterator().next().getType()=='A')
+			return playerHand.curBet;//insurance bet 
 		else
 			;//TODO:throw a exception
 		return 0;
@@ -113,17 +115,38 @@ public class Player implements PlayerInterface{
 	 * 
 	 * @see 
 	 */
-	public void surrender(){
-		
+	public double surrender(Hand dealerHand, Hand playerHand){
+		if(dealerHand.getSize() == 2 && dealerHand.getScore() == 21) {
+			return 0;
+		}
+		else
+			return playerHand.curBet/2;
 		
 	}
 
+	public boolean doubleBet(int handIndex){
+		int handScore = hand[handIndex].getScore(); // score of current hand
+		int nbCards = hand[handIndex].getSize(); // number of cards in current hand
+		if(nrHands == 1 && nbCards == 2 && handScore > 8 && handScore < 12){
+			if((getPlayerMoney() - hand[handIndex].curBet) < 0) return false;
+			hand[handIndex].addBet(hand[handIndex].curBet);
+			addPlayerMoney(-hand[handIndex].curBet);
+			return true;
+		}
+		return false;
+	}
+	
 	public double getPlayerMoney() {
 		return playerMoney;
 	}
 
-	public void addPlayerMoney(double playerMoney) {
-		this.playerMoney = this.playerMoney + playerMoney;
+	public boolean addPlayerMoney(double playerMoney) {
+		double money = this.playerMoney + playerMoney;
+		if(money > 0){
+			this.playerMoney = money;
+			return true;
+		}
+		return false;
 	}
 	
 	public String getHands() {
@@ -147,8 +170,11 @@ public class Player implements PlayerInterface{
 		return score;
 	}
 	
-	public void resetHands(){
+	public void resetHands(Shoe s){
 		for(int i = 0; i < nrHands; i++){
+			for(Card c : hand[i].getHand()){
+				s.addLast(c);
+			}
 			hand[i] = null;
 		}
 		nrHands = 1;
