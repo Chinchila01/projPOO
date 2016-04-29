@@ -157,10 +157,10 @@ public class PlayingAreaInteractive extends PlayingArea{
 			
 			// dealer's turn
 			dealer.hand.cards.iterator().next().isTurnedUp = true;
-			System.out.println("dealer's hand " + dealer.getHands());
+			System.out.println("dealer's hand " + dealer.getHands() + " (" + dealer.hand.getScore() + ")");
 			while(dealer.hand.getScore() < 17) {
 				dealer.hit(dealer.hand, shoe);
-				System.out.println("dealer's hand " + dealer.getHands() + "(" + dealer.hand.getScore() + ")");
+				System.out.println("dealer's hand " + dealer.getHands() + " (" + dealer.hand.getScore() + ")");
 			}
 			dealer.stand(0);
 			System.out.println("dealer stands");
@@ -177,7 +177,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 				if(player.hand[i].getScore() == 21 && player.hand[i].getSize() == 2){
 					stat.addPlayerBJ();
 					if(dealer.hand.getScore() == 21 && dealer.hand.getSize() == 2) { // dealer tambem tem blackjack
-						player.addPlayerMoney(player.hand[pa.handIndex].curBet);
+						player.addPlayerMoney(player.hand[i].curBet);
 						System.out.println("blackjack!!");
 						System.out.println("player pushes and his current balance is " + player.getPlayerMoney());
 						// Update statistics
@@ -185,14 +185,14 @@ public class PlayingAreaInteractive extends PlayingArea{
 						stat.addDealerBJ();
 					}
 					else{ // dealer nao tem blackjack
-						player.addPlayerMoney(2.5*player.hand[pa.handIndex].curBet);
+						player.addPlayerMoney(2.5*player.hand[i].curBet);
 						System.out.println("player wins with a blackjack and his current balance is " + player.getPlayerMoney());
 						stat.addWin();
 					}
 				}
 				
 				else if(dealer.hand.getScore() > 21) {	// dealer Bust
-					player.addPlayerMoney(2*player.hand[pa.handIndex].curBet);
+					player.addPlayerMoney(2*player.hand[i].curBet);
 					System.out.println("player wins and his current balance is " + player.getPlayerMoney());
 					stat.addWin();
 				}
@@ -201,12 +201,12 @@ public class PlayingAreaInteractive extends PlayingArea{
 					stat.addLoss();
 				}
 				else if(player.hand[i].getScore() == dealer.hand.getScore()){
-					player.addPlayerMoney(player.hand[pa.handIndex].curBet);
+					player.addPlayerMoney(player.hand[i].curBet);
 					System.out.println("player pushes and his current balance is " + player.getPlayerMoney());
 					stat.addPush();
 				}
 				else { //player tem mais pontos
-					player.addPlayerMoney(2*player.hand[pa.handIndex].curBet);
+					player.addPlayerMoney(2*player.hand[i].curBet);
 					System.out.println("player wins and his current balance is " + player.getPlayerMoney());
 					stat.addWin();
 				}
