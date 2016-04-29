@@ -5,7 +5,7 @@ import java.util.ListIterator;
 public class Player implements PlayerInterface{
 
 	
-	private int playerMoney;
+	private double playerMoney;
 	
 	Hand[] hand;
 	short nrHands;
@@ -46,15 +46,17 @@ public class Player implements PlayerInterface{
 	 * @see stand
 	 */
 	public int stand(int curHand){
-		if (curHand<nrHands){	//if exists return the next hand to be played
+		return nextHand(curHand);
+	}
+	
+	public int nextHand(int curHand){
+		if (curHand<nrHands-1){	//if exists return the next hand to be played
 			System.out.println("playing "+ curHand + "nd hand...\n");
 			return curHand ++;
 		}
 		
 		return -1;
-		
 	}
-	
 	/**
 	 * When you get two starting cards of the same face value, you have the option to split the hand 
 	 * in two. You place another bet of the same size as the original bet and play on with two hands.
@@ -76,8 +78,9 @@ public class Player implements PlayerInterface{
 		}
 		
 		hit(h,s);//get a card from shoe
-		Hand newHand = hand[nrHands-1+1];
-		newHand = new Hand(aux, null);//create a new hand with same card
+		//Hand newHand = hand[nrHands-1+1];
+		Hand newHand = new Hand(aux, null);//create a new hand with same card
+		hand[nrHands] = newHand;
 		nrHands++; 
 		hit(newHand,s); //Immediately get a new card for newHand
 		newHand.curBet=h.curBet; //set the same bet for newHand
@@ -115,11 +118,11 @@ public class Player implements PlayerInterface{
 		
 	}
 
-	public int getPlayerMoney() {
+	public double getPlayerMoney() {
 		return playerMoney;
 	}
 
-	public void addPlayerMoney(int playerMoney) {
+	public void addPlayerMoney(double playerMoney) {
 		this.playerMoney = this.playerMoney + playerMoney;
 	}
 	
@@ -142,6 +145,14 @@ public class Player implements PlayerInterface{
 			score += c.getScore();
 		}
 		return score;
+	}
+	
+	public void resetHands(){
+		for(int i = 0; i < nrHands; i++){
+			hand[i] = null;
+		}
+		nrHands = 1;
+		hand[0] = new Hand(null,null);
 	}
 	
 	

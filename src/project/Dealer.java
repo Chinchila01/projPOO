@@ -27,7 +27,6 @@ public class Dealer implements PlayerInterface{
 	 * @see stand
 	 */
 	public int stand(int curHand){
-	
 		return 0;
 	}
 	
@@ -42,5 +41,8 @@ public class Dealer implements PlayerInterface{
 		return sb.toString();
 	}
 	
+	public void resetHands(){
+		hand = new Hand(null,null);
+	}
 
 }

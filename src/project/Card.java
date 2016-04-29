@@ -27,7 +27,7 @@ public class Card {
 	 * @see Card
 	 * @see Deck
 	 */
-	private static final char[] types = new char[] {'N','J','K','Q','A'};
+	static final char[] types = new char[] {'N','J','K','Q','A'};
 	
 	/**
 	 * Attribute that indicates the suit of this {@link Card}

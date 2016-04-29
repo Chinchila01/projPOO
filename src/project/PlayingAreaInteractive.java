@@ -59,7 +59,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 			dealer.hit(dealer.hand, shoe);
 			dealer.hand.getHand().iterator().next().turnCard();
 			
-			while(true) {
+			while(pa.handIndex != -1) {
 				
 				
 				// player's turn
@@ -95,14 +95,19 @@ public class PlayingAreaInteractive extends PlayingArea{
 					player.hit(player.hand[pa.handIndex], shoe);
 					System.out.println("player hits");
 					System.out.println("player's hand" + player.getHands());
+					if(player.hand[pa.handIndex].getScore() > 21) {
+						System.out.println("player busts");
+						pa.handIndex = player.nextHand(pa.handIndex);
+						//break;
+					}
 					
 					
 				}
 					
 				if(cmd.equals("s")) {	//stand
 					
-					player.stand(pa.handIndex);
-					break;
+					pa.handIndex = player.stand(pa.handIndex);
+					//break;
 				}
 					
 				if(cmd.equals("i")) {	// insurance
@@ -117,11 +122,15 @@ public class PlayingAreaInteractive extends PlayingArea{
 					
 				if(cmd.equals("p")) {	// splitting
 					
-					player.split(null, shoe);
+					player.split(player.hand[pa.handIndex], shoe);
 				}
 					
 				if(cmd.equals("2")) {	// double
-					
+					int handScore = player.hand[pa.handIndex].getScore(); // score of current hand
+					int nbCards = player.hand[pa.handIndex].getSize(); // number of cards in current hand
+					if(player.nrHands == 1 && nbCards == 2 && handScore > 8 && handScore < 12){
+						player.hand[pa.handIndex].addBet(player.hand[pa.handIndex].curBet);
+					}
 				}
 					
 				if(cmd.equals("ad")) {	// advice
@@ -142,31 +151,52 @@ public class PlayingAreaInteractive extends PlayingArea{
 			}//end_player_turn
 			
 			// dealer's turn
-			
+			dealer.hand.cards.iterator().next().isTurnedUp = true;
+			System.out.println("dealer's hand " + dealer.getHands());
 			while(dealer.hand.getScore() < 17) {
 				dealer.hit(dealer.hand, shoe);
+				System.out.println("dealer's hand " + dealer.getHands() + "(" + dealer.hand.getScore() + ")");
 			}
 			dealer.stand(0);
+			System.out.println("dealer stands");
 			
-			//TODO: verificar blackjack antes (atencao ao numero de catas)
-			//TODO: verificar se o dealer tem blackjack
-			//TODO: atencao mais que uma mao, iterar
-			//TODO: no hit verificar bust
-			//TODO: escolher valor do ás
-			
-			if(dealer.hand.getScore() > 21) {	// Bust
-				player.addPlayerMoney(2*bet);
-				System.out.println("player wins and his current balance is " + player.getPlayerMoney());
+			for(int i = 0; i < player.nrHands; i++){
+				//TODO: verificar blackjack antes (atencao ao numero de catas) -- done
+				//TODO: verificar se o dealer tem blackjack -- done
+				//TODO: atencao mais que uma mao, iterar -- done 
+				//TODO: no hit verificar bust -- done
+				//TODO: escolher valor do as
+				
+				// O jogador tem um blackjack
+				if(player.hand[i].getScore() == 21 && player.hand[i].getSize() == 2){
+					if(dealer.hand.getScore() == 21 && dealer.hand.getSize() == 2) {
+						player.addPlayerMoney(bet);
+						System.out.println("blackjack!!");
+						System.out.println("player pushes and his current balance is " + player.getPlayerMoney());
+					}
+					else{
+						player.addPlayerMoney(2.5*bet);
+						System.out.println("player wins with a blackjack and his current balance is " + player.getPlayerMoney());
+					}
+				}
+				
+				if(dealer.hand.getScore() > 21) {	// Bust
+					player.addPlayerMoney(2*bet);
+					System.out.println("player wins and his current balance is " + player.getPlayerMoney());
+				}
+				else if(player.hand[i].getScore() > 21 || dealer.hand.getScore() > player.hand[i].getScore()) {
+					System.out.println("player loses and his current balance is " + player.getPlayerMoney());
+				}
+				else {
+					player.addPlayerMoney(2*bet);
+					System.out.println("player wins and his current balance is " + player.getPlayerMoney());
+				}
 			}
-			
-			else if(dealer.hand.getScore() > player.hand[0].getScore()) {
-				System.out.println("player loses and his current balance is " + player.getPlayerMoney());
-			}
-			else {
-				player.addPlayerMoney(2*bet);
-				System.out.println("player wins and his current balance is " + player.getPlayerMoney());
-			}
-		
+			//TODO: Deitar fora as hands e nrHands
+			player.resetHands();
+			dealer.resetHands();
+			pa.handIndex = 0;
+			System.out.println("Starting a new round");
 		}//end_rounds
 		
 	}//end_main
