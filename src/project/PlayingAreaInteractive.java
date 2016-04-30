@@ -36,8 +36,6 @@ public class PlayingAreaInteractive extends PlayingArea{
 		previousBet = minBet;
 	}
 		
-	
-	//TODO: isto vai tudo para o game (?)
 	public static void main(String[] args) {
 		
 		PlayingAreaInteractive pa = new PlayingAreaInteractive(args);
@@ -93,7 +91,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 				if(cmd.equals("d")) {
 					System.out.println("dealer's hand " + dealer.getHands());
 					System.out.println("player's hand " + player.getHands());
-				
+					
 				}
 					
 				if(cmd.equals("h")) {	// hit
@@ -106,8 +104,6 @@ public class PlayingAreaInteractive extends PlayingArea{
 						pa.handIndex = player.nextHand(pa.handIndex);
 						//break;
 					}
-					
-					
 				}
 					
 				if(cmd.equals("s")) {	//stand

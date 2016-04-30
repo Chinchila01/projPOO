@@ -35,6 +35,7 @@ public class Player implements PlayerInterface{
 	 */
 	public void hit(Hand h,Shoe s){
 		h.addCard(s.getNext());
+		
 	}
 	
 	/**
