@@ -63,15 +63,14 @@ public class Player extends SuperPlayer{
 	 * 
 	 * @see 
 	 */
-	public int insurance(Hand dealerHand,Hand playerHand){
+	public boolean insurance(Hand dealerHand,Hand playerHand){
 		
 		//only check the card that is initially faced up
 		if (dealerHand.getHand().iterator().next().getType()=='A')
-			return playerHand.curBet;//insurance bet 
-		else
-			;//TODO:throw a exception
-		return 0;
-	
+			playerHand.insured = true;//insurance bet 
+		//else
+		//	;//TODO:throw a exception
+		return playerHand.insured;
 	}
 	
 	/**

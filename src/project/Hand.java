@@ -18,6 +18,7 @@ public class Hand {
 	int curBet,minBet,maxBet;
 	boolean busted;
 	boolean hasBlackjack;
+	boolean insured;
 	/**
 	 * Constructor for a Hand object. Needs 2 cards to be created, a minimum bet value and a maximum bet value
 	 * 
@@ -87,7 +88,7 @@ public class Hand {
 			points += c.getScore();
 		}
 		
-		if (points==21) hasBlackjack=true;
+		if (points==21 && this.getSize()==2) hasBlackjack=true;
 		else if (points>21) busted=true;
 		
 		return points;

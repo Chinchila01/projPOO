@@ -1,5 +1,6 @@
 package project;
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 /** 
@@ -49,7 +50,9 @@ public class PlayingAreaInteractive extends PlayingArea{
 		Hand playerCurrHand, dealerCurrHand;
 		
 		while(true) {
-			playerCurrHand = player.hand.listIterator(0).next();
+			Iterator<Hand> itPlayer = player.hand.iterator();
+			pa.validHands = true;
+			playerCurrHand = itPlayer.next();
 			// give cards to player
 			player.hit(playerCurrHand, shoe);
 			player.hit(playerCurrHand, shoe);
@@ -60,7 +63,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 			dealer.hit(dealerCurrHand, shoe);			
 			dealerCurrHand.getHand().listIterator(1).next().isTurnedUp=false;//turn dealer's second card down
 				
-			while(player.hand.iterator().hasNext()) {
+			while(pa.validHands) {
 				
 				// player's turn
 				System.out.println("Player's turn.");
@@ -97,24 +100,35 @@ public class PlayingAreaInteractive extends PlayingArea{
 					if(playerCurrHand.busted) {
 						System.out.println("player busts");
 						
-						if(player.hand.iterator().hasNext()) 
-							playerCurrHand=player.hand.iterator().next();//gets next hand if exists
+						if(itPlayer.hasNext()) 
+							playerCurrHand=itPlayer.next();//gets next hand if exists
+						else pa.validHands = false;
 					}
 				}
 					
 				if(cmd.equals("s")) {	//stand
-					if(player.hand.iterator().hasNext()) 
-						playerCurrHand=player.hand.iterator().next();//gets next hand if exists
+					if(itPlayer.hasNext()) 
+						playerCurrHand=itPlayer.next();//gets next hand if exists
+					else pa.validHands = false;
 				}
 					
 				if(cmd.equals("i")) {	// insurance
-					
-					player.insurance(null, null);
+					if(player.addPlayerMoney(-playerCurrHand.curBet)){
+						//Use a try catch with an exception, to revert in case the dealer's hand is not valid for insurance
+						if(!player.insurance(dealerCurrHand, playerCurrHand)){
+							player.addPlayerMoney(playerCurrHand.curBet);
+						}
+					}
+					else {
+						System.out.println("insurance not possible, not enough money");
+					}
 				}
 					
 				if(cmd.equals("u")) {	// surrender
-					
-					//player.addPlayerMoney(player.surrender(dealer.hand, playerCurrHand));
+					//player.addPlayerMoney(player.surrender(dealerCurrHand, playerCurrHand));
+					if(itPlayer.hasNext()) 
+						playerCurrHand=itPlayer.next();//gets next hand if exists
+					else pa.validHands = false;
 				}
 					
 				if(cmd.equals("p")) {	// splitting
@@ -150,11 +164,13 @@ public class PlayingAreaInteractive extends PlayingArea{
 			
 			
 			// dealer's turn
-			//dealerCurrHand.getHand().listIterator(0).next().isTurnedUp = true;
+			dealerCurrHand.getHand().listIterator(1).next().isTurnedUp = true;
+			//temos que mostrar a mao do dealer assim que começa o turno dele
+			
 			System.out.println("dealer's hand " + dealer.getHands() + " (" + dealerCurrHand.getScore() + ")");
 
 			// turn hole
-			dealerCurrHand.getHand().listIterator(1).next().isTurnedUp=true;
+			//dealerCurrHand.getHand().listIterator(1).next().isTurnedUp=true;
 			
 			while(dealerCurrHand.getScore() < 17) {
 				dealer.hit(dealerCurrHand, shoe);
@@ -170,11 +186,12 @@ public class PlayingAreaInteractive extends PlayingArea{
 			for(Hand eachHand : player.hand){
 				//TODO: escolher valor do as
 				//TODO: pushes
-				
+				eachHand.getScore();
 				// O jogador tem um blackjack
-				if(eachHand.getScore() == 21 && eachHand.getSize() == 2){
+				if(eachHand.hasBlackjack){
 					stat.addPlayerBJ();
-					if(dealerCurrHand.hasBlackjack && dealerCurrHand.getSize() == 2) { // dealer tambem tem blackjack
+					if(dealerCurrHand.hasBlackjack) { // dealer tambem tem blackjack
+						if(eachHand.insured) player.addPlayerMoney(eachHand.curBet); //the player gets twice the current money
 						player.addPlayerMoney(eachHand.curBet);
 						System.out.println("blackjack!!");
 						System.out.println("player pushes and his current balance is " + player.getPlayerMoney());
@@ -188,13 +205,19 @@ public class PlayingAreaInteractive extends PlayingArea{
 						stat.addWin();
 					}
 				}
-				
+				else if(eachHand.busted){
+					System.out.println("player loses and his current balance is " + player.getPlayerMoney());
+					stat.addLoss();
+				}
 				else if(dealerCurrHand.busted) {	// dealer Bust
 					player.addPlayerMoney(2*eachHand.curBet);
 					System.out.println("player wins and his current balance is " + player.getPlayerMoney());
 					stat.addWin();
 				}
-				else if(eachHand.busted || dealerCurrHand.getScore() > eachHand.getScore()) { // player bust ou dealer tem mais pontos
+				else if(dealerCurrHand.hasBlackjack && eachHand.insured){
+					player.addPlayerMoney(eachHand.curBet);
+				}
+				else if(dealerCurrHand.getScore() > eachHand.getScore()) { // player bust ou dealer tem mais pontos
 					System.out.println("player loses and his current balance is " + player.getPlayerMoney());
 					stat.addLoss();
 				}

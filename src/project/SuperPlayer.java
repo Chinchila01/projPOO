@@ -2,6 +2,8 @@ package project;
 
 import java.util.ArrayList;
 
+import java.util.Iterator;
+
 public class SuperPlayer {
 
 	float playerMoney;
@@ -55,8 +57,10 @@ public class SuperPlayer {
 	}
 	
 	public void resetHands(Shoe s){
-		while(hand.iterator().hasNext()){
-			hand.iterator().remove();
+		Iterator<Hand> it = this.hand.iterator();
+		while(it.hasNext()){
+			it.next();
+			it.remove();
 		}
 		
 		hand.add(new Hand(null, null,minBet,maxBet));
