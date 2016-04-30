@@ -112,12 +112,7 @@ public class Card {
 		this.score = newScore;
 	}
 	
-	/**
-	 * Turns card up or down.
-	 */
-	public void turnCard() {
-		isTurnedUp = !isTurnedUp;
-	}
+	
 	
 	@Override
 	public String toString(){

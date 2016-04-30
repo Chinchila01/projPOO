@@ -13,12 +13,12 @@ public abstract class PlayingArea {
 	 */
 	int minBet;
 	int maxBet;
-	int initBalance;
+	float initialMoney;
 	
-	public PlayingArea(int minBet, int maxBet, int initBalance) {
+	public PlayingArea(int minBet, int maxBet, float initialMoney) {
 		this.minBet = minBet;
 		this.maxBet = maxBet;
-		this.initBalance = initBalance;
+		this.initialMoney = initialMoney;
 	}
 
 }

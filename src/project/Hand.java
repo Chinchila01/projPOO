@@ -1,8 +1,6 @@
 package project;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ListIterator;
 
 /** Hand class
  * A hand is composed of two or more cards.
@@ -17,8 +15,9 @@ public class Hand {
 	 * @see Card
 	 */
 	ArrayList<Card> cards;
-	int curBet;
-	
+	int curBet,minBet,maxBet;
+	boolean busted;
+	boolean hasBlackjack;
 	/**
 	 * Constructor for a Hand object. Needs 2 cards to be created, a minimum bet value and a maximum bet value
 	 * 
@@ -28,7 +27,7 @@ public class Hand {
 	 * @param maximum bet value
 	 * @see Card
 	 */
-	public Hand(Card first, Card second){
+	public Hand(Card first, Card second, int minBet, int maxBet){
 		cards = new ArrayList<Card>();
 		if(first != null && second != null){
 			cards.add(first);
@@ -83,11 +82,13 @@ public class Hand {
 	 * @return total score of hand
 	 */
 	public int getScore() {
-		
 		int points=0;
 		for(Card c : cards) {
 			points += c.getScore();
 		}
+		
+		if (points==21) hasBlackjack=true;
+		else if (points>21) busted=true;
 		
 		return points;
 	}
