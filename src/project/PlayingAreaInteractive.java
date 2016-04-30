@@ -151,21 +151,30 @@ public class PlayingAreaInteractive extends PlayingArea{
 				
 			}//end_player_turn
 			
+			
+			
+			
 			// dealer's turn
 			dealer.hand.cards.iterator().next().isTurnedUp = true;
 			System.out.println("dealer's hand " + dealer.getHands() + " (" + dealer.hand.getScore() + ")");
+
+			// turn hole
+			dealer.hand.getHand().iterator().next().turnCard();
+			
+			
 			while(dealer.hand.getScore() < 17) {
 				dealer.hit(dealer.hand, shoe);
 				System.out.println("dealer's hand " + dealer.getHands() + " (" + dealer.hand.getScore() + ")");
 			}
+			
+			if(dealer.hand.getScore() == 21) {
+				System.out.println("blackjack!!");
+			}
+			
 			dealer.stand(0);
 			System.out.println("dealer stands");
 			
 			for(int i = 0; i < player.nrHands; i++){
-				//TODO: verificar blackjack antes (atencao ao numero de catas) -- done
-				//TODO: verificar se o dealer tem blackjack -- done
-				//TODO: atencao mais que uma mao, iterar -- done 
-				//TODO: no hit verificar bust -- done
 				//TODO: escolher valor do as
 				//TODO: pushes
 				

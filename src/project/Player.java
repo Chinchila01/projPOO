@@ -10,6 +10,8 @@ public class Player implements PlayerInterface{
 	Hand[] hand;
 	short nrHands;
 	int minBet,maxBet;
+	boolean hasBlackjack;	//TODO: this goes in the superclass
+	boolean busted;
 	/**
 	 * Constructor for a Player object. Needs a object player to be created.
 	 * 
@@ -163,6 +165,7 @@ public class Player implements PlayerInterface{
 		return sb.toString();
 	}
 	
+	//TODO: vai para a superclass
 	public int getScore(Hand h) {
 		int score=0;
 		for(Card c : h.cards) {

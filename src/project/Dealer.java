@@ -50,5 +50,13 @@ public class Dealer implements PlayerInterface{
 		}
 		hand = new Hand(null,null);
 	}
+	
+	public int getScore(Hand h) {
+		int score=0;
+		for(Card c : h.cards) {
+			score += c.getScore();
+		}
+		return score;
+	}
 
 }

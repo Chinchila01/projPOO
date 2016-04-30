@@ -9,6 +9,8 @@ package project;
  */
 public interface PlayerInterface {
 	
+	//TODO: make this a superclass
+	
 	/**
 	 * This method is used to ask for one card that will be randomly picked from shoe
 	 * 
