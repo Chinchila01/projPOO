@@ -34,25 +34,22 @@ public class Player extends SuperPlayer{
 	 * 
 	 * @see 
 	 */
-	public void split(Hand h, Shoe s){
+	public void split(Hand h, Shoe s) throws HandTooBigException,DifferentCardsException{
 		
-		if(h.getSize() != 2) { //Check if the hand has 2 cards TODO: if not Add exception
+		if(h.getSize() != 2) throw new HandTooBigException();
+		else{		
+			ListIterator<Card> iterator = h.getHand().listIterator();
+			Card aux = iterator.next();
+			if(!aux.equals(iterator.next())) throw new DifferentCardsException(); // TODO: throw exception if false
+			iterator.remove();//remove last (repeated) card from hand
+			hit(h,s);//get a card from shoe
 			
+			Hand newHand;
+			newHand = new Hand(aux,null,minBet,maxBet);
+			hit(newHand,s); //Immediately get a new card for newHand
+			newHand.curBet=h.curBet; //set the same bet for newHand
+			hand.add(newHand);//add hand to the hands list
 		}
-			
-		ListIterator<Card> iterator = h.getHand().listIterator();
-		Card aux = iterator.next();
-		if(!aux.equals(iterator.next())){ // TODO: throw exception if false
-			
-		} 
-		iterator.remove();//remove last (repeated) card from hand
-		hit(h,s);//get a card from shoe
-		
-		Hand newHand;
-		newHand = new Hand(aux,null,minBet,maxBet);
-		hit(newHand,s); //Immediately get a new card for newHand
-		newHand.curBet=h.curBet; //set the same bet for newHand
-		hand.add(newHand);//add hand to the hands list
 	}
 	
 	/**
@@ -80,7 +77,8 @@ public class Player extends SuperPlayer{
 	 * 
 	 * @see 
 	 */
-	public double surrender(Hand dealerHand, Hand playerHand){
+	public float surrender(Hand dealerHand, Hand playerHand){
+		playerHand.surrender = true;
 		if(dealerHand.getSize() == 2 && dealerHand.getScore() == 21) {
 			return 0;
 		}
@@ -102,18 +100,50 @@ public class Player extends SuperPlayer{
 	}
 	*/
 	
+	public boolean doubleBet(){
+		Hand h = hand.listIterator(currHand).next();
+		try{
+			if(hand.size() != 1 || h.getSize() != 2 || h.getScore() < 8 || h.getScore() > 12) throw new HandNotValidException();
+			if(addPlayerMoney(-h.curBet)){
+				h.addBet(h.curBet);
+				return true;
+			}
+		}catch(HandNotValidException e){
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return false;
+	}
+
 	public double getPlayerMoney() {
 		return playerMoney;
 	}
 
 	public boolean addPlayerMoney(float playerMoney) {
-		float money = this.playerMoney + playerMoney;
-		if(money > 0){
-			this.playerMoney = money;
+		try {
+			if(this.playerMoney + playerMoney < 0) throw new NotEnoughMoneyException();
+			this.playerMoney += playerMoney;
 			return true;
+		} catch(NotEnoughMoneyException e){
+			System.out.println(e.getMessage());
+			return false;
 		}
-		return false;
 	}
 
+	public Hand getNextHand(){
+		Hand h = hand.listIterator(currHand).next(); 
+		if(h.busted || h.stand || h.surrender) {
+			if(currHand >= this.hand.size()-1){
+				currHand = 0;
+				return null;
+			}
+			currHand++;
+		}
+		return hand.listIterator(currHand).next();
+	}
+	
+	public void stand(){
+		hand.listIterator(currHand).next().stand = true;
+	}
 	
 }

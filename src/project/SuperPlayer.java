@@ -8,7 +8,8 @@ public class SuperPlayer {
 
 	float playerMoney;
 	ArrayList<Hand> hand;
-	int minBet,maxBet;	
+	int minBet,maxBet;
+	int currHand;
 	
 	/**
 	 * Constructor for a Player object. Needs a object player to be created.

@@ -14,7 +14,6 @@ public abstract class PlayingArea {
 	int minBet;
 	int maxBet;
 	float initialMoney;
-	boolean validHands;
 	
 	public PlayingArea(int minBet, int maxBet, float initialMoney) {
 		this.minBet = minBet;

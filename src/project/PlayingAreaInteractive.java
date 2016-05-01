@@ -1,6 +1,6 @@
 package project;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 import java.util.Scanner;
 
 /** 
@@ -50,9 +50,9 @@ public class PlayingAreaInteractive extends PlayingArea{
 		Hand playerCurrHand, dealerCurrHand;
 		
 		while(true) {
-			Iterator<Hand> itPlayer = player.hand.iterator();
-			pa.validHands = true;
-			playerCurrHand = itPlayer.next();
+			//Iterator<Hand> itPlayer = player.hand.iterator();
+			//pa.validHands = true;
+			playerCurrHand = player.getNextHand();//itPlayer.next();
 			// give cards to player
 			player.hit(playerCurrHand, shoe);
 			player.hit(playerCurrHand, shoe);
@@ -63,7 +63,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 			dealer.hit(dealerCurrHand, shoe);			
 			dealerCurrHand.getHand().listIterator(1).next().isTurnedUp=false;//turn dealer's second card down
 				
-			while(pa.validHands) {
+			while((playerCurrHand = player.getNextHand()) != null) {
 				
 				// player's turn
 				System.out.println("Player's turn.");
@@ -100,16 +100,17 @@ public class PlayingAreaInteractive extends PlayingArea{
 					if(playerCurrHand.busted) {
 						System.out.println("player busts");
 						
-						if(itPlayer.hasNext()) 
-							playerCurrHand=itPlayer.next();//gets next hand if exists
-						else pa.validHands = false;
+						//if(itPlayer.hasNext()) 
+						//	playerCurrHand=itPlayer.next();//gets next hand if exists
+						//else pa.validHands = false;
 					}
 				}
 					
 				if(cmd.equals("s")) {	//stand
-					if(itPlayer.hasNext()) 
-						playerCurrHand=itPlayer.next();//gets next hand if exists
-					else pa.validHands = false;
+					//if(itPlayer.hasNext()) 
+					//	playerCurrHand=itPlayer.next();//gets next hand if exists
+					//else pa.validHands = false;
+					player.stand();
 				}
 					
 				if(cmd.equals("i")) {	// insurance
@@ -125,22 +126,29 @@ public class PlayingAreaInteractive extends PlayingArea{
 				}
 					
 				if(cmd.equals("u")) {	// surrender
-					//player.addPlayerMoney(player.surrender(dealerCurrHand, playerCurrHand));
-					if(itPlayer.hasNext()) 
-						playerCurrHand=itPlayer.next();//gets next hand if exists
-					else pa.validHands = false;
+					player.addPlayerMoney(player.surrender(dealerCurrHand, playerCurrHand));
+					//if(itPlayer.hasNext()) 
+					//	playerCurrHand=itPlayer.next();//gets next hand if exists
+					//else pa.validHands = false;
 				}
 					
 				if(cmd.equals("p")) {	// splitting
-					
-					player.split(playerCurrHand, shoe);
+					try{
+						player.split(playerCurrHand, shoe);
+					} catch(HandTooBigException e){
+						System.out.println(e.getMessage());
+						System.out.println("split not available");
+					} catch(DifferentCardsException e){
+						System.out.println(e.getMessage());
+						System.out.println("split not available");
+					}
 				}
 					
 				if(cmd.equals("2")) {	// double
-					/*if(!player.doubleBet(pa.handIndex)){
-						System.out.println("Doubling bet not possible, not enough money");
+					if(!player.doubleBet()){
+						System.out.println("doubling bet not possible");
 					}
-					else System.out.println("");*/
+					else System.out.println("bet doubled");
 				}
 					
 				if(cmd.equals("ad")) {	// advice
@@ -159,9 +167,6 @@ public class PlayingAreaInteractive extends PlayingArea{
 					
 				
 			}//end_player_turn
-			
-			
-			
 			
 			// dealer's turn
 			dealerCurrHand.getHand().listIterator(1).next().isTurnedUp = true;
@@ -186,9 +191,11 @@ public class PlayingAreaInteractive extends PlayingArea{
 			for(Hand eachHand : player.hand){
 				//TODO: escolher valor do as
 				//TODO: pushes
-				eachHand.getScore();
+				if(eachHand.surrender){
+					System.out.println("player's current balance is " + player.getPlayerMoney());
+				}
 				// O jogador tem um blackjack
-				if(eachHand.hasBlackjack){
+				else if(eachHand.hasBlackjack){
 					stat.addPlayerBJ();
 					if(dealerCurrHand.hasBlackjack) { // dealer tambem tem blackjack
 						if(eachHand.insured) player.addPlayerMoney(eachHand.curBet); //the player gets twice the current money

@@ -19,6 +19,9 @@ public class Hand {
 	boolean busted;
 	boolean hasBlackjack;
 	boolean insured;
+	boolean stand; //to know if the hand has been completed
+	boolean surrender;
+	
 	/**
 	 * Constructor for a Hand object. Needs 2 cards to be created, a minimum bet value and a maximum bet value
 	 * 
