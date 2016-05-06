@@ -1,9 +1,15 @@
 package project;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ListIterator;
 
-public class Player extends SuperPlayer{
+public class Player implements PlayerInterface{
 
+	float playerMoney;
+	ArrayList<Hand> hand;
+	int minBet,maxBet;
+	int currHand;
 	
 	/**
 	 * Constructor for a Player object. Needs a object player to be created.
@@ -12,7 +18,11 @@ public class Player extends SuperPlayer{
 	 * @see Player Constructor
 	 */
 	public Player(float initialMoney, int minBet, int maxBet){
-		super(initialMoney, minBet, maxBet);
+		playerMoney=initialMoney;
+		this.minBet=minBet;
+		this.maxBet=maxBet;
+		hand = new ArrayList<Hand>();
+		hand.add(new Hand(null, null,minBet,maxBet));
 	}
 
 	/**
@@ -25,6 +35,7 @@ public class Player extends SuperPlayer{
 	 * 
 	 * @see 
 	 */
+	@Override
 	public void split(Hand h, Shoe s) throws IllegalHandException{
 		int tempIndex = currHand;
 		if(h.getSize() != 2) throw new IllegalHandException("hand is too big");
@@ -55,9 +66,10 @@ public class Player extends SuperPlayer{
 	 * 
 	 * @see 
 	 */
+	@Override
 	public void insurance(Hand dealerHand) throws IllegalHandException{
 			//only check the card that is initially faced up
-			if (dealerHand.getCards().iterator().next().getType()!='A') throw new IllegalHandException("dealer does not have an Ace");
+			if (dealerHand.getCards().iterator().next().getSymbol()!='A') throw new IllegalHandException("dealer does not have an Ace");
 			Hand playerHand = hand.listIterator(currHand).next();
 			if(playerHand.getSize() != 2) throw new IllegalHandException("not at the beginning of the hand");
 			if(playerHand.surrender) throw new IllegalHandException("player has already surrendered");
@@ -74,6 +86,7 @@ public class Player extends SuperPlayer{
 	 * 
 	 * @see 
 	 */
+	@Override
 	public float surrender(Hand dealerHand) throws IllegalHandException{
 		if(this.hand.size() != 1) throw new IllegalHandException("surrender is valid only if hand is not split");
 		Hand currentHand = hand.listIterator(currHand).next();
@@ -86,6 +99,7 @@ public class Player extends SuperPlayer{
 		
 	}
 	
+	@Override
 	public boolean doubleBet() throws IllegalHandException, NotEnoughMoneyException{
 		Hand h = hand.listIterator(currHand).next();
 		if(hand.size() != 1 || h.getSize() != 2 || h.getScore() < 8 || h.getScore() > 12) throw new IllegalHandException();
@@ -98,15 +112,18 @@ public class Player extends SuperPlayer{
 		return true;
 	}
 
+	@Override
 	public double getPlayerMoney() {
 		return playerMoney;
 	}
 
+	@Override
 	public void addPlayerMoney(float playerMoney) throws NotEnoughMoneyException{
 			if(this.playerMoney + playerMoney < 0) throw new NotEnoughMoneyException();
 			this.playerMoney += playerMoney;
 	}
-
+	
+	@Override
 	public Hand getNextHand(){
 		Hand h = hand.listIterator(currHand).next(); 
 		if(h.busted || h.stand || h.surrender) { // means hand is not valid TODO: replace with attribute
@@ -119,8 +136,47 @@ public class Player extends SuperPlayer{
 		return hand.listIterator(currHand).next();
 	}
 	
-	public void stand(){
+
+	@Override
+	public Hand getCurrHand() {
+		return hand.listIterator(currHand).next();
+	}
+
+	@Override
+	public void hit(Shoe s) {
+		this.getCurrHand().addCard(s.getNext());
+	}
+
+	@Override
+	public void stand() {
 		hand.listIterator(currHand).next().stand = true;
+	}
+
+	@Override
+	public String getHands() {
+		StringBuilder sb = new StringBuilder();
+		int score=0;
+		int i = 0;
+		for (Hand h : hand){
+			if(this.hand.size() > 1) sb.append("[" + i + "]"); // se tivermos mais que uma mao, mostramos o index desta
+			sb.append(h.toString());
+			score += h.getScore();
+			i++;
+		}
+		sb.append(" (" + score + ")");
+		
+		return sb.toString();
+	}
+
+	@Override
+	public void resetHands(Shoe s) {
+		Iterator<Hand> it = this.hand.iterator();
+		while(it.hasNext()){
+			s.addLast(it.next().getCards());
+			it.remove();
+		}
+
+		hand.add(new Hand(null, null,minBet,maxBet));
 	}
 	
 }
