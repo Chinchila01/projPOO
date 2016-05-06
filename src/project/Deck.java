@@ -59,41 +59,48 @@ public class Deck {
 		//nCardsPerSuit = new int[4];
 		cards = new ArrayList<Card>();
 		//Creating number cards
-		for(int i = 2; i <= 10; i++){
+		for(int i = 0; i < 8; i++){
 			for(int j= 0; j < suits.length; j++){
-				cards.add(new Card(j,0,i));
+				cards.add(new Card(j,i,i+2));
 				//nCardsPerValue[i-1] += 1;
 				//nCardsPerSuit[j] += 1;
 				total++;
 			}
 		}
-		//Creating aces
+		//Creating tens
 		for(int j = 0; j < suits.length; j++){
-				cards.add(new Card(j,4,11)); 
+				cards.add(new Card(j,8,11)); 
 				//nCardsPerValue[0] += 1; 
 				//nCardsPerSuit[j] += 1;
 				total++;
 		}
 		//Creating jacks
 		for(int j = 0; j < suits.length; j++){
-			cards.add(new Card(j,1,10)); 
+			cards.add(new Card(j,9,10)); 
 			//nCardsPerValue[10] += 1; 
 			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating queens
 		for(int j = 0; j < suits.length; j++){
-			cards.add(new Card(j,3,10));
+			cards.add(new Card(j,10,10));
 			//nCardsPerValue[11] += 1;
 			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating kings
 		for(int j = 0; j < suits.length; j++){
-			cards.add(new Card(j,2,10));
+			cards.add(new Card(j,11,10));
 			//nCardsPerValue[12] += 1;
 			//nCardsPerSuit[j] += 1;
 			total++;
+		}
+		//Creating aces
+		for(int j = 0; j < suits.length; j++){
+				cards.add(new Card(j,12,11)); 
+				//nCardsPerValue[0] += 1; 
+				//nCardsPerSuit[j] += 1;
+				total++;
 		}
 		//Shuffling
 		shuffle();

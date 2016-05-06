@@ -27,7 +27,7 @@ public class Card {
 	 * @see Card
 	 * @see Deck
 	 */
-	static final char[] types = new char[] {'N','J','K','Q','A'};
+	static final char[] types = new char[] {'2','3','4','5','6','7','8','9','T','J','K','Q','A'};
 	
 	/**
 	 * Attribute that indicates the suit of this {@link Card}
@@ -131,7 +131,10 @@ public class Card {
 		result = prime * result + symbol;
 		return result;
 	}
-
+	
+	/**
+	 * Compares only score, not suit and symbol.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -142,10 +145,6 @@ public class Card {
 			return false;
 		Card other = (Card) obj;
 		if (score != other.score)
-			return false;
-		if (suit != other.suit)
-			return false;
-		if (symbol != other.symbol)
 			return false;
 		return true;
 	}

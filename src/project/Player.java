@@ -39,7 +39,7 @@ public class Player extends SuperPlayer{
 			newHand = new Hand(aux,null,minBet,maxBet);
 			hand.add(newHand);
 			//temporarily change currHand to new hand
-			currHand = hand.size();
+			currHand = hand.size()-1;
 			hit(s); //Immediately get a new card for newHand
 			currHand = tempIndex; //putting it back
 			newHand.curBet=h.curBet; //set the same bet for newHand TODO: need to remove money from player
