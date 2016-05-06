@@ -1,6 +1,7 @@
 package project;
 
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * @author Filipe Correia
@@ -10,7 +11,7 @@ import java.io.*;
  */
 public class PlayingAreaDebug extends PlayingArea {
 	
-	//String shoeFile;
+	Scanner cmdFile;
 	String cmds;
 	
 	int handIndex;
@@ -36,7 +37,7 @@ public class PlayingAreaDebug extends PlayingArea {
 		
 		//this.shoeFile = args[4];
 		try {
-			FileInputStream cmdFile = new FileInputStream(args[5]); //import cmd file	
+			cmdFile = new Scanner(new File(args[5])); //import cmd file	
 		}catch(FileNotFoundException e){
 			System.out.println("Command file not found: " + e.getMessage());
 			System.exit(1);
@@ -47,7 +48,11 @@ public class PlayingAreaDebug extends PlayingArea {
 	
 	//TODO: fix,temporary
 	public String getCommand(){
-		return "";
+		if(cmdFile.hasNext()) {
+			String cmd = cmdFile.next();
+			System.out.println("-cmd " + cmd);
+			return cmd;
+		} else return ""; //TODO: FIX
 	}
 	
 	//TODO: Fix, temporary
@@ -59,5 +64,7 @@ public class PlayingAreaDebug extends PlayingArea {
 	public void quit(){
 		System.exit(0);
 	}
+	
+	
 
 }

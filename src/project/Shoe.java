@@ -64,11 +64,12 @@ public class Shoe {
 	 */
 	public Shoe(String shoefile) throws FileNotFoundException{
 		Scanner s = new Scanner(new File(shoefile));
-		
+		cards = new ArrayList<Card>();
 		while(s.hasNext()){
-			//this.cards.add(new Card(s.next())); //TODO: add constructor to Card with String
+			this.cards.add(new Card(s.next())); //TODO: add constructor to Card with String
 		}
 		
+		s.close();
 	}
 	
 	/**

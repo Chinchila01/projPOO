@@ -22,9 +22,9 @@ public class AceFiveStrategy {
 	}
 	
 	public void observeCard(Card card) {
-		if(card.getType() == '5')
+		if(card.getSymbol() == '5')
 			count++;
-		else if(card.getType() == 'A') 
+		else if(card.getSymbol() == 'A') 
 			count--;
 	}
 	

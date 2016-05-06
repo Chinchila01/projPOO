@@ -57,8 +57,8 @@ public class Player extends SuperPlayer{
 	 */
 	public void insurance(Hand dealerHand) throws IllegalHandException{
 			//only check the card that is initially faced up
-			if (dealerHand.getCards().iterator().next().getType()!='A') throw new IllegalHandException("dealer does not have an Ace");
 			Hand playerHand = hand.listIterator(currHand).next();
+			if (dealerHand.getCards().iterator().next().getSymbol()!='A') throw new IllegalHandException("dealer does not have an Ace");
 			if(playerHand.getSize() != 2) throw new IllegalHandException("not at the beginning of the hand");
 			if(playerHand.surrender) throw new IllegalHandException("player has already surrendered");
 			if(playerHand.stand) throw new IllegalHandException("player has standed, insurance not available");

@@ -1,5 +1,7 @@
 package project;
 
+import java.util.Arrays;
+
 /** 
  * This class contains all methods that operate/are related to the Card object.
  * 
@@ -15,7 +17,7 @@ public class Card {
 	 * @see Card
 	 * @see Deck
 	 */
-	private static final char[] suits = new char[] {'C','D','S','H'};
+	static final char[] suits = new char[] {'C','D','S','H'};
 	/**
 	 * Available types that a {@link Card} can be: <br>
 	 * N -> Numeric <br>
@@ -27,7 +29,12 @@ public class Card {
 	 * @see Card
 	 * @see Deck
 	 */
-	static final char[] types = new char[] {'2','3','4','5','6','7','8','9','T','J','K','Q','A'};
+	static final char[] symbols = new char[] {'2','3','4','5','6','7','8','9','T','J','K','Q','A'};
+	
+	/**
+	 * Used to convert char representations of cards to int representation @see Cards#types
+	 */
+	static final int[] scores = new int[] {2,3,4,5,6,7,8,9,10,10,10,10,11};
 	
 	/**
 	 * Attribute that indicates the suit of this {@link Card}
@@ -35,14 +42,14 @@ public class Card {
 	 * @see Card
 	 * @see Card#suits
 	 */
-	private final int suit;
+	private final char suit;
 	/**
 	 * Attribute that indicates the symbol of this {@link Card}
 	 * 
 	 * @see Card
 	 * @see Card#types
 	 */
-	private final int symbol;
+	private final char symbol;
 	/**
 	 * Attribute that indicates the value of a {@link Card} in blackjack
 	 * 
@@ -66,34 +73,57 @@ public class Card {
 	 * @param symbol of the card being created, according to {@link Card#types}
 	 * @param score is the value of the card in blackjack
 	 */
-	public Card(int suit, int symbol, int score){
+	public Card(char suit, char symbol, int score){
 		this.suit = suit;
 		this.symbol = symbol;
 		this.score = score;
 		this.isTurnedUp = true;
 	}
+	/**Card Constructor
+	 * Constructor of a {@link Card} object
+	 * 
+	 * By default, the card is constructed turned up. 
+	 * 
+	 * @return new {@link Card} object
+	 * @param card String depicting card in format [symbol|suit]
+	 */
+	public Card(String card) {
+		this.score = getScoreFromSymbol(card);
+		this.symbol = card.charAt(0);
+		this.suit = card.charAt(1);
+		this.isTurnedUp = true;
+	}
+	
+	/**
+	 * Auxiliary method to create Card from String. 
+	 * @see Card
+	 * 
+	 * @param symbol char depicting score of card
+	 * @return score according to symbol
+	 */
+	private int getScoreFromSymbol(String symbol) {
+		char cSymbol=0;
+		if(symbol.length() == 2)
+			cSymbol = symbol.charAt(0);
+		if(symbol.length() == 3)	// Special case for 10
+			cSymbol = 'T';
+		return scores[(new String(symbols)).indexOf(cSymbol)];
+	}
+	//TODO: mandar excepao quando string.length()>3
 
 	/**
 	 * Returns the suit of the {@link Card} object, according to {@link Card#suits}.
 	 * @return suit of this card
 	 */
-	public int getSuit() {
+	public char getSuit() {
 		return suit;
 	}
 	/**
 	 * Returns the symbol of the {@link Card} object, according to {@link Card#types}.
 	 * @return suit of this card
 	 */
-	public int getSymbol() {
+	public char getSymbol() {
 		return symbol;
-	}
-	
-	/**
-	 * Returns the type of the {@link Card} object, according to {@link Card#types}.
-	 * @return character type of this card
-	 */
-	public char getType() {
-		return types[this.getSymbol()];
 	}
 	
 	/**
@@ -116,10 +146,7 @@ public class Card {
 	
 	@Override
 	public String toString(){
-		String str;
-		if(types[this.getSymbol()] == 'N') str = "[" + score + suits[this.getSuit()] + "]";
-		else str = "[" + types[this.getSymbol()] + suits[this.getSuit()] + "]";
-		return str;
+		return "[" + this.getSymbol() + this.getSuit() + "]";
 	}
 
 	@Override

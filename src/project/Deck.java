@@ -61,7 +61,7 @@ public class Deck {
 		//Creating number cards
 		for(int i = 0; i < 8; i++){
 			for(int j= 0; j < suits.length; j++){
-				cards.add(new Card(j,i,i+2));
+				cards.add(new Card(Card.suits[j],Card.symbols[i],i+2));
 				//nCardsPerValue[i-1] += 1;
 				//nCardsPerSuit[j] += 1;
 				total++;
@@ -69,35 +69,35 @@ public class Deck {
 		}
 		//Creating tens
 		for(int j = 0; j < suits.length; j++){
-				cards.add(new Card(j,8,11)); 
+				cards.add(new Card(Card.suits[j],Card.symbols[8],11)); 
 				//nCardsPerValue[0] += 1; 
 				//nCardsPerSuit[j] += 1;
 				total++;
 		}
 		//Creating jacks
 		for(int j = 0; j < suits.length; j++){
-			cards.add(new Card(j,9,10)); 
+			cards.add(new Card(Card.suits[j],Card.symbols[9],10)); 
 			//nCardsPerValue[10] += 1; 
 			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating queens
 		for(int j = 0; j < suits.length; j++){
-			cards.add(new Card(j,10,10));
+			cards.add(new Card(Card.suits[j],Card.symbols[10],10));
 			//nCardsPerValue[11] += 1;
 			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating kings
 		for(int j = 0; j < suits.length; j++){
-			cards.add(new Card(j,11,10));
+			cards.add(new Card(Card.suits[j],Card.symbols[11],10));
 			//nCardsPerValue[12] += 1;
 			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating aces
 		for(int j = 0; j < suits.length; j++){
-				cards.add(new Card(j,12,11)); 
+				cards.add(new Card(Card.suits[j],Card.symbols[12],11)); 
 				//nCardsPerValue[0] += 1; 
 				//nCardsPerSuit[j] += 1;
 				total++;
