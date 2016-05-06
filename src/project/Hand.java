@@ -33,6 +33,8 @@ public class Hand {
 	 */
 	public Hand(Card first, Card second, int minBet, int maxBet){
 		cards = new ArrayList<Card>();
+		this.minBet = minBet;
+		this.maxBet = maxBet;
 		if(first != null && second != null){
 			cards.add(first);
 			cards.add(second);
@@ -47,7 +49,7 @@ public class Hand {
 	 * @see Hand
 	 * @see Card
 	 */
-	public ArrayList<Card> getHand(){
+	public ArrayList<Card> getCards(){
 		return this.cards;
 	}
 	
@@ -74,7 +76,10 @@ public class Hand {
 	 * @return value that was bet
 	 * @see addBetValue
 	 */
-	public int addBet(int b){
+	public int addBet(int b) throws IllegalBetException{
+		if(b < 0) throw new IllegalBetException("bet value is less than zero");
+		if(b > maxBet) throw new IllegalBetException("bet value is too high");
+		if(b < minBet) throw new IllegalBetException("bet value is too low");
 		curBet=curBet + b;
 		return b;
 	}

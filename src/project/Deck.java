@@ -24,6 +24,7 @@ public class Deck {
 	 * @see Deck
 	 */
 	ArrayList<Card> cards;
+	
 	/**
 	 * Available suits to be used on the {@link Deck}
 	 * 
@@ -33,6 +34,7 @@ public class Deck {
 	//private static final char[] types = new char[] {'N','J','K','Q','A'};
 	//private int[] nCardsPerValue;
 	//private int[] nCardsPerSuit;
+	
 	/**
 	 * Total number of cards currently in the {@link Deck}
 	 * 
@@ -41,6 +43,7 @@ public class Deck {
 	private int total;
 	private boolean isEmpty;
 	private boolean isFull;
+	
 	/**
 	 * <p>Constructs a Deck object with 52 cards.</p>
 	 * <p>Consists of each of the following cards in the 4 {@link suits} available: <br>
@@ -110,7 +113,6 @@ public class Deck {
 		Collections.shuffle(cards);
 	}
 	
-	
 	/**
 	 * Gets the card on top of the {@link Deck}
 	 * 
@@ -144,14 +146,26 @@ public class Deck {
 		if(total == 52) isFull = true;
 	}
 	
+	/**
+	 * Returns true if the deck has 0 cards
+	 * @return isEmpty 
+	 */
 	public boolean isEmpty(){
 		return this.isEmpty;
 	}
-	
+
+	/**
+	 * Returns true if the deck has 52 cards
+	 * @return isFull
+	 */
 	public boolean isFull(){
 		return this.isFull;
 	}
 	
+	/**
+	 * Gets the number of cards in deck
+	 * @return number of cards in deck
+	 */
 	public int getTotal(){
 		return total;
 	}

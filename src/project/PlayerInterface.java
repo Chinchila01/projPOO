@@ -18,7 +18,7 @@ public interface PlayerInterface {
 	 * @return card picked randomly
 	 * @see Hit
 	 */
-	public void hit(Hand h, Shoe s);
+	public void hit(Shoe s);
 	
 	/**
 	 * This method is used to keep the player's hand as it is.
@@ -26,6 +26,5 @@ public interface PlayerInterface {
 	 * @see Stand
 	 */
 	public int stand(int curHand);
-	
 	
 }

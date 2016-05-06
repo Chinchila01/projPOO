@@ -1,5 +1,7 @@
 package project;
 
+import java.io.*;
+
 /**
  * @author Filipe Correia
  * @author Helder Duarte
@@ -8,8 +10,8 @@ package project;
  */
 public class PlayingAreaDebug extends PlayingArea {
 	
-	String shoeFile;
-	String cmdFile;
+	//String shoeFile;
+	String cmds;
 	
 	int handIndex;
 	int previousBet;
@@ -17,16 +19,45 @@ public class PlayingAreaDebug extends PlayingArea {
 	
 	public PlayingAreaDebug(String[] args) {
 		
+		
 		super(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
 		if(args.length != 6) {
 			System.out.println("Invalid number of arguments for debug mode.");
 			System.out.println("max-bet min-bet balance shoe-file shuffle-file");
 			System.exit(-1);
 		}
-		this.shoeFile = args[4];
-		this.cmdFile = args[5];
+		
+		try{
+			this.shoe = new Shoe(args[4]);  //create shoe from shoe file
+		}catch(FileNotFoundException e){
+			System.out.println("Shoe file not found: " + e.getMessage());
+			System.exit(1);
+		}
+		
+		//this.shoeFile = args[4];
+		try {
+			FileInputStream cmdFile = new FileInputStream(args[5]); //import cmd file	
+		}catch(FileNotFoundException e){
+			System.out.println("Command file not found: " + e.getMessage());
+			System.exit(1);
+		}
 		
 		previousBet = minBet;
+	}
+	
+	//TODO: fix,temporary
+	public String getCommand(){
+		return "";
+	}
+	
+	//TODO: Fix, temporary
+	public boolean hasNextCommand(){
+		return false;
+	}
+	
+	//TODO: fix, temporary
+	public void quit(){
+		System.exit(0);
 	}
 
 }

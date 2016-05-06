@@ -4,8 +4,12 @@ public class Dealer extends SuperPlayer{
 	
 	public Dealer (float initialMoney, int minBet, int maxBet){
 		super(initialMoney, minBet, maxBet);
+		
 	}
 	
+	/**
+	 * adds a card from the shoe to the dealer's hand
+	 */
 	//nao precisa de receber a hand pois o dealer apenas tem uma hand a cada jogada
 	public void hit(Shoe s){
 		// se a carta recebida for um ace e fizer bust, ace passa a valer 1
@@ -14,11 +18,12 @@ public class Dealer extends SuperPlayer{
 		hand.iterator().next().addCard(c);
 	}
 	
-	
-	
+	/**
+	 * Gets the available hands from the dealer
+	 */
 	public String getHands() {
 		StringBuilder sb = new StringBuilder();
-		for(Card c : hand.iterator().next().getHand()) {
+		for(Card c : hand.iterator().next().getCards()) {
 			if(c.isTurnedUp)
 				sb.append(c.toString());
 			else
@@ -26,5 +31,4 @@ public class Dealer extends SuperPlayer{
 		}
 		return sb.toString();
 	}
-	
 }

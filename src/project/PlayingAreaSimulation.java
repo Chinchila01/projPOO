@@ -32,5 +32,19 @@ public class PlayingAreaSimulation extends PlayingArea {
 		previousBet = minBet;
 	}
 	
+	//TODO: fix, temporary
+	public String getCommand(){
+		return "";
+	}
+	
+	//TODO: Fix, temporary
+		public boolean hasNextCommand(){
+			return false;
+		}
+		
+	//TODO: fix, temporary
+	public void quit(){
+		System.exit(0);
+	}
 
 }

@@ -9,37 +9,63 @@ public class Statistics {
 	
 	public Statistics(double initBalance){
 		this.initBalance = initBalance;
-		this.plays = 1; //avoid divide by zero
 	}
 	
 	public void setBalance(double balance){
 		this.balance = balance;
 	}
 	
+	/**
+	 * Adds a win to the statistics
+	 */
 	public void addWin(){
 		this.wins++;
-		if(this.plays > 1) this.plays++;
+		this.plays++;
 	}
 	
+	/**
+	 * Adds a loss to the statistics
+	 */
 	public void addLoss(){
 		this.losses++;
-		if(this.plays > 1) this.plays++;
+		this.plays++;
 	}
 	
+	/**
+	 * Adds a push to the statistics
+	 */
 	public void addPush(){ 
 		this.pushes++;
-		if(this.plays > 1) this.plays++;
+		this.plays++;
 	}
 	
+	/**
+	 * Adds a blackjack from the player to the statistics
+	 */
 	public void addPlayerBJ(){
 		this.playerBJ++;
 	}
 	
+	/**
+	 * Adds a blackjack from the dealer to the statistics
+	 */
 	public void addDealerBJ(){
 		this.dealerBJ++;
 	}
 	
-	public void presentStatistics(){
+	/** 
+	 * Prints the statistics, with the following statistics: <br>
+	 * <p>BJ P/D  -> playerBlackJacks/dealerBlackJacks<br>
+	 *    Win -> playerWins <br>
+	 *    Lose -> playerLosses <br>
+	 *    Push -> playerPushes <br>
+	 *    Balance -> absoluteBalance(relativeBalance%)</p>
+	 * Relative balance is relative to the initial balance
+	 * 
+	 * @throws NoPlayedRoundsException
+	 */
+	public void presentStatistics() throws NoPlayedRoundsException{
+		if(plays == 0) throw new NoPlayedRoundsException();
 		System.out.printf("BJ P/D %6.2f/%.2f\n",(float)playerBJ/plays,(float)dealerBJ/plays);
 		System.out.printf("Win %11.2f\n",(float)wins/plays);
 		System.out.printf("Lose %10.2f\n",(float)losses/plays);

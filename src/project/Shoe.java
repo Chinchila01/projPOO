@@ -1,7 +1,7 @@
 package project;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.*;
+import java.util.*;
 
 /**Shoe class
  * Contains all the decks used during a blackjack game
@@ -21,14 +21,16 @@ public class Shoe {
 	 * @see Card
 	 */
 	private Deck[] decks;
+	private ArrayList<Card> cards;
 	private int currentDeck;
 	private int totalDecks;
+	private int playedCards;
 	
 	/**
 	 * Constructor for a Shoe of n decks
 	 * @param n is the number of decks in the deck array. Must be between 2 and 8
 	 */
-	public Shoe(int n){
+	/*public Shoe(int n){
 		if(n >= 2 && n <= 8){
 			this.totalDecks = n;
 			this.decks = new Deck[totalDecks];
@@ -36,8 +38,16 @@ public class Shoe {
 			this.currentDeck = 0;
 			shuffle();
 		}
-		/*que fazer caso n seja menor que 2 ou maior que 8? 
-		 * R: mandar uma mensagem de erro/exception? ass:vieira*/
+	}*/ 
+	//TODO: add exception in case  n<2 or n>8
+	public Shoe(int n){
+		cards = new ArrayList<Card>();
+		if(n >= 2 && n <= 8){
+			this.totalDecks = n;
+			//this.decks = new Deck[totalDecks];
+			cards.addAll((new Deck()).cards);
+		}
+		shuffle();
 	}
 	
 	/**
@@ -48,20 +58,37 @@ public class Shoe {
 	}
 	
 	/**
+	 * Constructor for a shoe taken from a shoe file
+	 * 
+	 * @params fis file input stream of the shoefile
+	 */
+	public Shoe(String shoefile) throws FileNotFoundException{
+		Scanner s = new Scanner(new File(shoefile));
+		
+		while(s.hasNext()){
+			//this.cards.add(new Card(s.next())); //TODO: add constructor to Card with String
+		}
+		
+	}
+	
+	/**
 	 * Gets the next available card from the shoe
 	 * @return next available card from the shoe
 	 */
-	public Card getNext(){
+	/*public Card getNext(){
 		Card aux = decks[currentDeck].getNext();
 		if(decks[currentDeck].isEmpty()) currentDeck++;
 		return aux;
+	}*/
+	public Card getNext(){
+		return cards.remove(0);
 	}
 	
 	/**
 	 * Adds a card to the bottom of the shoe
 	 * @param c card to add to the bottom of the shoe
 	 */
-	public void addLast(Card c){
+	/*public void addLast(Card c){
 		Card aux;
 		Card aux2 = c;
 		
@@ -77,9 +104,17 @@ public class Shoe {
 			decks[0].addLast(aux2);
 		}
 		else decks[totalDecks-1].addLast(c);
+		playedCards++; //number of cards in shoe that were already played increases
+	}*/
+	public void addLast(Card c){
+		cards.add(c);
 	}
 	
+	public void addLast(ArrayList<Card> ca){
+		cards.addAll(ca);
+	}
 	
+	/*
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
@@ -87,16 +122,34 @@ public class Shoe {
 			sb.append(decks[i].toString());
 		}
 		return sb.toString();
+	}*/
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		for(Card c : cards) sb.append(c);
+		return sb.toString();
 	}
 	
+	/**
+	 * Returns whether the shoe is full (all the decks are full)
+	 * @return isFull
+	 */
+	/*
 	public boolean isFull(){
 		return decks[0].isFull();
 	}
+	*/
+	public boolean isFull(){
+		return (cards.size() == 52*totalDecks);
+	}
 	
+	/**
+	 * Shuffles the decks in the shoe
+	 */
 	//TODO: solucao temporaria. Acrescentar metodo getTotal no Deck.
 	//		Usar o Deck apenas como classe utilitaria, i.e., no Shoe nao ter Decks
 	//		mas sim um ArayList de Cards, usar o Deck apenas para gerar as cards iniciais.
-	public void shuffle() {
+	/*public void shuffle() {
 		
 		int totalCards = 0;
 		for(int i=0; i<totalDecks; i++) {
@@ -110,6 +163,17 @@ public class Shoe {
 		System.out.println("shuffling the shoe...");
 		Collections.shuffle(cardsToShuffle);
 		
+	}*/
+	public void shuffle(){
+		Collections.shuffle(cards);
+	}
+	 
+	/**
+	 * Shuffles the decks in the shoe if the percentage of cards played is higher than the percentage given as a parameter
+	 * @param shufflePercentage percentage of played shoe required to shuffle the deck 
+	 */
+	public void shuffle(int shufflePercentage){
+		if(playedCards/(totalDecks*52) > shufflePercentage || playedCards/(totalDecks*52) == 100) shuffle();
 	}
 	
 }
