@@ -93,7 +93,7 @@ public abstract class PlayingArea {
 		if(cmd.equals("i")) {	// insurance
 			try{
 				player.addPlayerMoney(-playerCurrHand.curBet);
-				player.insurance(dealer.getCurrHand());
+				player.insurance(dealer.hand);
 			}catch(NotEnoughMoneyException e){
 				System.out.println("insurance not possible: " + e.getMessage());
 			}catch(IllegalHandException e){
@@ -109,7 +109,7 @@ public abstract class PlayingArea {
 		if(cmd.equals("u")) {	// surrender
 			float money = 0;
 			try {
-				money = player.surrender(dealer.getCurrHand());
+				money = player.surrender(dealer.hand);
 				player.addPlayerMoney(money);
 			} catch(IllegalHandException e){
 				System.out.println("surrender not possible: " + e.getMessage());
@@ -178,7 +178,7 @@ public abstract class PlayingArea {
 			// O jogador tem um blackjack
 			else if(eachHand.hasBlackjack){
 				stat.addPlayerBJ();
-				if(dealer.getCurrHand().hasBlackjack) { // dealer tambem tem blackjack
+				if(dealer.hand.hasBlackjack) { // dealer tambem tem blackjack
 					if(eachHand.insured) {
 						try{
 							player.addPlayerMoney(eachHand.curBet); //the player gets twice the current money
@@ -212,7 +212,7 @@ public abstract class PlayingArea {
 				System.out.println("player loses and his current balance is " + player.getPlayerMoney());
 				stat.addLoss();
 			}
-			else if(dealer.getCurrHand().busted) {	// dealer Bust
+			else if(dealer.hand.busted) {	// dealer Bust
 				try{
 					player.addPlayerMoney(2*eachHand.curBet);
 				}catch(NotEnoughMoneyException e){
@@ -221,18 +221,18 @@ public abstract class PlayingArea {
 				System.out.println("player wins and his current balance is " + player.getPlayerMoney());
 				stat.addWin();
 			}
-			else if(dealer.getCurrHand().hasBlackjack && eachHand.insured){
+			else if(dealer.hand.hasBlackjack && eachHand.insured){
 				try{
 					player.addPlayerMoney(eachHand.curBet);
 				}catch(NotEnoughMoneyException e){
 					System.out.println(e.getMessage());
 				}
 			}
-			else if(dealer.getCurrHand().getScore() > eachHand.getScore()) { // player bust ou dealer tem mais pontos
+			else if(dealer.hand.getScore() > eachHand.getScore()) { // player bust ou dealer tem mais pontos
 				System.out.println("player loses and his current balance is " + player.getPlayerMoney());
 				stat.addLoss();
 			}
-			else if(eachHand.getScore() == dealer.getCurrHand().getScore()){
+			else if(eachHand.getScore() == dealer.hand.getScore()){
 				try{
 					player.addPlayerMoney(eachHand.curBet);
 				}catch(NotEnoughMoneyException e){
@@ -258,7 +258,7 @@ public abstract class PlayingArea {
 	 * @param dealer
 	 */
 	public void dealerTurn(Dealer dealer){
-		Hand dealerCurrHand = dealer.getCurrHand();
+		Hand dealerCurrHand = dealer.hand;
 		dealerCurrHand.getCards().listIterator(1).next().isTurnedUp = true; //turn hole
 		
 		System.out.println("dealer's hand " + dealer.getHands() + " (" + dealerCurrHand.getScore() + ")");

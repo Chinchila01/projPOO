@@ -1,30 +1,21 @@
 package project;
 
-/** PlayerInterface interface
- * Interface to the basic movements a BlackJack player can execute
- * 
- * @author Filipe Correia
- * @author Hélder Duarte
- * @author João Vieira
- */
-public interface PlayerInterface {
+public interface PlayerInterface extends DealerInterface{
 	
-	//TODO: make this a superclass
+	public void split(Hand h, Shoe s) throws IllegalHandException;
 	
-	/**
-	 * This method is used to ask for one card that will be randomly picked from shoe
-	 * 
-	 * @param Shoe that contains all the decks
-	 * @return card picked randomly
-	 * @see Hit
-	 */
-	public void hit(Shoe s);
+	public void insurance(Hand dealerHand) throws IllegalHandException;
 	
-	/**
-	 * This method is used to keep the player's hand as it is.
-	 * 
-	 * @see Stand
-	 */
-	public int stand(int curHand);
+	public float surrender(Hand dealerHand) throws IllegalHandException;
+	
+	public boolean doubleBet() throws IllegalHandException, NotEnoughMoneyException;
+	
+	public double getPlayerMoney();
+	
+	public void addPlayerMoney(float playerMoney) throws NotEnoughMoneyException;
+	
+	public Hand getNextHand();
+	
+	public Hand getCurrHand();
 	
 }
