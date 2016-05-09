@@ -82,14 +82,15 @@ public abstract class PlayingArea {
 			if(betDone==false) throw new IllegalCmdException("d: illegal command");
 			
 			if(dealDone==false) {
-				// give cards to player
-				player.hit(shoe);
-				player.hit(shoe);
-				
+								
 				// give cards to dealer
 				dealer.hit(shoe);
 				dealer.hit(shoe);			
 				dealer.hand.getCards().listIterator(1).next().isTurnedUp = false;
+				
+				// give cards to player
+				player.hit(shoe);
+				player.hit(shoe);
 			}
 			
 			System.out.println("dealer's hand " + dealer.getHands());
@@ -328,6 +329,7 @@ public abstract class PlayingArea {
 		
 		while(dealerCurrHand.getScore() < 17) { //dealer stands on all 17s
 			dealer.hit(shoe);
+			System.out.println("dealer hits");
 			System.out.println("dealer's hand " + dealer.getHands() + " (" + dealerCurrHand.getScore() + ")");
 		}
 		

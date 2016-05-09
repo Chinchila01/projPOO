@@ -89,8 +89,11 @@ public class Card {
 	 */
 	public Card(String card) {
 		this.score = getScoreFromSymbol(card);
-		this.symbol = card.charAt(0);
-		this.suit = card.charAt(1);
+		this.symbol = this.score==10 ? 'T' : card.charAt(0);
+		if(card.length()==3)
+			this.suit = card.charAt(2);
+		else
+			this.suit = card.charAt(1);
 		this.isTurnedUp = true;
 	}
 	
@@ -146,7 +149,15 @@ public class Card {
 	
 	@Override
 	public String toString(){
-		return "[" + this.getSymbol() + this.getSuit() + "]";
+		String s;
+		String c;
+		if(this.getSymbol()=='T')
+			s = "10";
+		else
+			s = Character.toString(this.getSymbol());
+		c = Character.toString(this.getSuit());
+				
+		return "[" + s + c + "]";
 	}
 
 	@Override

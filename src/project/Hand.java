@@ -17,7 +17,7 @@ public class Hand {
 	ArrayList<Card> cards;
 	int curBet,minBet,maxBet;
 	boolean busted;
-	boolean hasBlackjack;
+	boolean hasBlackjack;	//TODO: isto devia ser um metodo nao? as vezes nao detecta blackjack
 	boolean insured;
 	//boolean stand; //to know if the hand has been completed
 	boolean surrender;
