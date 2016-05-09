@@ -17,13 +17,9 @@ public abstract class PlayingArea {
 	float initialMoney;
 	Shoe shoe;
 	Statistics stat;
+	static boolean dealDone;
+	static boolean betDone;
 	
-	/**
-	 * This atribute serves to keep track of the previous command
-	 * for command dependencies.
-	 * Ex: side rules and hit only allowed after deal.
-	 */
-	static String previousCmd = "";
 	
 	public PlayingArea(int minBet, int maxBet, float initialMoney) {
 		this.minBet = minBet;
@@ -31,6 +27,8 @@ public abstract class PlayingArea {
 		this.previousBet = minBet;
 		this.initialMoney = initialMoney;
 		this.stat = new Statistics(initialMoney);
+		dealDone=false;
+		betDone=false;
 	}
 	
 	/**
@@ -40,13 +38,16 @@ public abstract class PlayingArea {
 	 * @param player object
 	 * @param dealer object
 	 */
-	public void executePlayerAction(String cmd, Player player, Dealer dealer){
+	public void executePlayerAction(String cmd, Player player, Dealer dealer) throws IllegalCmdException {
 		
 		int bet=0;
 		Hand playerCurrHand = player.getCurrHand();
 		String[] cmdHelper;
 		
 		if(cmd.charAt(0)=='b') {
+			
+			//TODO: assim so vai poder fazer bet na primeira mao, mudar isto
+			if(dealDone==true) throw new IllegalCmdException("b: illegal command");
 			
 			if(cmd.length()==1)		//betting without specifying value will default to last bet
 				bet = this.previousBet;
@@ -69,142 +70,138 @@ public abstract class PlayingArea {
 					System.out.println(e.getMessage());
 				}
 			}
-			
+			betDone=true;
 		}
 			
 		if(cmd.equals("$")) {	// prints current player balance
 			System.out.println("Current balance: " + player.getPlayerMoney());
 		}
 			
-		if(cmd.equals("d")) {
-			if(playerCurrHand.cards.isEmpty()) {
+		if(cmd.equals("d")) {	// deal
+			
+			if(betDone==false) throw new IllegalCmdException("d: illegal command");
+			
+			if(dealDone==false) {
+				// give cards to player
 				player.hit(shoe);
 				player.hit(shoe);
-			}
-			if(dealer.hand.getSize()==0) {
+				
+				// give cards to dealer
 				dealer.hit(shoe);
-				dealer.hit(shoe);
+				dealer.hit(shoe);			
 				dealer.hand.getCards().listIterator(1).next().isTurnedUp = false;
 			}
+			
 			System.out.println("dealer's hand " + dealer.getHands());
 			System.out.println("player's hand " + player.getHands());
+			
+			dealDone=true;
 			
 		}
 			
 		if(cmd.equals("h")) {	// hit
-			if(previousCmd.equals("d")) {
-				player.hit(shoe);
-				System.out.println("player hits");
-				System.out.println("player's hand" + player.getHands());
-				if(playerCurrHand.busted) {
-					System.out.println("player busts");
-					
-					//if(itPlayer.hasNext()) 
-					//	playerCurrHand=itPlayer.next();//gets next hand if exists
-					//else pa.validHands = false;
-				}
-			} else {
-				System.out.println("Illegal commad, hit must be after a deal.");
+			
+			if(dealDone==false) throw new IllegalCmdException("h: illegal command");
+			
+			player.hit(shoe);
+			System.out.println("player hits");
+			System.out.println("player's hand" + player.getHands());
+			if(playerCurrHand.busted) {
+				System.out.println("player busts");
 			}
 		}
 			
 		if(cmd.equals("s")) {	//stand
+			
+			if(dealDone==false) throw new IllegalCmdException("s: illegal command");
+			
 			//if(itPlayer.hasNext()) 
 			//	playerCurrHand=itPlayer.next();//gets next hand if exists
 			//else pa.validHands = false;
+			
 			player.stand();
+			//playerCurrHand.standDone=true;
 			System.out.println("player stands");
 		}
 		
 		if(cmd.equals("i")) {	// insurance
-			if(!previousCmd.equals("d")) {
-				System.out.println("Illegal command. Side rules must be immediately after deal.");
+			
+			//TODO: se fazer insurance antes do deal da erro porque o dealer ainda nao tem cartas
+			if(dealDone==true) throw new IllegalCmdException("i: illegal command");
+			
+			try{
+				player.addPlayerMoney(-playerCurrHand.curBet);
+				player.insurance(dealer.hand);
+			}catch(NotEnoughMoneyException e){
+				System.out.println("insurance not possible: " + e.getMessage());
 				return;
-			}
-			else {
+			}catch(IllegalHandException e){
+				System.out.println("insurance not possible: " + e.getMessage());
 				try{
-					player.addPlayerMoney(-playerCurrHand.curBet);
-					player.insurance(dealer.hand);
-				}catch(NotEnoughMoneyException e){
-					System.out.println("insurance not possible: " + e.getMessage());
+					player.addPlayerMoney(playerCurrHand.curBet);
 					return;
-				}catch(IllegalHandException e){
-					System.out.println("insurance not possible: " + e.getMessage());
-					try{
-						player.addPlayerMoney(playerCurrHand.curBet);
-						return;
-					}catch(NotEnoughMoneyException ex){
-						System.out.println(e.getMessage());
-						return;
-					}
+				}catch(NotEnoughMoneyException ex){
+					System.out.println(e.getMessage());
+					return;
 				}
 			}
 		}
 			
 		if(cmd.equals("u")) {	// surrender
-			if(!previousCmd.equals("d")) {
-				System.out.println("Illegal command. Side rules must be immediately after deal.");
+
+			if(dealDone==true) throw new IllegalCmdException("u: illegal command");
+			
+			float money = 0;
+			try {
+				money = player.surrender(dealer.hand);
+				player.addPlayerMoney(money);
 				return;
-			}
-			else {
-				float money = 0;
-				try {
-					money = player.surrender(dealer.hand);
-					player.addPlayerMoney(money);
+			} catch(IllegalHandException e){
+				System.out.println("surrender not possible: " + e.getMessage());
+				return;
+			} catch(NotEnoughMoneyException e){
+				System.out.println("surrender not possible: " + e.getMessage());
+				try{
+					player.addPlayerMoney(-money);
 					return;
-				} catch(IllegalHandException e){
-					System.out.println("surrender not possible: " + e.getMessage());
+				}catch(NotEnoughMoneyException ex){
+					System.out.println(e.getMessage());
 					return;
-				} catch(NotEnoughMoneyException e){
-					System.out.println("surrender not possible: " + e.getMessage());
-					try{
-						player.addPlayerMoney(-money);
-						return;
-					}catch(NotEnoughMoneyException ex){
-						System.out.println(e.getMessage());
-						return;
-					}
 				}
-				//if(itPlayer.hasNext()) 
-				//	playerCurrHand=itPlayer.next();//gets next hand if exists
-				//else pa.validHands = false;
 			}
+			//if(itPlayer.hasNext()) 
+			//	playerCurrHand=itPlayer.next();//gets next hand if exists
+			//else pa.validHands = false;
 		}
 			
 		if(cmd.equals("p")) {	// splitting
-			if(!previousCmd.equals("d")) {
-				System.out.println("Illegal command. Side rules must be immediately after deal.");
+
+			if(dealDone==true) throw new IllegalCmdException("p: illegal command");
+			
+			try{
+				player.split(playerCurrHand, shoe);
 				return;
-			}
-			else {
-				try{
-					player.split(playerCurrHand, shoe);
-					return;
-				} catch(IllegalHandException e){
-					System.out.println(e.getMessage());
-					System.out.println("split not available");
-					return;
-				}
+			} catch(IllegalHandException e){
+				System.out.println(e.getMessage());
+				System.out.println("split not available");
+				return;
 			}
 		}
 			
 		if(cmd.equals("2")) {	// double
-			if(!previousCmd.equals("d")) {
-				System.out.println("Illegal command. Side rules must be immediately after deal.");
+
+			if(dealDone==true) throw new IllegalCmdException("2: illegal command");
+			
+			try {
+				player.doubleBet();
+				System.out.println("bet doubled");
 				return;
-			}
-			else {
-				try {
-					player.doubleBet();
-					System.out.println("bet doubled");
-					return;
-				} catch (IllegalHandException e) {
-					System.out.println("doubling not possible: " + e.getMessage());
-					return;
-				} catch (NotEnoughMoneyException e) {
-					System.out.println("doubling not possible: " + e.getMessage());
-					return;
-				}
+			} catch (IllegalHandException e) {
+				System.out.println("doubling not possible: " + e.getMessage());
+				return;
+			} catch (NotEnoughMoneyException e) {
+				System.out.println("doubling not possible: " + e.getMessage());
+				return;
 			}
 		}
 			
@@ -223,10 +220,7 @@ public abstract class PlayingArea {
 		if(cmd.equals("q")) {	// player inputs 'q' to quit the game
 			this.quit();
 		}
-		
-		if(!cmd.equals("$"))	// no need to store $, this cmd can be done at any time
-			previousCmd = cmd;
-		
+				
 	}
 	
 	/**
@@ -235,7 +229,9 @@ public abstract class PlayingArea {
 	 * @param dealer object
 	 */
 	public void payOut(Player player, Dealer dealer){
+		
 		for(Hand eachHand : player.hand){
+			
 			//TODO: escolher valor do as
 			//TODO: pushes
 			if(eachHand.surrender){
@@ -324,6 +320,7 @@ public abstract class PlayingArea {
 	 * @param dealer
 	 */
 	public void dealerTurn(Dealer dealer){
+		
 		Hand dealerCurrHand = dealer.hand;
 		dealerCurrHand.getCards().listIterator(1).next().isTurnedUp = true; //turn hole
 		
@@ -348,8 +345,12 @@ public abstract class PlayingArea {
 	 * @param dealer
 	 */
 	public void prepareNextRound(Player player, Dealer dealer){
+		
 		player.resetHands(shoe);
 		dealer.resetHands(shoe);
+		
+		dealDone=false;
+		betDone=false;
 
 		System.out.println("Starting a new round");
 	}

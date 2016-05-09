@@ -55,7 +55,12 @@ public class Game {
 				// o eclipse queixa-se que o PlayArea nao faz throw, nao sei se uma subclasse ao implementar
 				// um metodo abstrato da superclasse pode adicionar throws --> VER ISTO
 				if(cmd.equals("")) System.exit(-1);	
-				pa.executePlayerAction(cmd, player, dealer);
+				try {
+					pa.executePlayerAction(cmd, player, dealer);
+				} catch (IllegalCmdException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}//end_player_turn
 			
 			//dealer turn

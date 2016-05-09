@@ -77,9 +77,17 @@ public class PlayingAreaInteractive extends PlayingArea{
 			
 			while(player.getNextHand() != null) {	// player's turn
 				
-				System.out.println("Player's turn.");
-				cmd = pa.getCommand();	//get player input
-				pa.executePlayerAction(cmd, player, dealer);
+				while(true) {
+					System.out.println("Player's turn.");
+					cmd = pa.getCommand();	//get player input
+					try {
+						pa.executePlayerAction(cmd, player, dealer);
+						break;
+					} catch (IllegalCmdException e) {
+						System.out.println(e.getMessage());
+						continue;
+					}
+				}
 			}//end_player_turn
 			
 			//dealer turn
