@@ -43,7 +43,7 @@ public class Game {
 			// give cards to dealer
 			dealer.hit(pa.shoe);
 			dealer.hit(pa.shoe);			
-			dealer.getCurrHand().getCards().listIterator(1).next().isTurnedUp = false;
+			dealer.hand.getCards().listIterator(1).next().isTurnedUp = false;
 			
 			while(player.getNextHand() != null) {	// player's turn
 				
