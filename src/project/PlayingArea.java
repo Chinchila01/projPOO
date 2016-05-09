@@ -140,8 +140,8 @@ public abstract class PlayingArea {
 				try{
 					player.addPlayerMoney(playerCurrHand.curBet);
 					return;
-				}catch(NotEnoughMoneyException ex){
-					System.out.println(e.getMessage());
+				}catch(NotEnoughMoneyException e1){
+					System.out.println(e1.getMessage());
 					return;
 				}
 			}

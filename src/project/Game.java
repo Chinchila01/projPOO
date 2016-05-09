@@ -27,7 +27,18 @@ public class Game {
 			}
 		});*/
 	
-			
+		/*switch(args[0].charAt(1)) {
+		case 'i':
+			PlayingAreaInteractive pa = new PlayingAreaInteractive(args);
+			break;
+		case 'd':
+			PlayingAreaDebug pa = new PlayingAreaDebug(args);
+			break;
+		case 'd':
+			PlayingAreaSimulation pa = new PlayingAreaSimulation(args);
+			break;
+		default: System.exit(-1);
+		}*/
 		PlayingAreaDebug pa = new PlayingAreaDebug(args);
 		Player player = new Player(pa.initialMoney, pa.minBet, pa.maxBet);
 		Dealer dealer = new Dealer(pa.initialMoney, pa.minBet, pa.maxBet);
@@ -36,30 +47,20 @@ public class Game {
 		
 		while(true) {
 			
-			// give cards to player
-			player.hit(pa.shoe);
-			player.hit(pa.shoe);
-		
-			
-			// give cards to dealer
-			dealer.hit(pa.shoe);
-			dealer.hit(pa.shoe);			
-			dealer.hand.getCards().listIterator(1).next().isTurnedUp = false;
-			
 			while(player.getNextHand() != null) {	// player's turn
 				
-				System.out.println("Player's turn.");
 				cmd = pa.getCommand();	//get player input
+				
 				//TODO: isto resolve (temporariamente ou nao) o ciclo infinito
 				// ideal serial fazer o getCommand fazer throw a exception NoMoreCmdsExcetion, mas
 				// o eclipse queixa-se que o PlayArea nao faz throw, nao sei se uma subclasse ao implementar
 				// um metodo abstrato da superclasse pode adicionar throws --> VER ISTO
 				if(cmd.equals("")) System.exit(-1);	
+				
 				try {
 					pa.executePlayerAction(cmd, player, dealer);
 				} catch (IllegalCmdException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 			}//end_player_turn
 			
