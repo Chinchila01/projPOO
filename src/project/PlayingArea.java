@@ -34,17 +34,18 @@ public abstract class PlayingArea {
 	 * @param dealer object
 	 */
 	public void executePlayerAction(String cmd, Player player, Dealer dealer){
-		int bet;
+		int bet=0;
 		Hand playerCurrHand = player.getCurrHand();
+		String[] cmdHelper;
 		
-		if(cmd.equals("b")) {
-
-			//TODO: isto caga-se todo quando se faz $> b \n $ por exemplo
-			// ele vai ler o $ como proximo comando e ao fazer parseInt arrebenta
-			if(this.hasNextCommand()) { 	// betting without specifying amount, defaults to last bet
-				bet = Integer.parseInt(this.getCommand());
+		if(cmd.charAt(0)=='b') {
+			
+			if(cmd.length()==1)		//betting without specifying value will default to last bet
+				bet = this.previousBet;
+			else if(cmd.length()>1) {
+				cmdHelper = cmd.split(" ");
+				bet = Integer.parseInt(cmdHelper[1]);
 			}
-			else bet = this.previousBet;
 			
 			try{
 				player.addPlayerMoney(-bet);
@@ -60,6 +61,7 @@ public abstract class PlayingArea {
 					System.out.println(e.getMessage());
 				}
 			}
+			
 		}
 			
 		if(cmd.equals("$")) {	// prints current player balance
@@ -67,6 +69,15 @@ public abstract class PlayingArea {
 		}
 			
 		if(cmd.equals("d")) {
+			if(playerCurrHand.cards.isEmpty()) {
+				player.hit(shoe);
+				player.hit(shoe);
+			}
+			if(dealer.hand.getSize()==0) {
+				dealer.hit(shoe);
+				dealer.hit(shoe);
+				dealer.hand.getCards().listIterator(1).next().isTurnedUp = false;
+			}
 			System.out.println("dealer's hand " + dealer.getHands());
 			System.out.println("player's hand " + player.getHands());
 			
@@ -164,6 +175,7 @@ public abstract class PlayingArea {
 		if(cmd.equals("q")) {	// player inputs 'q' to quit the game
 			this.quit();
 		}
+		
 	}
 	
 	/**

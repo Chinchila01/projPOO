@@ -40,6 +40,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 		
 		//Used to get input from player
 		reader = new Scanner(System.in);
+		reader.useDelimiter("\r\n");
 		
 	}
 	
@@ -89,6 +90,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 			
 			//reset hands
 			pa.prepareNextRound(player,dealer);
+			
 			
 		}//end_rounds
 		
