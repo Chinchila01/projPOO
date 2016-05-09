@@ -47,12 +47,12 @@ public class PlayingAreaDebug extends PlayingArea {
 	}
 	
 	//TODO: fix,temporary
-	public String getCommand(){
+	public String getCommand() {
 		if(cmdFile.hasNext()) {
 			String cmd = cmdFile.next();
 			System.out.println("-cmd " + cmd);
 			return cmd;
-		} else return ""; //TODO: FIX
+		} else return "";
 	}
 	
 	//TODO: Fix, temporary

@@ -153,6 +153,7 @@ public class Player implements PlayerInterface{
 		this.getCurrHand().addCard(s.getNext());
 	}
 	
+	//TODO: isto nao devia ser um toString? só esta a retornar uma textual description
 	@Override
 	public String getHands() {
 		StringBuilder sb = new StringBuilder();
@@ -169,6 +170,10 @@ public class Player implements PlayerInterface{
 		return sb.toString();
 	}
 	
+	/**
+	 * This method removes player's cards from his hand and
+	 * adds them to the bottom of the shoe.
+	 */
 	@Override
 	public void resetHands(Shoe s) {
 		Iterator<Hand> it = this.hand.iterator();

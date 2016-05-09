@@ -11,7 +11,6 @@ public abstract class PlayingArea {
 	/**
 	 * Common attributes to all game modes
 	 */
-	boolean dealDone, betDone;
 	int minBet;
 	int maxBet;
 	int previousBet;
@@ -25,8 +24,6 @@ public abstract class PlayingArea {
 		this.previousBet = minBet;
 		this.initialMoney = initialMoney;
 		this.stat = new Statistics(initialMoney);
-		dealDone=false;
-		betDone=false;
 	}
 	
 	/**
@@ -36,15 +33,17 @@ public abstract class PlayingArea {
 	 * @param player object
 	 * @param dealer object
 	 */
-	public void executePlayerAction(String cmd, Player player, Dealer dealer) throws IllegalCmdException{
+	public void executePlayerAction(String cmd, Player player, Dealer dealer){
 		int bet;
 		Hand playerCurrHand = player.getCurrHand();
 		
 		if(cmd.equals("b")) {
-			if(dealDone==true) throw new IllegalCmdException("b: illegal command");
-			
-			if(this.hasNextCommand()) 	// betting without specifying amount, defaults to last bet
+
+			//TODO: isto caga-se todo quando se faz $> b \n $ por exemplo
+			// ele vai ler o $ como proximo comando e ao fazer parseInt arrebenta
+			if(this.hasNextCommand()) { 	// betting without specifying amount, defaults to last bet
 				bet = Integer.parseInt(this.getCommand());
+			}
 			else bet = this.previousBet;
 			
 			try{
@@ -61,7 +60,6 @@ public abstract class PlayingArea {
 					System.out.println(e.getMessage());
 				}
 			}
-			betDone=true;
 		}
 			
 		if(cmd.equals("$")) {	// prints current player balance
@@ -69,26 +67,12 @@ public abstract class PlayingArea {
 		}
 			
 		if(cmd.equals("d")) {
-			if(betDone==false) throw new IllegalCmdException("d: illegal command");
-			
-			dealDone=true;
-			// give cards to player
-			player.hit(shoe);
-			player.hit(shoe);
-		
-			// give cards to dealer
-			dealer.hit(shoe);
-			dealer.hit(shoe);			
-			dealer.hand.getCards().listIterator(1).next().isTurnedUp = false;
-			
 			System.out.println("dealer's hand " + dealer.getHands());
 			System.out.println("player's hand " + player.getHands());
 			
 		}
 			
 		if(cmd.equals("h")) {	// hit
-			if(dealDone==false) throw new IllegalCmdException("h: illegal command");
-			
 			player.hit(shoe);
 			System.out.println("player hits");
 			System.out.println("player's hand" + player.getHands());
@@ -102,14 +86,10 @@ public abstract class PlayingArea {
 		}
 			
 		if(cmd.equals("s")) {	//stand
-			//ver melhor isto
-			if(dealDone==false) throw new IllegalCmdException("s: illegal command");
-			
 			//if(itPlayer.hasNext()) 
 			//	playerCurrHand=itPlayer.next();//gets next hand if exists
 			//else pa.validHands = false;
 			player.stand();
-			//playerCurrHand.standDone=true;
 			System.out.println("player stands");
 		}
 			
@@ -307,8 +287,7 @@ public abstract class PlayingArea {
 	public void prepareNextRound(Player player, Dealer dealer){
 		player.resetHands(shoe);
 		dealer.resetHands(shoe);
-		dealDone=false;
-		betDone=false;
+
 		System.out.println("Starting a new round");
 	}
 	

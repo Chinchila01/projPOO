@@ -1,5 +1,6 @@
 package project;
 
+import java.util.List;
 //import java.util.Iterator;
 import java.util.Scanner;
 
@@ -39,6 +40,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 		
 		//Used to get input from player
 		reader = new Scanner(System.in);
+		
 	}
 	
 	public String getCommand(){
@@ -76,13 +78,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 				
 				System.out.println("Player's turn.");
 				cmd = pa.getCommand();	//get player input
-				
-				try {
-					pa.executePlayerAction(cmd, player, dealer);
-				} catch (IllegalCmdException e) {
-					// TODO Auto-generated catch block
-					System.out.println(e);
-				} //parse input
+				pa.executePlayerAction(cmd, player, dealer);
 			}//end_player_turn
 			
 			//dealer turn
