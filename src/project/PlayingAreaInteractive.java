@@ -70,22 +70,19 @@ public class PlayingAreaInteractive extends PlayingArea{
 		String cmd;
 		
 		while(true) {
-			// give cards to player
-			player.hit(pa.shoe);
-			player.hit(pa.shoe);
-		
 			
-			// give cards to dealer
-			dealer.hit(pa.shoe);
-			dealer.hit(pa.shoe);			
-			dealer.hand.getCards().listIterator(1).next().isTurnedUp = false;
 			
 			while(player.getNextHand() != null) {	// player's turn
 				
 				System.out.println("Player's turn.");
 				cmd = pa.getCommand();	//get player input
 				
-				pa.executePlayerAction(cmd, player, dealer); //parse input
+				try {
+					pa.executePlayerAction(cmd, player, dealer);
+				} catch (IllegalCmdException e) {
+					// TODO Auto-generated catch block
+					System.out.println(e);
+				} //parse input
 			}//end_player_turn
 			
 			//dealer turn

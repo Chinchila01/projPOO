@@ -19,8 +19,10 @@ public class Hand {
 	boolean busted;
 	boolean hasBlackjack;
 	boolean insured;
-	boolean stand; //to know if the hand has been completed
+	//boolean stand; //to know if the hand has been completed
 	boolean surrender;
+	boolean hitDone;
+	boolean standDone;
 	
 	/**
 	 * Constructor for a Hand object. Needs 2 cards to be created, a minimum bet value and a maximum bet value
@@ -40,6 +42,8 @@ public class Hand {
 			cards.add(second);
 		}
 		curBet=0;
+		hitDone=false;
+		standDone=false;
 	}
 	
 	
@@ -76,10 +80,10 @@ public class Hand {
 	 * @return value that was bet
 	 * @see addBetValue
 	 */
-	public int addBet(int b) throws IllegalBetException{
-		if(b < 0) throw new IllegalBetException("bet value is less than zero");
-		if(b > maxBet) throw new IllegalBetException("bet value is too high");
-		if(b < minBet) throw new IllegalBetException("bet value is too low");
+	public int addBet(int b) throws IllegalCmdException{
+		if(b < 0) throw new IllegalCmdException("bet value is less than zero");
+		if(b > maxBet) throw new IllegalCmdException("bet value is too high");
+		if(b < minBet) throw new IllegalCmdException("bet value is too low");
 		curBet=curBet + b;
 		return b;
 	}

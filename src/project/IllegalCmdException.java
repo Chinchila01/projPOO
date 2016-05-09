@@ -1,17 +1,17 @@
 package project;
 
-public class IllegalBetException extends Exception {
+public class IllegalCmdException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public IllegalBetException(){
+	public IllegalCmdException(){
 		super("illegal bet");
 	}
 	
-	public IllegalBetException(String s){
+	public IllegalCmdException(String s){
 		super(s);
 	}
 	

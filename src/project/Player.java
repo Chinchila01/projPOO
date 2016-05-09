@@ -75,7 +75,7 @@ public class Player implements PlayerInterface{
 			Hand playerHand = hand.listIterator(currHand).next();
 			if(playerHand.getSize() != 2) throw new IllegalHandException("not at the beginning of the hand");
 			if(playerHand.surrender) throw new IllegalHandException("player has already surrendered");
-			if(playerHand.stand) throw new IllegalHandException("player has standed, insurance not available");
+			if(playerHand.standDone) throw new IllegalHandException("player has standed, insurance not available");
 			playerHand.insured = true;//insurance bet 
 	}
 	
@@ -108,7 +108,7 @@ public class Player implements PlayerInterface{
 		addPlayerMoney(-h.curBet);
 		try{
 			h.addBet(h.curBet);
-		}catch(IllegalBetException e){
+		}catch(IllegalCmdException e){
 			throw new IllegalHandException(e.getMessage());
 		}
 		return true;
@@ -128,7 +128,7 @@ public class Player implements PlayerInterface{
 	@Override
 	public Hand getNextHand(){
 		Hand h = hand.listIterator(currHand).next(); 
-		if(h.busted || h.stand || h.surrender) { // means hand is not valid TODO: replace with attribute
+		if(h.busted || h.standDone || h.surrender) { // means hand is not valid TODO: replace with attribute
 			if(currHand >= this.hand.size()-1){
 				currHand = 0;
 				return null;
@@ -140,7 +140,7 @@ public class Player implements PlayerInterface{
 	
 	@Override
 	public void stand(){
-		hand.listIterator(currHand).next().stand = true;
+		hand.listIterator(currHand).next().standDone = true;
 	}
 	
 	@Override

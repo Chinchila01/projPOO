@@ -50,7 +50,12 @@ public class Game {
 				System.out.println("Player's turn.");
 				cmd = pa.getCommand();	//get player input
 				
-				pa.executePlayerAction(cmd, player, dealer); //parse input
+				try {
+					pa.executePlayerAction(cmd, player, dealer);
+				} catch (IllegalCmdException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} //parse input
 			}//end_player_turn
 			
 			//dealer turn
