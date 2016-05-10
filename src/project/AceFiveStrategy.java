@@ -13,12 +13,11 @@ public class AceFiveStrategy {
 	
 	int minBet;
 	int maxBet;
-	int count;
+	static int count = 0;
 	
 	public AceFiveStrategy(int minBet, int maxBet) {
 		this.minBet = minBet;
 		this.maxBet = maxBet;
-		this.count = 0;
 	}
 	
 	public void observeCard(Card card) {

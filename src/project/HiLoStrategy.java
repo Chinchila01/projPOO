@@ -10,9 +10,9 @@ package project;
  */
 public class HiLoStrategy {
 	
-	int runningCount;
-	float trueCount;
-	int nbDecksLeft;
+	int runningCount = 0;
+	float trueCount = 0;
+	float nbDecksLeft = 0;
 	
 	public HiLoStrategy() {
 		runningCount = 0;
@@ -53,7 +53,7 @@ public class HiLoStrategy {
 	
 	//TODO: card type is 'N', etc, mudar para '2', '3', ... 'T', etc
 	
-	public void updateCount(Card newCard, int nbDecksLeft) {
+	public void updateCount(Card newCard, float nbDecksLeft) {
 		
 		runningCount += newCard.getSymbol();
 		trueCount = runningCount/nbDecksLeft;
@@ -63,9 +63,10 @@ public class HiLoStrategy {
 	//TODO: in some cases Illustrious18 and Fab4 overlap
 	
 	
-	public char Illustrious18(Hand playerHand, Card dealerCard) {
+	public char Illustrious18(Hand playerHand, Card dealerCard, boolean canInsure) {
 		
 		// Insurance: Insure at +3 or higher. ??? que é que isto quer dizer ????
+		if(canInsure && trueCount>=3) return 'i';
 		// 16vT
 		if(playerHand.getScore() == 16 && dealerCard.getSymbol() == 'T') {
 			return (trueCount >= 0 ? 's' : 'h');

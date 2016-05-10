@@ -58,7 +58,7 @@ public class BasicStrategy {
 	//TODO: throw exception quando passa dos limites da tabela
 	//TODO: nao percorrer a tabela quando o score e baixo (ex: a primeira entrada da tabela hard comeca com o score a 5)
 	
-	public String advise(Hand playerHand, Card dealerCard) {
+	static public String advise(Hand playerHand, Card dealerCard) {
 		
 		int x, y;
 		
@@ -110,7 +110,7 @@ public class BasicStrategy {
 	 * @param hand
 	 * @return
 	 */
-	private boolean hasPairs(Hand hand) {
+	static private boolean hasPairs(Hand hand) {
 		
 		if(hand.cards.iterator().next().getSymbol() == hand.cards.iterator().next().getSymbol())
 			return true;
@@ -124,7 +124,7 @@ public class BasicStrategy {
 	 * @param hand
 	 * @return
 	 */
-	private boolean hasAces(Hand hand) {
+	static private boolean hasAces(Hand hand) {
 		
 		for(Card c : hand.cards) {
 			if(c.getSymbol() == 'A')
@@ -140,7 +140,7 @@ public class BasicStrategy {
 	 * @param hand
 	 * @return
 	 */
-	private boolean hasAcePair(Hand hand) {
+	static private boolean hasAcePair(Hand hand) {
 		if(hand.cards.iterator().next().getSymbol() == hand.cards.iterator().next().getSymbol() && hand.cards.listIterator(0).next().getSymbol() == 'A')
 			return true;
 		else
