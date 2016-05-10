@@ -110,6 +110,7 @@ public abstract class PlayingArea {
 			if(playerCurrHand.busted) {
 				System.out.println("player busts");
 			}
+			playerCurrHand.hitDone=true;
 		}
 			
 		if(cmd.equals("s")) {	//stand
@@ -121,14 +122,15 @@ public abstract class PlayingArea {
 			//else pa.validHands = false;
 			
 			player.stand();
-			//playerCurrHand.standDone=true;
+			playerCurrHand.standDone=true;
 			System.out.println("player stands");
+			
 		}
 		
 		if(cmd.equals("i")) {	// insurance
 			
 			//TODO: se fazer insurance antes do deal da erro porque o dealer ainda nao tem cartas
-			if(dealDone==true) throw new IllegalCmdException("i: illegal command");
+			if(!dealDone || playerCurrHand.hitDone || playerCurrHand.standDone) throw new IllegalCmdException("i: illegal command");
 			
 			try{
 				player.addPlayerMoney(-playerCurrHand.curBet);
@@ -150,7 +152,7 @@ public abstract class PlayingArea {
 			
 		if(cmd.equals("u")) {	// surrender
 
-			if(dealDone==true) throw new IllegalCmdException("u: illegal command");
+			if(!dealDone || playerCurrHand.hitDone || playerCurrHand.standDone) throw new IllegalCmdException("u: illegal command");
 			
 			float money = 0;
 			try {
@@ -177,7 +179,7 @@ public abstract class PlayingArea {
 			
 		if(cmd.equals("p")) {	// splitting
 
-			if(dealDone==true) throw new IllegalCmdException("p: illegal command");
+			if(!dealDone || playerCurrHand.hitDone || playerCurrHand.standDone) throw new IllegalCmdException("p: illegal command");
 			
 			try{
 				player.split(playerCurrHand, shoe);
@@ -191,7 +193,7 @@ public abstract class PlayingArea {
 			
 		if(cmd.equals("2")) {	// double
 
-			if(dealDone==true) throw new IllegalCmdException("2: illegal command");
+			if(!dealDone || playerCurrHand.hitDone || playerCurrHand.standDone) throw new IllegalCmdException("2: illegal command");
 			
 			try {
 				player.doubleBet();
