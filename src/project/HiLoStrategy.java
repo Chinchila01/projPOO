@@ -54,7 +54,7 @@ public class HiLoStrategy {
 	
 	public void updateCount(Card newCard, float nbDecksLeft) {
 		
-		runningCount += newCard.getSymbol();
+		runningCount += getValue(newCard.getSymbol());
 		trueCount = runningCount/nbDecksLeft;
 		
 	}
@@ -64,6 +64,8 @@ public class HiLoStrategy {
 	
 	public char getStrat(Hand playerHand, Card dealerCard, boolean canInsure) {
 		
+		//DEBUG
+		System.out.println("TRUCOUNT: " + trueCount);
 		/**
 		 * Illustrious18
 		 */

@@ -45,7 +45,7 @@ public class PlayingAreaDebug extends PlayingArea {
 		
 		previousBet = minBet;
 		
-		ad = new Advisor(minBet,maxBet,this.shoe.getNbDecks());
+		ad = new Advisor(minBet,maxBet);
 	}
 	
 	//TODO: fix,temporary

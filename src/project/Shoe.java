@@ -183,4 +183,8 @@ public class Shoe {
 	public int getNbDecks(){
 		return this.totalDecks;
 	}
+	
+	public float getDecksLeft(){
+		return ((totalDecks*52)-playedCards)/52;
+	}
 }

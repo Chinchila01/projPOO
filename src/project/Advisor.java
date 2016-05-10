@@ -15,23 +15,21 @@ public class Advisor {	//TODO: so usar BasicStrategy se decks >=4
 	
 	String[] combination;
 	int betStrategy;
-	float nbDecksLeft;
 	AceFiveStrategy a5;
 	HiLoStrategy hls;
 	
-	public Advisor(int minBet, int maxBet, int nbDecks) {
+	public Advisor(int minBet, int maxBet) {
 		a5 = new AceFiveStrategy(minBet, maxBet);
 		hls = new HiLoStrategy();
-		this.nbDecksLeft = (float)nbDecks;
 	}
 	
 	public Advisor(String comb) {
 		
 	}
 	
-	public void observeCard(Card c){
+	public void observeCard(Card c,float decksLeft){
 		a5.observeCard(c);
-		hls.updateCount(c, nbDecksLeft);
+		hls.updateCount(c, decksLeft);
 	}
 
 	public void advise(boolean dealDone,Player player, Card dealerCard){
@@ -76,6 +74,7 @@ public class Advisor {	//TODO: so usar BasicStrategy se decks >=4
 		case 'd': return "double";
 		case 'u': return "surrender";
 		case 'p': return "split";
+		case 'i': return "insurance";
 		}
 		
 		return "0";
