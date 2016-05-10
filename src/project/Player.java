@@ -57,12 +57,7 @@ public class Player implements PlayerInterface{
 			hit(s); //Immediately get a new card for newHand
 			currHand = tempIndex; //putting it back
 			newHand.curBet=h.curBet; //set the same bet for newHand TODO: need to remove money from player
-			//hand.add(newHand);//add hand to the hands list
 			
-			// TEMPORARY TO SEE WHAT HAPPENS //
-			for(Hand ha : this.hand){
-				System.out.println(ha);
-			}
 		}
 	}
 	
@@ -135,7 +130,7 @@ public class Player implements PlayerInterface{
 	public Hand getNextHand(){
 		Hand h = hand.listIterator(currHand).next(); 
 		if(h.busted || h.standDone || h.surrender) { // means hand is not valid TODO: replace with attribute
-			if(currHand >= this.hand.size()-1){
+			if(currHand >= this.hand.size()/2-1){
 				currHand = 0;
 				return null;
 			}

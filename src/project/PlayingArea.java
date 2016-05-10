@@ -69,6 +69,7 @@ public abstract class PlayingArea {
 					System.out.println(e.getMessage());
 				}
 			}
+			System.out.println("Player is betting "+bet);
 			this.previousBet = bet;
 			betDone=true;
 		}
@@ -183,12 +184,16 @@ public abstract class PlayingArea {
 			
 			try{
 				player.split(playerCurrHand, shoe);
+				System.out.println("Player is spliting...");
+				System.out.println("Playing"  + player.hand.size()/2 + "st hand...");
+				System.out.println("Player's hand[" + player.hand.size()/2 + "] " + playerCurrHand);
 				return;
 			} catch(IllegalHandException e){
 				System.out.println(e.getMessage());
 				System.out.println("split not available");
 				return;
 			}
+			
 		}
 			
 		if(cmd.equals("2")) {	// double
