@@ -178,4 +178,7 @@ public class Shoe {
 		if(playedCards/(totalDecks*52) > shufflePercentage || playedCards/(totalDecks*52) == 100) shuffle();
 	}
 	
+	public int getNbDecks(){
+		return this.totalDecks;
+	}
 }

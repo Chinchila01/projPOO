@@ -1,5 +1,7 @@
 package project;
 
+import java.util.Iterator;
+
 /** BasicStrategy class
  * 
  * 
@@ -65,35 +67,37 @@ public class BasicStrategy {
 		// choose table to use
 		if(!hasPairs(playerHand) && !hasAces(playerHand)) {	// use hard table
 			
-			x = playerHand.getScore() - 17;
+			x = playerHand.getScore() - 5; // table starts at 5
 			if(dealerCard.getSymbol() != 'A')
-				y = dealerCard.getScore() - 1;
+				y = dealerCard.getScore() - 2;
 			else
-				y = 10;
+				y = 9;
 			
 			return hardTable[x][y];
 			
 		}else if(hasAces(playerHand) && !hasAcePair(playerHand)) {	// use soft table
 			
-			x = playerHand.getScore() - 9;
+			x = playerHand.getScore() - 13;
 			if(dealerCard.getSymbol() != 'A')
-				y = dealerCard.getScore() - 1;
+				y = dealerCard.getScore() - 2;
 			else
-				y = 10;
+				y = 9;
 			
 			return softTable[x][y];
 			
 			
 		}else if(hasPairs(playerHand)) {	// use pairs table
+			Iterator<Card> it = playerHand.cards.iterator();
+			Card c = it.next();
 			
-			if(playerHand.cards.iterator().next().getSymbol() != 'A')
-				x = playerHand.cards.iterator().next().getScore() - 1;
+			if(c.getSymbol() != 'A')
+				x = c.getScore() - 2;
 			else
-				x = 10;
+				x = 9;
 			if(dealerCard.getSymbol() != 'A')
-				y = dealerCard.getScore() - 1;
+				y = dealerCard.getScore() - 2;
 			else
-				y = 10;
+				y = 9;
 			
 			return pairsTable[x][y];
 		}
@@ -111,8 +115,8 @@ public class BasicStrategy {
 	 * @return
 	 */
 	static private boolean hasPairs(Hand hand) {
-		
-		if(hand.cards.iterator().next().getSymbol() == hand.cards.iterator().next().getSymbol())
+		Iterator<Card> it = hand.cards.iterator();
+		if(it.next().getSymbol() == it.next().getSymbol())
 			return true;
 		else
 			return false;
@@ -141,7 +145,9 @@ public class BasicStrategy {
 	 * @return
 	 */
 	static private boolean hasAcePair(Hand hand) {
-		if(hand.cards.iterator().next().getSymbol() == hand.cards.iterator().next().getSymbol() && hand.cards.listIterator(0).next().getSymbol() == 'A')
+		Iterator<Card> it = hand.cards.iterator();
+		Card c = it.next();
+		if(c.getSymbol() == it.next().getSymbol() && c.getSymbol() == 'A')
 			return true;
 		else
 			return false;

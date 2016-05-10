@@ -19,6 +19,7 @@ public abstract class PlayingArea {
 	Statistics stat;
 	static boolean dealDone;
 	static boolean betDone;
+	Advisor ad;
 	
 	
 	public PlayingArea(int minBet, int maxBet, float initialMoney) {
@@ -218,6 +219,8 @@ public abstract class PlayingArea {
 			
 		if(cmd.equals("ad")) {	// advice
 			//TODO
+			if(!dealDone) ad.advise(previousBet);
+			else ad.advise(dealDone, player, dealer.hand.cards.iterator().next()); // TODO: add getter for dealer card
 		}
 			
 		if(cmd.equals("st")) {	// statistics

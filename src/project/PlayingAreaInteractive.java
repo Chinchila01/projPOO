@@ -40,6 +40,8 @@ public class PlayingAreaInteractive extends PlayingArea{
 		reader = new Scanner(System.in);
 		reader.useDelimiter("[\r\n/]");
 		
+		ad = new Advisor(this.minBet,this.maxBet,shoe.getNbDecks());
+		
 	}
 	
 	public String getCommand(){
