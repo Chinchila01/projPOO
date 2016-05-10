@@ -373,7 +373,7 @@ public abstract class PlayingArea {
 	 * Gets the next command to be played
 	 * @return next command to be played
 	 */
-	public abstract String getCommand();
+	public abstract String getCommand() throws NoMoreCmdsException;
 	
 	/**
 	 * Detects if there is another command waiting to be played

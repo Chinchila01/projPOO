@@ -57,14 +57,15 @@ public class Game {
 		while(true) {
 			
 			while(player.getNextHand() != null) {	// player's turn
-				
-				cmd = pa.getCommand();	//get player input
-				
-				//TODO: isto resolve (temporariamente ou nao) o ciclo infinito
-				// ideal serial fazer o getCommand fazer throw a exception NoMoreCmdsException, mas
-				// o eclipse queixa-se que o PlayArea nao faz throw, nao sei se uma subclasse ao implementar
-				// um metodo abstrato da superclasse pode adicionar throws --> VER ISTO
-				if(cmd.equals("")) System.exit(-1);	
+				cmd = "";
+				while(cmd.equals("")){
+					try{
+						cmd = pa.getCommand();	//get player input
+					}catch(NoMoreCmdsException e){
+						System.out.println("Game Over");
+						System.exit(0);
+					}
+				}
 				
 				try {
 					pa.executePlayerAction(cmd, player, dealer);

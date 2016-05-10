@@ -47,7 +47,7 @@ public class PlayingAreaDebug extends PlayingArea {
 	}
 	
 	//TODO: fix,temporary
-	public String getCommand() {
+	public String getCommand() throws NoMoreCmdsException{
 		if(cmdFile.hasNext()) {
 			String cmd = cmdFile.next();
 			if(cmd.equals("b") && cmdFile.hasNextInt()){ //if is a bet and next input is a number, command is everything
@@ -55,7 +55,7 @@ public class PlayingAreaDebug extends PlayingArea {
 			}
 			System.out.println("-cmd " + cmd);
 			return cmd;
-		} else return "";
+		} else throw new NoMoreCmdsException();
 	}
 	
 	//TODO: Fix, temporary
