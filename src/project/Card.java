@@ -89,11 +89,14 @@ public class Card {
 	 */
 	public Card(String card) {
 		this.score = getScoreFromSymbol(card);
-		this.symbol = this.score==10 ? 'T' : card.charAt(0);
-		if(card.length()==3)
+		if(card.length()==3){
+			this.symbol = 'T';
 			this.suit = card.charAt(2);
-		else
+		}
+		else{
+			this.symbol = card.charAt(0);
 			this.suit = card.charAt(1);
+		}
 		this.isTurnedUp = true;
 	}
 	

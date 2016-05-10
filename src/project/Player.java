@@ -154,8 +154,10 @@ public class Player implements PlayerInterface{
 	}
 	
 	@Override
-	public void hit(Shoe s) {
-		this.getCurrHand().addCard(s.getNext());
+	public Card hit(Shoe s) {
+		Card c = s.getNext();
+		this.getCurrHand().addCard(c);
+		return c;
 	}
 	
 	//TODO: isto nao devia ser um toString? s� esta a retornar uma textual description

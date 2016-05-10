@@ -45,7 +45,6 @@ public abstract class PlayingArea {
 		String[] cmdHelper;
 		
 		if(cmd.charAt(0)=='b') {
-			//TODO: assim so vai poder fazer bet na primeira mao, mudar isto
 			if(dealDone==true) throw new IllegalCmdException("b: illegal command");
 			
 			if(cmd.length()==1)		//betting without specifying value will default to last bet
@@ -133,7 +132,6 @@ public abstract class PlayingArea {
 		
 		if(cmd.equals("i")) {	// insurance
 			
-			//TODO: se fazer insurance antes do deal da erro porque o dealer ainda nao tem cartas
 			if(!dealDone || playerCurrHand.hitDone || playerCurrHand.standDone) throw new IllegalCmdException("i: illegal command");
 			
 			try{
@@ -246,7 +244,6 @@ public abstract class PlayingArea {
 		for(Hand eachHand : player.hand){
 			
 			//TODO: escolher valor do as
-			//TODO: pushes
 			if(eachHand.surrender){
 				System.out.println("player's current balance is " + player.getPlayerMoney());
 			}

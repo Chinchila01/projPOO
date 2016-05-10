@@ -15,11 +15,12 @@ public class Dealer implements DealerInterface{
 	 * adds a card from the shoe to the dealer's hand
 	 */
 	//nao precisa de receber a hand pois o dealer apenas tem uma hand a cada jogada
-	public void hit(Shoe s){
+	public Card hit(Shoe s){
 		// se a carta recebida for um ace e fizer bust, ace passa a valer 1
 		Card c = s.getNext();
-		if(c.getSymbol() == 4) c.setScore(1);
+		if(c.getSymbol() == 4) c.setScore(1); //TODO: probably wrong
 		hand.addCard(c);
+		return c;
 	}
 	
 	/**

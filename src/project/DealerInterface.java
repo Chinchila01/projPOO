@@ -18,7 +18,7 @@ public interface DealerInterface {
 	 * @return card picked randomly
 	 * @see Hit
 	 */
-	public void hit(Shoe s);
+	public Card hit(Shoe s);
 	
 	/**
 	 * This method is used to keep the player's hand as it is.
