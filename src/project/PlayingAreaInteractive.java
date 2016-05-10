@@ -1,6 +1,5 @@
 package project;
 
-import java.util.List;
 //import java.util.Iterator;
 import java.util.Scanner;
 
@@ -82,12 +81,14 @@ public class PlayingAreaInteractive extends PlayingArea{
 					cmd = pa.getCommand();	//get player input
 					try {
 						pa.executePlayerAction(cmd, player, dealer);
+						
 						break;
 					} catch (IllegalCmdException e) {
 						System.out.println(e.getMessage());
 						continue;
 					}
 				}
+				
 			}//end_player_turn
 			
 			//dealer turn

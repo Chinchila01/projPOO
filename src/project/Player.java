@@ -44,7 +44,7 @@ public class Player implements PlayerInterface{
 		else{		
 			ListIterator<Card> iterator = h.getCards().listIterator();
 			Card aux = iterator.next();
-			if(!aux.equals(iterator.next())) throw new IllegalHandException("cards are not equal"); // TODO: throw exception if false
+			if(!aux.equals(iterator.next())) throw new IllegalHandException("cards are not equal"); 
 			iterator.remove();//remove last (repeated) card from hand
 			hit(s);//get a card from shoe
 			
@@ -129,7 +129,7 @@ public class Player implements PlayerInterface{
 	public Hand getNextHand(){
 		Hand h = hand.listIterator(currHand).next(); 
 		if(h.busted || h.standDone || h.surrender) { // means hand is not valid TODO: replace with attribute
-			if(currHand >= this.hand.size()-1){
+			if(currHand >= this.hand.size()/2-1){
 				currHand = 0;
 				return null;
 			}
