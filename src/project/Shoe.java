@@ -63,12 +63,14 @@ public class Shoe {
 	 * @params fis file input stream of the shoefile
 	 */
 	public Shoe(String shoefile) throws FileNotFoundException{
+		int nbCards = 0;
 		Scanner s = new Scanner(new File(shoefile));
 		cards = new ArrayList<Card>();
 		while(s.hasNext()){
 			this.cards.add(new Card(s.next())); //TODO: add constructor to Card with String
+			nbCards++;
 		}
-		
+		this.totalDecks = nbCards/52; //52 is the number of cards in a complete deck
 		s.close();
 	}
 	

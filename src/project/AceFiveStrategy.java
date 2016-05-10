@@ -29,6 +29,8 @@ public class AceFiveStrategy {
 	
 	//TODO: throw exception? acho que nao e preciso
 	public int adviseBet(int lastBet) {
+		//DEBUG
+		System.out.println("ACEFIVE: " + count);
 		if(count>=2)
 			return lastBet*2;
 		if(count<=1)
