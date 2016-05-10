@@ -107,9 +107,9 @@ public abstract class PlayingArea {
 			
 			player.hit(shoe);
 			System.out.println("player hits");
-			System.out.println("player's hand " + player.getCurrHand());
+			System.out.println(player);
 			if(playerCurrHand.busted) {
-				System.out.println("player busts");
+				System.out.println("player busts" + ((player.currHand > 0) ? (" [" + (player.currHand+1) + "]"):""));
 			}
 			playerCurrHand.hitDone=true;
 		}
