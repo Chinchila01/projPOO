@@ -38,26 +38,28 @@ public class Player implements PlayerInterface{
 	 * @see 
 	 */
 	@Override
-	public void split(Hand h, Shoe s) throws IllegalHandException{
+	public void split(Hand h, Shoe s) throws IllegalHandException, NotEnoughMoneyException{
 		int tempIndex = currHand;
 		if(h.getSize() != 2) throw new IllegalHandException("hand is too big");
-		else{		
-			ListIterator<Card> iterator = h.getCards().listIterator();
-			Card aux = iterator.next();
-			Card aux2 = iterator.next();
-			if(!aux.equals(aux2)) throw new IllegalHandException("cards are not equal"); // TODO: throw exception if false
-			iterator.remove();//remove last (repeated) card from hand
-			hit(s);//get a card from shoe
-			
-			Hand newHand;
-			newHand = new Hand(aux2,null,minBet,maxBet);
-			hand.add(newHand);
-			//temporarily change currHand to new hand
-			currHand = hand.size()-1;
-			hit(s); //Immediately get a new card for newHand
-			currHand = tempIndex; //putting it back
-			newHand.curBet=h.curBet; //set the same bet for newHand TODO: need to remove money from player
-			
+		else{
+				ListIterator<Card> iterator = h.getCards().listIterator();
+				Card aux = iterator.next();
+				Card aux2 = iterator.next();
+				
+				if(!aux.equals(aux2)) throw new IllegalHandException("cards are not equal"); // TODO: throw exception if false
+				this.addPlayerMoney(-h.curBet); //check if player has enough money
+				
+				iterator.remove();//remove last (repeated) card from hand
+				hit(s);//get a card from shoe
+				
+				Hand newHand;
+				newHand = new Hand(aux2,null,minBet,maxBet);
+				hand.add(newHand);
+				//temporarily change currHand to new hand
+				currHand = hand.size()-1;
+				hit(s); //Immediately get a new card for newHand
+				currHand = tempIndex; //putting it back
+				h.curBet=h.curBet; //set the same bet for newHand TODO: need to remove money from player
 		}
 	}
 	
@@ -130,12 +132,14 @@ public class Player implements PlayerInterface{
 	public Hand getNextHand(){
 		Hand h = hand.listIterator(currHand).next(); 
 		if(h.busted || h.standDone || h.surrender) { // means hand is not valid TODO: replace with attribute
-			if(currHand >= this.hand.size()/2-1){
+			if(currHand >= this.hand.size()-1){
 				currHand = 0;
 				return null;
 			}
 			currHand++; //current hand not valid, increment
+			System.out.println("playing " + (currHand+1) + ((currHand+1)==1 ? "st" :( (currHand+1)==2 ? "nd" : ((currHand+1)==3 ? "rd" : "th"))) + " hand...");
 		}
+		
 		return hand.listIterator(currHand).next();
 	}
 	
@@ -156,17 +160,12 @@ public class Player implements PlayerInterface{
 	
 	//TODO: isto nao devia ser um toString? s� esta a retornar uma textual description
 	@Override
-	public String getHands() {
+	public String getHand() {
 		StringBuilder sb = new StringBuilder();
-		int score=0;
-		int i = 0;
-		for (Hand h : hand){
-			if(this.hand.size() > 1) sb.append("[" + i + "]"); // se tivermos mais que uma mao, mostramos o index desta
-			sb.append(h.toString());
-			score += h.getScore();
-			i++;
-		}
-		sb.append(" (" + score + ")");
+		Hand h = hand.listIterator(currHand).next();
+		if(this.hand.size() > 1) sb.append("[" + (currHand+1) + "] "); // se tivermos mais que uma mao, mostramos o index desta
+		sb.append(h.toString());
+		sb.append(" (" + h.getScore() + ")\n");
 		
 		return sb.toString();
 	}
@@ -185,4 +184,11 @@ public class Player implements PlayerInterface{
 	
 		hand.add(new Hand(null, null,minBet,maxBet));
 	}
+
+	@Override
+	public String toString() {
+		return "player's hand " + getHand();
+	}
+	
+	
 }

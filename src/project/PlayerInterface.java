@@ -2,7 +2,7 @@ package project;
 
 public interface PlayerInterface extends DealerInterface{
 	
-	public void split(Hand h, Shoe s) throws IllegalHandException;
+	public void split(Hand h, Shoe s) throws IllegalHandException,NotEnoughMoneyException;
 	
 	public void insurance(Hand dealerHand) throws IllegalHandException;
 	

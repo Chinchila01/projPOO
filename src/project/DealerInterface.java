@@ -27,7 +27,7 @@ public interface DealerInterface {
 	 */
 	public void stand();
 	
-	public String getHands();
+	public String getHand();
 	
 	public void resetHands(Shoe s);
 }

@@ -25,7 +25,7 @@ public class Dealer implements DealerInterface{
 	/**
 	 * Gets the available hands from the dealer
 	 */
-	public String getHands() {
+	public String getHand() {
 		StringBuilder sb = new StringBuilder();
 		for(Card c : hand.getCards()) {
 			if(c.isTurnedUp)
@@ -47,5 +47,10 @@ public class Dealer implements DealerInterface{
 	public void stand() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public String toString(){
+		return "dealer's hand " + getHand();
 	}
 }

@@ -94,8 +94,8 @@ public abstract class PlayingArea {
 				player.hit(shoe);
 			}
 			
-			System.out.println("dealer's hand " + dealer.getHands());
-			System.out.println("player's hand " + player.getHands());
+			System.out.println(dealer);
+			System.out.println(player);
 			
 			dealDone=true;
 			
@@ -107,7 +107,7 @@ public abstract class PlayingArea {
 			
 			player.hit(shoe);
 			System.out.println("player hits");
-			System.out.println("player's hand" + player.getHands());
+			System.out.println("player's hand " + player.getCurrHand());
 			if(playerCurrHand.busted) {
 				System.out.println("player busts");
 			}
@@ -124,8 +124,11 @@ public abstract class PlayingArea {
 			
 			player.stand();
 			playerCurrHand.standDone=true;
-			System.out.println("player stands");
-			
+			if(player.hand.size() == 1)
+				System.out.println("player stands");
+			else {
+					System.out.println("player stands [" + (player.currHand+1) + "]" );
+			}
 		}
 		
 		if(cmd.equals("i")) {	// insurance
@@ -185,13 +188,15 @@ public abstract class PlayingArea {
 			try{
 				player.split(playerCurrHand, shoe);
 				System.out.println("Player is spliting...");
-				System.out.println("Playing"  + player.hand.size()/2 + "st hand...");
-				System.out.println("Player's hand[" + player.hand.size()/2 + "] " + playerCurrHand);
+				System.out.println("Playing "  + player.hand.size()/2 + "st hand...");
+				System.out.println("Player's hand [" + (player.currHand+1) + "] " + playerCurrHand);
 				return;
 			} catch(IllegalHandException e){
 				System.out.println(e.getMessage());
 				System.out.println("split not available");
 				return;
+			} catch(NotEnoughMoneyException e){
+				System.out.println("split not possible: " + e.getMessage());
 			}
 			
 		}
@@ -332,12 +337,12 @@ public abstract class PlayingArea {
 		Hand dealerCurrHand = dealer.hand;
 		dealerCurrHand.getCards().listIterator(1).next().isTurnedUp = true; //turn hole
 		
-		System.out.println("dealer's hand " + dealer.getHands() + " (" + dealerCurrHand.getScore() + ")");
+		System.out.println("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
 		
 		while(dealerCurrHand.getScore() < 17) { //dealer stands on all 17s
 			dealer.hit(shoe);
 			System.out.println("dealer hits");
-			System.out.println("dealer's hand " + dealer.getHands() + " (" + dealerCurrHand.getScore() + ")");
+			System.out.println("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
 		}
 		
 		if(dealerCurrHand.hasBlackjack) {
