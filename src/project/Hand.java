@@ -37,8 +37,10 @@ public class Hand {
 		cards = new ArrayList<Card>();
 		this.minBet = minBet;
 		this.maxBet = maxBet;
-		if(first != null && second != null){
+		if(first != null){
 			cards.add(first);
+		}
+		if(second != null){
 			cards.add(second);
 		}
 		curBet=0;

@@ -45,7 +45,6 @@ public abstract class PlayingArea {
 		String[] cmdHelper;
 		
 		if(cmd.charAt(0)=='b') {
-			
 			//TODO: assim so vai poder fazer bet na primeira mao, mudar isto
 			if(dealDone==true) throw new IllegalCmdException("b: illegal command");
 			
@@ -70,6 +69,7 @@ public abstract class PlayingArea {
 					System.out.println(e.getMessage());
 				}
 			}
+			this.previousBet = bet;
 			betDone=true;
 		}
 			

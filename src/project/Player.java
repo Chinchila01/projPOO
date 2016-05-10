@@ -44,19 +44,25 @@ public class Player implements PlayerInterface{
 		else{		
 			ListIterator<Card> iterator = h.getCards().listIterator();
 			Card aux = iterator.next();
-			if(!aux.equals(iterator.next())) throw new IllegalHandException("cards are not equal"); // TODO: throw exception if false
+			Card aux2 = iterator.next();
+			if(!aux.equals(aux2)) throw new IllegalHandException("cards are not equal"); // TODO: throw exception if false
 			iterator.remove();//remove last (repeated) card from hand
 			hit(s);//get a card from shoe
 			
 			Hand newHand;
-			newHand = new Hand(aux,null,minBet,maxBet);
+			newHand = new Hand(aux2,null,minBet,maxBet);
 			hand.add(newHand);
 			//temporarily change currHand to new hand
 			currHand = hand.size()-1;
 			hit(s); //Immediately get a new card for newHand
 			currHand = tempIndex; //putting it back
 			newHand.curBet=h.curBet; //set the same bet for newHand TODO: need to remove money from player
-			hand.add(newHand);//add hand to the hands list
+			//hand.add(newHand);//add hand to the hands list
+			
+			// TEMPORARY TO SEE WHAT HAPPENS //
+			for(Hand ha : this.hand){
+				System.out.println(ha);
+			}
 		}
 	}
 	
@@ -153,7 +159,7 @@ public class Player implements PlayerInterface{
 		this.getCurrHand().addCard(s.getNext());
 	}
 	
-	//TODO: isto nao devia ser um toString? só esta a retornar uma textual description
+	//TODO: isto nao devia ser um toString? sï¿½ esta a retornar uma textual description
 	@Override
 	public String getHands() {
 		StringBuilder sb = new StringBuilder();

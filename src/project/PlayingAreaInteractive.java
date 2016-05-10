@@ -24,7 +24,6 @@ public class PlayingAreaInteractive extends PlayingArea{
 	public PlayingAreaInteractive(String[] args) { //TODO: em vez de receber args, devia receber as coisas discriminadas. o main trata dos args
 		
 		super(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Float.parseFloat(args[3]));
-		System.out.println(this.minBet + " " + this.maxBet);
 		handIndex = 0;//initial hand number to be used in hand array index
 		
 		this.shoe = new Shoe(Integer.parseInt(args[4]));
@@ -40,7 +39,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 		
 		//Used to get input from player
 		reader = new Scanner(System.in);
-		reader.useDelimiter("\r\n");
+		reader.useDelimiter("[\r\n/]");
 		
 	}
 	

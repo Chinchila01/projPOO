@@ -166,6 +166,7 @@ public class Shoe {
 		
 	}*/
 	public void shuffle(){
+		System.out.println("Shuffling the shoe...");
 		Collections.shuffle(cards);
 	}
 	 

@@ -50,6 +50,9 @@ public class PlayingAreaDebug extends PlayingArea {
 	public String getCommand() {
 		if(cmdFile.hasNext()) {
 			String cmd = cmdFile.next();
+			if(cmd.equals("b") && cmdFile.hasNextInt()){ //if is a bet and next input is a number, command is everything
+				cmd += " " + cmdFile.next();
+			}
 			System.out.println("-cmd " + cmd);
 			return cmd;
 		} else return "";

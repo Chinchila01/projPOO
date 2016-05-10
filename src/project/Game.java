@@ -16,6 +16,7 @@ public class Game {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		PlayingArea pa = null;
 		/*EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -26,26 +27,32 @@ public class Game {
 				}
 			}
 		});*/
-	
-		/*switch(args[0].charAt(1)) {
+		
+		if(args.length < 1){ // minimum arg size
+			System.out.println("Not enough arguments");
+			System.exit(-1);
+		}
+		
+		switch(args[0].charAt(1)) {
 		case 'i':
-			PlayingAreaInteractive pa = new PlayingAreaInteractive(args);
+			pa = new PlayingAreaInteractive(args);
 			break;
 		case 'd':
-			PlayingAreaDebug pa = new PlayingAreaDebug(args);
+			pa = new PlayingAreaDebug(args);
 			break;
-		case 'd':
-			PlayingAreaSimulation pa = new PlayingAreaSimulation(args);
+		case 's':
+			pa = new PlayingAreaSimulation(args);
 			break;
 		default: System.exit(-1);
-		}*/
-		PlayingAreaDebug pa = new PlayingAreaDebug(args);
+		}
+
+		//PlayingAreaDebug pa = new PlayingAreaDebug(args);
 		Player player = new Player(pa.initialMoney, pa.minBet, pa.maxBet);
 		Dealer dealer = new Dealer(pa.initialMoney, pa.minBet, pa.maxBet);
 		
 		String cmd;
 		
-		System.out.println(pa.shoe);
+		//System.out.println(pa.shoe);
 		
 		while(true) {
 			
