@@ -51,7 +51,6 @@ public class HiLoStrategy {
 		return 0;
 	}
 	
-	//TODO: card type is 'N', etc, mudar para '2', '3', ... 'T', etc
 	
 	public void updateCount(Card newCard, float nbDecksLeft) {
 		
@@ -63,9 +62,11 @@ public class HiLoStrategy {
 	//TODO: in some cases Illustrious18 and Fab4 overlap
 	
 	
-	public char Illustrious18(Hand playerHand, Card dealerCard, boolean canInsure) {
+	public char getStrat(Hand playerHand, Card dealerCard, boolean canInsure) {
 		
-		// Insurance: Insure at +3 or higher. ??? que é que isto quer dizer ????
+		/**
+		 * Illustrious18
+		 */
 		if(canInsure && trueCount>=3) return 'i';
 		// 16vT
 		if(playerHand.getScore() == 16 && dealerCard.getSymbol() == 'T') {
@@ -73,7 +74,11 @@ public class HiLoStrategy {
 		}
 		// 15vT
 		if(playerHand.getScore() == 15 && dealerCard.getSymbol() == 'T') {
-			return (trueCount >= 4 ? 's' : 'h');
+			// Illustrious18 	return (trueCount >= 4 ? 's' : 'h');
+			// Fab4 			return (trueCount >= 0 ? 'u' : '0');
+			if(trueCount>0 && trueCount<3) return 'u';
+			if(trueCount>=4) return 's';
+			return 'h';
 		}
 		// TTv5
 		if(playerHand.cards.iterator().next().getSymbol() == 'T' && playerHand.cards.iterator().next().getSymbol() == 'T' && dealerCard.getSymbol() == '5') {
@@ -136,21 +141,13 @@ public class HiLoStrategy {
 			return (trueCount >= -2 ? 's' : 'h');
 		}
 		
-		// default:
-		return '0';
-	}
-	
-	public char Fab4(Hand playerHand, Card dealerCard) {
-		
+		/**
+		 * Fab4
+		 */
 		// '0' means use basic strategy
-		
 		// 14vT
 		if(playerHand.getScore() == 14 && dealerCard.getSymbol() == 'T') {
 			return (trueCount >= -3 ? 'u' : '0');
-		}
-		// 15vT
-		if(playerHand.getScore() == 15 && dealerCard.getSymbol() == 'T') {
-			return (trueCount >= 0 ? 'u' : '0');
 		}
 		// 15v9
 		if(playerHand.getScore() == 15 && dealerCard.getSymbol() == '9') {
@@ -160,11 +157,12 @@ public class HiLoStrategy {
 		if(playerHand.getScore() == 15 && dealerCard.getSymbol() == 'A') {
 			return (trueCount >= 1 ? 'u' : '0');
 		}
-		
+				
 		
 		// default:
 		return '0';
 	}
+	
 	
 	
 
