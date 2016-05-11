@@ -31,7 +31,8 @@ public class Advisor {	//TODO: so usar BasicStrategy se decks >=4
 		a5.observeCard(c);
 		hls.updateCount(c, decksLeft);
 	}
-
+	
+	//TODO: BasicStrategy usar apenas se numero de decks >= 4
 	public void advise(boolean dealDone,Player player, Card dealerCard){
 			Hand h = player.getCurrHand();
 			boolean canInsure = !h.hitDone && dealDone && !h.standDone;
@@ -45,7 +46,7 @@ public class Advisor {	//TODO: so usar BasicStrategy se decks >=4
 		System.out.println("ace-five\tbet " + a5.adviseBet(lastBet));
 	}
 	
-	//TODO: change soft table
+	
 	private String basicInterpret(boolean dealDone, Player player, String s){
 		if(s.equals("H")) return "hit";
 		if(s.equals("S")) return "stand";

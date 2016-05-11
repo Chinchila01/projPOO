@@ -57,9 +57,7 @@ public class BasicStrategy {
 											{"P", "P", "P", "P", "P", "P", "P", "P", "P", "P"}
 										 };
 	
-	//TODO: throw exception quando passa dos limites da tabela
-	//TODO: nao percorrer a tabela quando o score e baixo (ex: a primeira entrada da tabela hard comeca com o score a 5)
-	
+
 	static public String advise(Hand playerHand, Card dealerCard) {
 		
 		int x, y;

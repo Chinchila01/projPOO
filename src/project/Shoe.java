@@ -60,7 +60,7 @@ public class Shoe {
 	/**
 	 * Constructor for a shoe taken from a shoe file
 	 * 
-	 * @params fis file input stream of the shoefile
+	 * @params shoeFile String of path of shoefile
 	 */
 	public Shoe(String shoefile) throws FileNotFoundException{
 		int nbCards = 0;
@@ -184,6 +184,11 @@ public class Shoe {
 		return this.totalDecks;
 	}
 	
+	/**
+	 * Returns the number of decks remaining. This value is a 
+	 * float in the range [0 totalDecks].
+	 * @return decks remaining
+	 */
 	public float getDecksLeft(){
 		return ((totalDecks*52)-playedCards)/52;
 	}

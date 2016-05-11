@@ -52,8 +52,6 @@ public class Game {
 		
 		String cmd;
 		
-		//System.out.println(pa.shoe);
-		
 		while(true) {
 			
 			while(player.getNextHand() != null) {	// player's turn

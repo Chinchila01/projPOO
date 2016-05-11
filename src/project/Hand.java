@@ -98,6 +98,7 @@ public class Hand {
 	 */
 	public int getScore() {
 		int points=0;
+		//TODO: testar se ha um Ás, se houver e fizer bust, mudar o valor para 1
 		for(Card c : cards) {
 			points += c.getScore();
 		}
