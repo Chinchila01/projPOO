@@ -62,7 +62,7 @@ public class Shoe {
 	 * 
 	 * @params shoeFile String of path of shoefile
 	 */
-	public Shoe(String shoefile) throws FileNotFoundException{
+	public Shoe(String shoefile) throws FileNotFoundException,NotParseableException{
 		int nbCards = 0;
 		Scanner s = new Scanner(new File(shoefile));
 		cards = new ArrayList<Card>();

@@ -11,26 +11,24 @@ public class PlayingAreaSimulation extends PlayingArea {
 	int nbDecksInShoe;
 	int shufflePercentage;
 	int nbShuffles;
-	int strategy;
-	
+	String strategy;
 	int handIndex;
 	int previousBet;
 	public static int minimumBet;
 	
-	public PlayingAreaSimulation(String[] args) {
+	public PlayingAreaSimulation(int minBet, int maxBet, float initialMoney, int nbDecks, int shufflePercent, int nbShuffles, String strat) {
 		//TODO:faltam restriçoes na passagem dos comandos - ver enunciado. 
 		//Muito provavelmente falta tb nos outros modos de jogo
-		super(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
-		if(args.length != 8) {
-			System.out.println("Invalid number of arguments for simulation mode.");
-			System.exit(-1);
-		}
-		this.nbDecksInShoe = Integer.parseInt(args[4]);
-		this.shufflePercentage = Integer.parseInt(args[5]);
-		this.nbShuffles = Integer.parseInt(args[5]);
-		this.strategy = Integer.parseInt(args[6]);
-		
+		super(minBet, maxBet, initialMoney);
+
+		this.nbDecksInShoe = nbDecks;
+		this.shufflePercentage = shufflePercent;
+		this.nbShuffles = nbShuffles;
+		this.strategy = strat;
 		previousBet = minBet;
+		
+		//Creating advisor
+		this.ad = new Advisor(minBet, maxBet, nbDecks, strat);
 	}
 	
 	//TODO: fix, temporary
@@ -46,6 +44,11 @@ public class PlayingAreaSimulation extends PlayingArea {
 	//TODO: fix, temporary
 	public void quit(){
 		System.exit(0);
+	}
+	
+	@Override
+	public void printMessage(String s){
+		//No messages are printed in simulation mode
 	}
 
 }

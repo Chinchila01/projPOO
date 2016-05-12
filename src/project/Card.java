@@ -1,7 +1,5 @@
 package project;
 
-import java.util.Arrays;
-
 /** 
  * This class contains all methods that operate/are related to the Card object.
  * 
@@ -87,7 +85,7 @@ public class Card {
 	 * @return new {@link Card} object
 	 * @param card String depicting card in format [symbol|suit]
 	 */
-	public Card(String card) {
+	public Card(String card) throws NotParseableException{
 		this.score = getScoreFromSymbol(card);
 		if(card.length()==3){
 			this.symbol = 'T';
@@ -107,15 +105,15 @@ public class Card {
 	 * @param symbol char depicting score of card
 	 * @return score according to symbol
 	 */
-	private int getScoreFromSymbol(String symbol) {
+	private int getScoreFromSymbol(String symbol) throws NotParseableException{
 		char cSymbol=0;
 		if(symbol.length() == 2)
 			cSymbol = symbol.charAt(0);
 		if(symbol.length() == 3)	// Special case for 10
 			cSymbol = 'T';
+		else throw new NotParseableException("symbol received is too long");
 		return scores[(new String(symbols)).indexOf(cSymbol)];
 	}
-	//TODO: mandar excepao quando string.length()>3
 
 	/**
 	 * Returns the suit of the {@link Card} object, according to {@link Card#suits}.

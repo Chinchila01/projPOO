@@ -1,5 +1,7 @@
 package project;
 
+import java.util.Arrays;
+
 /**
  * @author Filipe Correia
  * @author Helder Duarte
@@ -59,23 +61,23 @@ public abstract class PlayingArea {
 				player.addPlayerMoney(-bet);
 				playerCurrHand.addBet(bet);
 			}catch(NotEnoughMoneyException e){
-				System.out.println("betting not possible: " + e.getMessage());
+				printMessage("betting not possible: " + e.getMessage());
 			}catch(IllegalCmdException e){
-				System.out.println("betting not possible: " + e.getMessage());
+				printMessage("betting not possible: " + e.getMessage());
 				try{
 					player.addPlayerMoney(bet);
 				}catch(NotEnoughMoneyException ex){
-					System.out.println("bet reversing not possible, please restart the game");
-					System.out.println(e.getMessage());
+					printMessage("bet reversing not possible, please restart the game");
+					printMessage(e.getMessage());
 				}
 			}
-			System.out.println("Player is betting "+bet);
+			printMessage("Player is betting "+bet);
 			this.previousBet = bet;
 			betDone=true;
 		}
 			
 		if(cmd.equals("$")) {	// prints current player balance
-			System.out.println("Current balance: " + player.getPlayerMoney());
+			printMessage("Current balance: " + player.getPlayerMoney());
 		}
 			
 		if(cmd.equals("d")) {	// deal
@@ -94,8 +96,8 @@ public abstract class PlayingArea {
 				ad.observeCard(player.hit(shoe),shoe.getDecksLeft());
 			}
 			
-			System.out.println(dealer);
-			System.out.println(player);
+			printMessage(dealer);
+			printMessage(player);
 			
 			dealDone=true;
 			
@@ -106,10 +108,10 @@ public abstract class PlayingArea {
 			if(dealDone==false) throw new IllegalCmdException("h: illegal command");
 			
 			ad.observeCard(player.hit(shoe),shoe.getDecksLeft());
-			System.out.println("player hits");
-			System.out.println(player);
+			printMessage("player hits");
+			printMessage(player);
 			if(playerCurrHand.busted) {
-				System.out.println("player busts" + ((player.currHand > 0) ? (" [" + (player.currHand+1) + "]"):""));
+				printMessage("player busts" + ((player.currHand > 0) ? (" [" + (player.currHand+1) + "]"):""));
 			}
 			playerCurrHand.hitDone=true;
 		}
@@ -125,9 +127,9 @@ public abstract class PlayingArea {
 			player.stand();
 			playerCurrHand.standDone=true;
 			if(player.hand.size() == 1)
-				System.out.println("player stands");
+				printMessage("player stands");
 			else {
-					System.out.println("player stands [" + (player.currHand+1) + "]" );
+				printMessage("player stands [" + (player.currHand+1) + "]" );
 			}
 		}
 		
@@ -139,15 +141,15 @@ public abstract class PlayingArea {
 				player.addPlayerMoney(-playerCurrHand.curBet);
 				player.insurance(dealer.hand);
 			}catch(NotEnoughMoneyException e){
-				System.out.println("insurance not possible: " + e.getMessage());
+				printMessage("insurance not possible: " + e.getMessage());
 				return;
 			}catch(IllegalHandException e){
-				System.out.println("insurance not possible: " + e.getMessage());
+				printMessage("insurance not possible: " + e.getMessage());
 				try{
 					player.addPlayerMoney(playerCurrHand.curBet);
 					return;
 				}catch(NotEnoughMoneyException e1){
-					System.out.println(e1.getMessage());
+					printMessage(e1.getMessage());
 					return;
 				}
 			}
@@ -163,15 +165,15 @@ public abstract class PlayingArea {
 				player.addPlayerMoney(money);
 				return;
 			} catch(IllegalHandException e){
-				System.out.println("surrender not possible: " + e.getMessage());
+				printMessage("surrender not possible: " + e.getMessage());
 				return;
 			} catch(NotEnoughMoneyException e){
-				System.out.println("surrender not possible: " + e.getMessage());
+				printMessage("surrender not possible: " + e.getMessage());
 				try{
 					player.addPlayerMoney(-money);
 					return;
 				}catch(NotEnoughMoneyException ex){
-					System.out.println(e.getMessage());
+					printMessage(e.getMessage());
 					return;
 				}
 			}
@@ -186,16 +188,16 @@ public abstract class PlayingArea {
 			
 			try{
 				player.split(playerCurrHand, shoe);
-				System.out.println("Player is spliting...");
-				System.out.println("Playing "  + player.hand.size()/2 + "st hand...");
-				System.out.println("Player's hand [" + (player.currHand+1) + "] " + playerCurrHand);
+				printMessage("Player is spliting...");
+				printMessage("Playing "  + player.hand.size()/2 + "st hand...");
+				printMessage("Player's hand [" + (player.currHand+1) + "] " + playerCurrHand);
 				return;
 			} catch(IllegalHandException e){
-				System.out.println(e.getMessage());
-				System.out.println("split not available");
+				printMessage(e.getMessage());
+				printMessage("split not available");
 				return;
 			} catch(NotEnoughMoneyException e){
-				System.out.println("split not possible: " + e.getMessage());
+				printMessage("split not possible: " + e.getMessage());
 			}
 			
 		}
@@ -206,28 +208,32 @@ public abstract class PlayingArea {
 			
 			try {
 				player.doubleBet();
-				System.out.println("bet doubled");
+				printMessage("bet doubled");
 				return;
 			} catch (IllegalHandException e) {
-				System.out.println("doubling not possible: " + e.getMessage());
+				printMessage("doubling not possible: " + e.getMessage());
 				return;
 			} catch (NotEnoughMoneyException e) {
-				System.out.println("doubling not possible: " + e.getMessage());
+				printMessage("doubling not possible: " + e.getMessage());
 				return;
 			}
 		}
-			
+			//TODO: DONT FORGET ABOUT 10 score
 		if(cmd.equals("ad")) {	// advice
-			//TODO
-			if(!dealDone) ad.advise(previousBet);
-			else ad.advise(dealDone, player, dealer.hand.cards.iterator().next()); // TODO: add getter for dealer card
+			if(!dealDone) System.out.println("bet\t " + ad.advise(previousBet));
+			else {
+				String[] strategies = ad.advise(dealDone, player, dealer.hand.cards.iterator().next());
+				
+				if(!strategies[0].equals("")) printMessage("basic\t" + ad.basicInterpret(dealDone, player, strategies[0]));
+				if(!strategies[1].equals("")) printMessage("hilo\t" + ((strategies[1].length() < 2) ? ad.hlInterpret(strategies[1].charAt(0)) : ad.basicInterpret(dealDone, player, strategies[1])));
+			}
 		}
 			
 		if(cmd.equals("st")) {	// statistics
 			try{
 				stat.presentStatistics();
 			}catch(NoPlayedRoundsException e){
-				System.out.println("statistics unavailable: " + e.getMessage());
+				printMessage("statistics unavailable: " + e.getMessage());
 			}
 		}
 		
@@ -248,7 +254,7 @@ public abstract class PlayingArea {
 			
 			//TODO: escolher valor do as
 			if(eachHand.surrender){
-				System.out.println("player's current balance is " + player.getPlayerMoney());
+				printMessage("player's current balance is " + player.getPlayerMoney());
 			}
 			// O jogador tem um blackjack
 			else if(eachHand.hasBlackjack){
@@ -258,17 +264,17 @@ public abstract class PlayingArea {
 						try{
 							player.addPlayerMoney(eachHand.curBet); //the player gets twice the current money
 						}catch(NotEnoughMoneyException e){
-							System.out.println(e.getMessage());
+							printMessage(e.getMessage());
 						}
 					}
 					try{
 						player.addPlayerMoney(eachHand.curBet);
 					}catch(NotEnoughMoneyException e){
-						System.out.println(e.getMessage());
+						printMessage(e.getMessage());
 					}
 					
-					System.out.println("blackjack!!");
-					System.out.println("player pushes and his current balance is " + player.getPlayerMoney());
+					printMessage("blackjack!!");
+					printMessage("player pushes and his current balance is " + player.getPlayerMoney());
 					// Update statistics
 					stat.addPush();
 					stat.addDealerBJ();
@@ -277,52 +283,52 @@ public abstract class PlayingArea {
 					try{
 						player.addPlayerMoney((float)2.5*eachHand.curBet);
 					} catch(NotEnoughMoneyException e){
-						System.out.println(e.getMessage());
+						printMessage(e.getMessage());
 					}
-					System.out.println("player wins with a blackjack and his current balance is " + player.getPlayerMoney());
+					printMessage("player wins with a blackjack and his current balance is " + player.getPlayerMoney());
 					stat.addWin();
 				}
 			}
 			else if(eachHand.busted){
-				System.out.println("player loses and his current balance is " + player.getPlayerMoney());
+				printMessage("player loses and his current balance is " + player.getPlayerMoney());
 				stat.addLoss();
 			}
 			else if(dealer.hand.busted) {	// dealer Bust
 				try{
 					player.addPlayerMoney(2*eachHand.curBet);
 				}catch(NotEnoughMoneyException e){
-					System.out.println(e.getMessage());
+					printMessage(e.getMessage());
 				}
-				System.out.println("player wins and his current balance is " + player.getPlayerMoney());
+				printMessage("player wins and his current balance is " + player.getPlayerMoney());
 				stat.addWin();
 			}
 			else if(dealer.hand.hasBlackjack && eachHand.insured){
 				try{
 					player.addPlayerMoney(eachHand.curBet);
 				}catch(NotEnoughMoneyException e){
-					System.out.println(e.getMessage());
+					printMessage(e.getMessage());
 				}
 			}
 			else if(dealer.hand.getScore() > eachHand.getScore()) { // player bust ou dealer tem mais pontos
-				System.out.println("player loses and his current balance is " + player.getPlayerMoney());
+				printMessage("player loses and his current balance is " + player.getPlayerMoney());
 				stat.addLoss();
 			}
 			else if(eachHand.getScore() == dealer.hand.getScore()){
 				try{
 					player.addPlayerMoney(eachHand.curBet);
 				}catch(NotEnoughMoneyException e){
-					System.out.println(e.getMessage());
+					printMessage(e.getMessage());
 				}
-				System.out.println("player pushes and his current balance is " + player.getPlayerMoney());
+				printMessage("player pushes and his current balance is " + player.getPlayerMoney());
 				stat.addPush();
 			}
 			else { //player tem mais pontos
 				try{
 					player.addPlayerMoney(2*eachHand.curBet);
 				}catch(NotEnoughMoneyException e){
-					System.out.println(e.getMessage());
+					printMessage(e.getMessage());
 				}
-				System.out.println("player wins and his current balance is " + player.getPlayerMoney());
+				printMessage("player wins and his current balance is " + player.getPlayerMoney());
 				stat.addWin();
 			}
 		}
@@ -337,19 +343,19 @@ public abstract class PlayingArea {
 		Hand dealerCurrHand = dealer.hand;
 		dealerCurrHand.getCards().listIterator(1).next().isTurnedUp = true; //turn hole
 		
-		System.out.println("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
+		printMessage("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
 		
 		while(dealerCurrHand.getScore() < 17) { //dealer stands on all 17s
 			ad.observeCard(dealer.hit(shoe),shoe.getDecksLeft());
-			System.out.println("dealer hits");
-			System.out.println("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
+			printMessage("dealer hits");
+			printMessage("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
 		}
 		
 		if(dealerCurrHand.hasBlackjack) {
-			System.out.println("blackjack!!");
+			printMessage("blackjack!!");
 		}
 		
-		System.out.println("dealer stands");
+		printMessage("dealer stands");
 	}
 	
 	/**
@@ -366,7 +372,7 @@ public abstract class PlayingArea {
 		dealDone=false;
 		betDone=false;
 
-		System.out.println("Starting a new round");
+		printMessage("Starting a new round");
 	}
 	
 	/**
@@ -379,11 +385,27 @@ public abstract class PlayingArea {
 	 * Detects if there is another command waiting to be played
 	 * @return true if there is another command, false otherwise
 	 */
-	public abstract boolean hasNextCommand();
+	public boolean hasNextCommand(){
+		return true;
+	}
 	
 	/**
 	 * quits the game
 	 */
 	public abstract void quit();
+	
+	/**
+	 * Prints a message
+	 */
+	public void printMessage(String s){
+		System.out.println(s);
+	}
+	
+	/**
+	 * Prints an object's textual description
+	 */
+	public void printMessage(Object o){
+		printMessage(o.toString());
+	}
 
 }

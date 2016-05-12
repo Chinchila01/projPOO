@@ -116,7 +116,6 @@ public class Deck {
 	 * @see Collections.shuffle 
 	 */
 	public void shuffle(){
-		//TODO:fazer shuffle do shoe em vez dos decks
 		Collections.shuffle(cards);
 	}
 	

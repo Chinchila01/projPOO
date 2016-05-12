@@ -17,39 +17,27 @@ public class PlayingAreaInteractive extends PlayingArea{
 	int shufflePercentage;
 	int handIndex;
 	public int previousBet;
-	//public int minimumBet;
 	private Scanner reader;
 	
-	public PlayingAreaInteractive(String[] args) { //TODO: em vez de receber args, devia receber as coisas discriminadas. o main trata dos args
+	public PlayingAreaInteractive(int minBet, int maxBet, float initialMoney, int nbDecks, int shufflePercent) {
+		super(minBet, maxBet, initialMoney);
 		
-		super(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Float.parseFloat(args[3]));
 		handIndex = 0;//initial hand number to be used in hand array index
 		
-		this.shoe = new Shoe(Integer.parseInt(args[4]));
+		this.shoe = new Shoe(nbDecks);
 		
-		if(args.length != 6) {
-			System.out.println("Invalid number of arguments for interactive mode.");
-			System.out.println("max-bet min-bet balance shoe shuffle");
-			System.exit(-1);
-		}
-		
-		//this.nbDecksInShoe = Integer.parseInt(args[4]);
-		this.shufflePercentage = Integer.parseInt(args[5]);	
+		this.shufflePercentage = shufflePercent;	
 		
 		//Used to get input from player
 		reader = new Scanner(System.in);
 		reader.useDelimiter("[\r\n/]");
 		
-		ad = new Advisor(this.minBet,this.maxBet);
+		ad = new Advisor(this.minBet,this.maxBet,nbDecks);
 		
 	}
 	
 	public String getCommand(){
 		return reader.next();
-	}
-	
-	public boolean hasNextCommand(){
-		return reader.hasNext();
 	}
 	
 	public void quit(){
@@ -64,7 +52,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 		shoe.shuffle(shufflePercentage);
 	}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		
 		PlayingAreaInteractive pa = new PlayingAreaInteractive(args);
 		Player player = new Player(pa.initialMoney, pa.minBet, pa.maxBet);
@@ -105,5 +93,5 @@ public class PlayingAreaInteractive extends PlayingArea{
 		}//end_rounds
 		
 	}//end_main
-
+*/
 }

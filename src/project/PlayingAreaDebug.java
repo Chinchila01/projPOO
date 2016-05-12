@@ -18,26 +18,24 @@ public class PlayingAreaDebug extends PlayingArea {
 	int previousBet;
 	public static int minimumBet;
 	
-	public PlayingAreaDebug(String[] args) {
+	public PlayingAreaDebug(int minBet, int maxBet, float initialMoney, String shoeFile, String inCmdFile) {
 		
 		
-		super(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
-		if(args.length != 6) {
-			System.out.println("Invalid number of arguments for debug mode.");
-			System.out.println("max-bet min-bet balance shoe-file shuffle-file");
-			System.exit(-1);
-		}
+		super(minBet, maxBet, initialMoney);
 		
 		try{
-			this.shoe = new Shoe(args[4]);  //create shoe from shoe file
+			this.shoe = new Shoe(shoeFile);  //create shoe from shoe file
 		}catch(FileNotFoundException e){
 			System.out.println("Shoe file not found: " + e.getMessage());
+			System.exit(1);
+		}catch(NotParseableException e){
+			System.out.println("Shoe file badly formatted: " + e.getMessage());
 			System.exit(1);
 		}
 		
 		//this.shoeFile = args[4];
 		try {
-			cmdFile = new Scanner(new File(args[5])); //import cmd file	
+			cmdFile = new Scanner(new File(inCmdFile)); //import cmd file	
 		}catch(FileNotFoundException e){
 			System.out.println("Command file not found: " + e.getMessage());
 			System.exit(1);
@@ -45,10 +43,9 @@ public class PlayingAreaDebug extends PlayingArea {
 		
 		previousBet = minBet;
 		
-		ad = new Advisor(minBet,maxBet);
+		ad = new Advisor(minBet,maxBet,shoe.getNbDecks());
 	}
 	
-	//TODO: fix,temporary
 	public String getCommand() throws NoMoreCmdsException{
 		if(cmdFile.hasNext()) {
 			String cmd = cmdFile.next();
@@ -60,16 +57,9 @@ public class PlayingAreaDebug extends PlayingArea {
 		} else throw new NoMoreCmdsException();
 	}
 	
-	//TODO: Fix, temporary
-	public boolean hasNextCommand(){
-		return false;
-	}
-	
-	//TODO: fix, temporary
 	public void quit(){
+		cmdFile.close();
 		System.exit(0);
-	}
-	
-	
+	}	
 
 }
