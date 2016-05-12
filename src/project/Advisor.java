@@ -28,7 +28,7 @@ public class Advisor {
 		a5 = new AceFiveStrategy(minBet, maxBet);
 		hls = new HiLoStrategy();
 		useBasicStrat = (nbDecks >= 4); //use basic strategy if shoeSize >= 4
-		useHiLo = true;
+		useHiLo = useBasicStrat;
 		useAF = true;
 		stdStratBet = minBet;
 		this.minBet = minBet;
@@ -67,7 +67,7 @@ public class Advisor {
 			//String hlStrat = (useBasicStrat && useHiLo) ? ((hlStratChar == '0') ? basicStrat : hlInterpret(hlStratChar)) : "";
 			
 			String basicStrat = (useBasicStrat) ? BasicStrategy.advise(h,dealerCard) : "";
-			String hlStrat = (useBasicStrat && useHiLo) ? ((hlStratChar == '0') ? basicStrat : String.valueOf(hlStratChar)) : "";
+			String hlStrat = (useHiLo) ? ((hlStratChar == '0') ? basicStrat : String.valueOf(hlStratChar)) : "";
 			
 			
 			String[] str = new String[2];
@@ -82,6 +82,23 @@ public class Advisor {
 		
 		if(useAF) return String.valueOf(a5.adviseBet(lastBet));
 		else return String.valueOf(stdStratBet);
+	}
+	
+	public String cmdInterpret(boolean dealDone, String[] s){
+		String str = (useBasicStrat) ? s[0]:s[1];
+		
+		if(str.equals("hit")) return "h";
+		if(str.equals("stand")) return "s";
+		if(str.equals("split")) return "p";
+		if(str.equals("double")) return "2";
+		if(str.equals("surrender")) return "u";
+		if(str.equals("insurance")) return "i";
+		
+		return "";
+	}
+	
+	public String betInterpret(String s){
+		return "";
 	}
 	
 	
