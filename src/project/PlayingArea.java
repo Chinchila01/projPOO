@@ -227,7 +227,7 @@ public abstract class PlayingArea {
 				String[] strategies = ad.advise(dealDone, player, dealer.hand.cards.iterator().next());
 				
 				if(!strategies[0].equals("")) printMessage("basic\t" + ad.basicInterpret(dealDone, player, strategies[0]));
-				if(!strategies[1].equals("")) printMessage("hilo\t" + ((strategies[1].length() < 2) ? ad.hlInterpret(strategies[1].charAt(0)) : ad.basicInterpret(dealDone, player, strategies[1])));
+				if(!strategies[1].equals("")) printMessage("hilo\t" + ((strategies[1].length() < 2) ? ad.hlInterpret(dealDone,player,strategies[1]) : ad.basicInterpret(dealDone, player, strategies[1])));
 			}
 		}
 			
@@ -342,6 +342,8 @@ public abstract class PlayingArea {
 				ad.updateStdStrat(false);
 			}
 		}
+		
+		stat.setBalance(player.getPlayerMoney());
 	}
 	
 	/**

@@ -9,6 +9,7 @@ public class Statistics {
 	
 	public Statistics(double initBalance){
 		this.initBalance = initBalance;
+		this.balance = initBalance;
 	}
 	
 	public void setBalance(double balance){

@@ -75,7 +75,7 @@ public class Advisor {
 			//String hlStrat = (useBasicStrat && useHiLo) ? ((hlStratChar == '0') ? basicStrat : hlInterpret(hlStratChar)) : "";
 			
 			String basicStrat = (useBasicStrat) ? BasicStrategy.advise(h,dealerCard) : "";
-			String hlStrat = (useHiLo) ? ((hlStratChar == '0') ? basicStrat : String.valueOf(hlStratChar)) : "";
+			String hlStrat = (useHiLo) ? ((hlStratChar == '0') ? BasicStrategy.advise(h,dealerCard) : String.valueOf(hlStratChar)) : "";
 			
 			
 			String[] str = new String[2];
@@ -93,7 +93,7 @@ public class Advisor {
 	}
 	
 	public String cmdInterpret(boolean dealDone, Player player, String[] s){
-		String str = (useBasicStrat) ? this.basicInterpret(dealDone, player, s[0]) : this.hlInterpret(s[1].charAt(0));
+		String str = (useBasicStrat) ? this.basicInterpret(dealDone, player, s[0]) : this.hlInterpret(dealDone,player,s[1]);
 		
 		if(str.equals("hit")) return "h";
 		if(str.equals("stand")) return "s";
@@ -131,7 +131,8 @@ public class Advisor {
 		else return s;
 	}
 	
-	public String hlInterpret(char hlStrat){
+	public String hlInterpret(boolean dealDone, Player player, String hlStrats){
+		char hlStrat = (hlStrats.length() == 1) ? hlStrats.charAt(0) : '0';
 		switch(hlStrat){
 			case 's':
 			case 'S': return "stand";
@@ -144,7 +145,7 @@ public class Advisor {
 			case 'i': return "insurance";
 		}
 		
-		return "0";
+		return basicInterpret(dealDone,player,hlStrats);
 	}
 	
 	public void updateStdStrat(boolean playerLost){
