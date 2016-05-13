@@ -30,7 +30,13 @@ public class PlayingAreaSimulation extends PlayingArea {
 		
 		//Creating advisor
 		this.ad = new Advisor(minBet, maxBet, nbDecks, strat);
-		this.shoe = new Shoe(nbDecks);
+		
+		try{
+			this.shoe = new Shoe(nbDecks);
+		}catch(IllegalDeckNumberException e){
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
 	}
 	
 	public String getCommand(){
@@ -64,7 +70,11 @@ public class PlayingAreaSimulation extends PlayingArea {
 	public void prepareNextRound(){
 		super.prepareNextRound();
 		//Shuffle checking is needed in this mode
-		if(shoe.shuffle(shufflePercentage)) shufflesPlayed++;
+		if(shoe.shuffle(shufflePercentage)) {
+			shufflesPlayed++;
+			//reset strategies
+			ad.resetStrats();
+		}
 		betDone = false;
 	}
 

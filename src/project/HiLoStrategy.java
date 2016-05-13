@@ -165,7 +165,10 @@ public class HiLoStrategy {
 		return '0';
 	}
 	
-	
+	public void reset(){
+		runningCount = 0;
+		trueCount = 0;
+	}
 	
 
 }

@@ -153,4 +153,14 @@ public class Advisor {
 		if(stdStratBet < minBet) stdStratBet = minBet;
 		if(stdStratBet > maxBet) stdStratBet = maxBet;
 	}
+	
+	public void resetStrats(){
+		resetStdStrat();
+		if(useAF) a5.reset();
+		if(useHiLo) hls.reset();
+	}
+	
+	public void resetStdStrat(){
+		stdStratBet = minBet;
+	}
 }

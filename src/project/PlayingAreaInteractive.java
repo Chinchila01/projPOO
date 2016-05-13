@@ -24,7 +24,12 @@ public class PlayingAreaInteractive extends PlayingArea{
 		
 		handIndex = 0;//initial hand number to be used in hand array index
 		
-		this.shoe = new Shoe(nbDecks);
+		try{
+			this.shoe = new Shoe(nbDecks);
+		}catch(IllegalDeckNumberException e){
+			printMessage(e.getMessage());
+			System.exit(1);
+		}
 		
 		this.shufflePercentage = shufflePercent;	
 		
@@ -49,7 +54,10 @@ public class PlayingAreaInteractive extends PlayingArea{
 	public void prepareNextRound(){
 		super.prepareNextRound();
 		//Shuffle checking is needed in this mode
-		shoe.shuffle(shufflePercentage);
+		if(shoe.shuffle(shufflePercentage)){
+			//reset strategies
+			ad.resetStrats();
+		}
 	}
 
 }

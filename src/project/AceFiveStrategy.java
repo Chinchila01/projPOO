@@ -37,5 +37,9 @@ public class AceFiveStrategy {
 		// Should never reach here
 		return -1;
 	}
+	
+	public void reset(){
+		count = 0;
+	}
 
 }

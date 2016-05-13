@@ -74,7 +74,7 @@ public abstract class PlayingArea {
 				}
 			}
 			printMessage("Player is betting "+bet);
-			this.previousBet = bet;
+			this.previousBet = playerCurrHand.curBet;
 			betDone=true;
 		}
 			
@@ -382,8 +382,8 @@ public abstract class PlayingArea {
 		dealer.resetHands(shoe);
 		
 		dealDone=false;
-		betDone=false;
-
+		betDone=false;		
+		
 		printMessage("Starting a new round");
 	}
 	

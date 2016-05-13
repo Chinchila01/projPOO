@@ -31,20 +31,19 @@ public class Shoe {
 	 * @param n is the number of decks in the deck array. Must be between 2 and 8
 	 */
 	//TODO: add exception in case  n<2 or n>8
-	public Shoe(int n){
+	public Shoe(int n) throws IllegalDeckNumberException{
 		cards = new ArrayList<Card>();
-		if(n >= 2 && n <= 8){
-			this.totalDecks = n;
-			//this.decks = new Deck[totalDecks];
-			cards.addAll((new Deck()).cards);
-			shuffle();
-		}
+		if(n < 2 || n > 8) throw new IllegalDeckNumberException();
+		this.totalDecks = n;
+		//this.decks = new Deck[totalDecks];
+		cards.addAll((new Deck()).cards);
+		shuffle();
 	}
 	
 	/**
 	 * Default no-arg constructor - defaults to 4 decks
 	 */
-	public Shoe(){
+	public Shoe() throws IllegalDeckNumberException{
 		this(4);
 	}
 	

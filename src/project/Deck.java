@@ -1,7 +1,6 @@
 package project;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.ListIterator;
 
 /** Deck Class
@@ -55,68 +54,42 @@ public class Deck {
 	 * @author João Vieira
 	 */
 	public Deck(){
-		//nCardsPerValue = new int[13];
-		//nCardsPerSuit = new int[4];
 		cards = new ArrayList<Card>();
 		//Creating number cards
 		for(int i = 0; i < 8; i++){
 			for(int j= 0; j < suits.length; j++){
 				cards.add(new Card(Card.suits[j],Card.symbols[i],i+2));
-				//nCardsPerValue[i-1] += 1;
-				//nCardsPerSuit[j] += 1;
 				total++;
 			}
 		}
 		//Creating tens
 		for(int j = 0; j < suits.length; j++){
-				cards.add(new Card(Card.suits[j],Card.symbols[8],11)); 
-				//nCardsPerValue[0] += 1; 
-				//nCardsPerSuit[j] += 1;
+				cards.add(new Card(Card.suits[j],Card.symbols[8],10)); 
 				total++;
 		}
 		//Creating jacks
 		for(int j = 0; j < suits.length; j++){
 			cards.add(new Card(Card.suits[j],Card.symbols[9],10)); 
-			//nCardsPerValue[10] += 1; 
-			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating queens
 		for(int j = 0; j < suits.length; j++){
 			cards.add(new Card(Card.suits[j],Card.symbols[10],10));
-			//nCardsPerValue[11] += 1;
-			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating kings
 		for(int j = 0; j < suits.length; j++){
 			cards.add(new Card(Card.suits[j],Card.symbols[11],10));
-			//nCardsPerValue[12] += 1;
-			//nCardsPerSuit[j] += 1;
 			total++;
 		}
 		//Creating aces
 		for(int j = 0; j < suits.length; j++){
 				cards.add(new Card(Card.suits[j],Card.symbols[12],11)); 
-				//nCardsPerValue[0] += 1; 
-				//nCardsPerSuit[j] += 1;
 				total++;
 		}
-		//Shuffling
-		shuffle();
+		
 		isEmpty = false;
 		isFull  = true;
-	}
-	
-	/**
-	 * Uses the {@link Collections.shuffle} method to shuffle the {@link Shoe}
-	 * 
-	 * @return void
-	 * @see Deck
-	 * @see Collections.shuffle 
-	 */
-	public void shuffle(){
-		Collections.shuffle(cards);
 	}
 	
 	/**
@@ -175,20 +148,6 @@ public class Deck {
 	public int getTotal(){
 		return total;
 	}
-	/*
-	public boolean validate(Card c){
-		switch(c.getSymbol()) {
-		case 'N': if(nCardsPerValue[c.getScore()] == 4) return false; break;
-		case 'K': if(nCardsPerValue[12] == 4) return false; break;
-		case 'Q': if(nCardsPerValue[11] == 4) return false; break;
-		case 'J': if(nCardsPerValue[10] == 4) return false; break;
-		default: return false;
-		}
-		
-		if(nCardsPerSuit[c.getSuit()] == 13) return false;
-		
-		return true;
-	}*/
 	
 	public String toString(){
 		ListIterator<Card> it = cards.listIterator();
