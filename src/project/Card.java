@@ -109,7 +109,7 @@ public class Card {
 		char cSymbol=0;
 		if(symbol.length() == 2)
 			cSymbol = symbol.charAt(0);
-		if(symbol.length() == 3)	// Special case for 10
+		else if(symbol.length() == 3)	// Special case for 10
 			cSymbol = 'T';
 		else throw new NotParseableException("symbol received is too long");
 		return scores[(new String(symbols)).indexOf(cSymbol)];
