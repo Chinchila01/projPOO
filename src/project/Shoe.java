@@ -30,15 +30,6 @@ public class Shoe {
 	 * Constructor for a Shoe of n decks
 	 * @param n is the number of decks in the deck array. Must be between 2 and 8
 	 */
-	/*public Shoe(int n){
-		if(n >= 2 && n <= 8){
-			this.totalDecks = n;
-			this.decks = new Deck[totalDecks];
-			for(int i = 0; i < this.totalDecks; i++) this.decks[i] = new Deck();
-			this.currentDeck = 0;
-			shuffle();
-		}
-	}*/ 
 	//TODO: add exception in case  n<2 or n>8
 	public Shoe(int n){
 		cards = new ArrayList<Card>();
@@ -46,8 +37,8 @@ public class Shoe {
 			this.totalDecks = n;
 			//this.decks = new Deck[totalDecks];
 			cards.addAll((new Deck()).cards);
+			shuffle();
 		}
-		shuffle();
 	}
 	
 	/**
@@ -78,11 +69,6 @@ public class Shoe {
 	 * Gets the next available card from the shoe
 	 * @return next available card from the shoe
 	 */
-	/*public Card getNext(){
-		Card aux = decks[currentDeck].getNext();
-		if(decks[currentDeck].isEmpty()) currentDeck++;
-		return aux;
-	}*/
 	public Card getNext(){
 		return cards.remove(0);
 	}
@@ -91,41 +77,16 @@ public class Shoe {
 	 * Adds a card to the bottom of the shoe
 	 * @param c card to add to the bottom of the shoe
 	 */
-	/*public void addLast(Card c){
-		Card aux;
-		Card aux2 = c;
-		
-		//if last deck is full we need to move the first card to the next deck and add at the last deck
-		if(decks[totalDecks-1].isFull()){
-			for(int i = totalDecks-1; i > 0; i--){
-				if(decks[i].isFull()){
-					aux = decks[i].getNext();
-					decks[i].addLast(aux2);
-					aux2 = aux;
-				}
-			}
-			decks[0].addLast(aux2);
-		}
-		else decks[totalDecks-1].addLast(c);
-		playedCards++; //number of cards in shoe that were already played increases
-	}*/
 	public void addLast(Card c){
+		playedCards++;
 		cards.add(c);
 	}
 	
 	public void addLast(ArrayList<Card> ca){
+		playedCards += ca.size();
 		cards.addAll(ca);
 	}
 	
-	/*
-	@Override
-	public String toString(){
-		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < this.totalDecks; i++){
-			sb.append(decks[i].toString());
-		}
-		return sb.toString();
-	}*/
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
@@ -137,36 +98,13 @@ public class Shoe {
 	 * Returns whether the shoe is full (all the decks are full)
 	 * @return isFull
 	 */
-	/*
-	public boolean isFull(){
-		return decks[0].isFull();
-	}
-	*/
 	public boolean isFull(){
 		return (cards.size() == 52*totalDecks);
 	}
 	
 	/**
-	 * Shuffles the decks in the shoe
+	 * Shuffles the shoe
 	 */
-	//TODO: solucao temporaria. Acrescentar metodo getTotal no Deck.
-	//		Usar o Deck apenas como classe utilitaria, i.e., no Shoe nao ter Decks
-	//		mas sim um ArayList de Cards, usar o Deck apenas para gerar as cards iniciais.
-	/*public void shuffle() {
-		
-		int totalCards = 0;
-		for(int i=0; i<totalDecks; i++) {
-			totalCards += decks[i].getTotal();
-		}
-		
-		ArrayList<Card> cardsToShuffle = new ArrayList<Card>(totalCards);
-		for(int i=0; i<totalDecks; i++) {
-			cardsToShuffle.addAll(decks[i].cards);
-		}
-		System.out.println("shuffling the shoe...");
-		Collections.shuffle(cardsToShuffle);
-		
-	}*/
 	public void shuffle(){
 		System.out.println("Shuffling the shoe...");
 		Collections.shuffle(cards);
@@ -176,8 +114,14 @@ public class Shoe {
 	 * Shuffles the decks in the shoe if the percentage of cards played is higher than the percentage given as a parameter
 	 * @param shufflePercentage percentage of played shoe required to shuffle the deck 
 	 */
-	public void shuffle(int shufflePercentage){
-		if(playedCards/(totalDecks*52) > shufflePercentage || playedCards/(totalDecks*52) == 100) shuffle();
+	public boolean shuffle(int shufflePercentage){
+		
+		if(100.0*playedCards/(totalDecks*52) > shufflePercentage || 100.0*playedCards/(totalDecks*52) == 100) {
+			shuffle();
+			playedCards = 0;
+			return true;
+		}
+		return false;
 	}
 	
 	public int getNbDecks(){

@@ -87,14 +87,12 @@ public class Game {
 		}
 
 		//PlayingAreaDebug pa = new PlayingAreaDebug(args);
-		Player player = new Player(pa.initialMoney, pa.minBet, pa.maxBet);
-		Dealer dealer = new Dealer(pa.initialMoney, pa.minBet, pa.maxBet);
 		
 		String cmd;
 		
 		while(pa.hasNextCommand()) {
 			
-			while(player.getNextHand() != null) {	// player's turn
+			while(pa.player.getNextHand() != null) {	// player's turn
 				cmd = "";
 				while(cmd.equals("")){
 					try{
@@ -106,20 +104,20 @@ public class Game {
 				}
 				
 				try {
-					pa.executePlayerAction(cmd, player, dealer);
+					pa.executePlayerAction(cmd);
 				} catch (IllegalCmdException e) {
 					System.out.println(e.getMessage());
 				}
 			}//end_player_turn
 			
 			//dealer turn
-			pa.dealerTurn(dealer);
+			pa.dealerTurn();
 			
 			//payout time
-			pa.payOut(player, dealer);
+			pa.payOut();
 			
 			//reset hands
-			pa.prepareNextRound(player,dealer);
+			pa.prepareNextRound();
 			
 		}//end_rounds
 			

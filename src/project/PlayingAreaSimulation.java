@@ -10,7 +10,7 @@ public class PlayingAreaSimulation extends PlayingArea {
 	
 	int nbDecksInShoe;
 	int shufflePercentage;
-	int nbShuffles;
+	int nbShuffles,shufflesPlayed;
 	String strategy;
 	int handIndex;
 	int previousBet;
@@ -24,31 +24,48 @@ public class PlayingAreaSimulation extends PlayingArea {
 		this.nbDecksInShoe = nbDecks;
 		this.shufflePercentage = shufflePercent;
 		this.nbShuffles = nbShuffles;
+		this.shufflesPlayed = 0;
 		this.strategy = strat;
 		previousBet = minBet;
 		
 		//Creating advisor
 		this.ad = new Advisor(minBet, maxBet, nbDecks, strat);
+		this.shoe = new Shoe(nbDecks);
 	}
 	
-	//TODO: fix, temporary
 	public String getCommand(){
-		return "";
+		if(!dealDone && !betDone) return ad.betInterpret(ad.advise(previousBet));
+		if(betDone && !dealDone)   return "d";
+		else return ad.cmdInterpret(dealDone,player, ad.advise(dealDone, player,  dealer.hand.cards.iterator().next()));
+		
 	}
 	
 	//TODO: Fix, temporary
 	public boolean hasNextCommand(){
-		return false;
+		if(shufflesPlayed > nbShuffles) quit();
+		return true;
 	}
 		
-	//TODO: fix, temporary
 	public void quit(){
+		try{
+			stat.presentStatistics();
+		} catch(NoPlayedRoundsException e){
+			System.out.println("no rounds were played");
+		}
+		System.out.println("GAME OVER");
 		System.exit(0);
 	}
 	
-	@Override
-	public void printMessage(String s){
+	//@Override
+	//public void printMessage(String s){
 		//No messages are printed in simulation mode
+	//}
+	
+	public void prepareNextRound(){
+		super.prepareNextRound();
+		//Shuffle checking is needed in this mode
+		if(shoe.shuffle(shufflePercentage)) shufflesPlayed++;
+		betDone = false;
 	}
 
 }

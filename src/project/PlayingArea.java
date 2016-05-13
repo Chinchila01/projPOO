@@ -1,7 +1,5 @@
 package project;
 
-import java.util.Arrays;
-
 /**
  * @author Filipe Correia
  * @author Helder Duarte
@@ -22,6 +20,8 @@ public abstract class PlayingArea {
 	static boolean dealDone;
 	static boolean betDone;
 	Advisor ad;
+	Player player;
+	Dealer dealer;
 	
 	
 	public PlayingArea(int minBet, int maxBet, float initialMoney) {
@@ -32,6 +32,8 @@ public abstract class PlayingArea {
 		this.stat = new Statistics(initialMoney);
 		dealDone=false;
 		betDone=false;
+		player = new Player(initialMoney, minBet, maxBet);
+		dealer = new Dealer(initialMoney, minBet, maxBet);
 	}
 	
 	/**
@@ -41,7 +43,7 @@ public abstract class PlayingArea {
 	 * @param player object
 	 * @param dealer object
 	 */
-	public void executePlayerAction(String cmd, Player player, Dealer dealer) throws IllegalCmdException {
+	public void executePlayerAction(String cmd) throws IllegalCmdException {
 		
 		int bet=0;
 		Hand playerCurrHand = player.getCurrHand();
@@ -248,13 +250,15 @@ public abstract class PlayingArea {
 	 * @param player object
 	 * @param dealer object
 	 */
-	public void payOut(Player player, Dealer dealer){
+	public void payOut(){
 		
 		for(Hand eachHand : player.hand){
-			
+			 
 			//TODO: escolher valor do as
 			if(eachHand.surrender){
 				printMessage("player's current balance is " + player.getPlayerMoney());
+				ad.updateStdStrat(true);
+				stat.addLoss();
 			}
 			// O jogador tem um blackjack
 			else if(eachHand.hasBlackjack){
@@ -278,6 +282,7 @@ public abstract class PlayingArea {
 					// Update statistics
 					stat.addPush();
 					stat.addDealerBJ();
+					//update stdstrat
 				}
 				else{ // dealer nao tem blackjack
 					try{
@@ -287,11 +292,13 @@ public abstract class PlayingArea {
 					}
 					printMessage("player wins with a blackjack and his current balance is " + player.getPlayerMoney());
 					stat.addWin();
+					ad.updateStdStrat(false);
 				}
 			}
 			else if(eachHand.busted){
 				printMessage("player loses and his current balance is " + player.getPlayerMoney());
 				stat.addLoss();
+				ad.updateStdStrat(true);
 			}
 			else if(dealer.hand.busted) {	// dealer Bust
 				try{
@@ -301,6 +308,7 @@ public abstract class PlayingArea {
 				}
 				printMessage("player wins and his current balance is " + player.getPlayerMoney());
 				stat.addWin();
+				ad.updateStdStrat(false);
 			}
 			else if(dealer.hand.hasBlackjack && eachHand.insured){
 				try{
@@ -312,6 +320,7 @@ public abstract class PlayingArea {
 			else if(dealer.hand.getScore() > eachHand.getScore()) { // player bust ou dealer tem mais pontos
 				printMessage("player loses and his current balance is " + player.getPlayerMoney());
 				stat.addLoss();
+				ad.updateStdStrat(true);
 			}
 			else if(eachHand.getScore() == dealer.hand.getScore()){
 				try{
@@ -330,6 +339,7 @@ public abstract class PlayingArea {
 				}
 				printMessage("player wins and his current balance is " + player.getPlayerMoney());
 				stat.addWin();
+				ad.updateStdStrat(false);
 			}
 		}
 	}
@@ -338,7 +348,7 @@ public abstract class PlayingArea {
 	 * plays the dealer's turn. The dealer stands on all 17s and hits otherwise
 	 * @param dealer
 	 */
-	public void dealerTurn(Dealer dealer){
+	public void dealerTurn(){
 		
 		Hand dealerCurrHand = dealer.hand;
 		dealerCurrHand.getCards().listIterator(1).next().isTurnedUp = true; //turn hole
@@ -364,7 +374,7 @@ public abstract class PlayingArea {
 	 * @param player
 	 * @param dealer
 	 */
-	public void prepareNextRound(Player player, Dealer dealer){
+	public void prepareNextRound(){
 		
 		player.resetHands(shoe);
 		dealer.resetHands(shoe);
