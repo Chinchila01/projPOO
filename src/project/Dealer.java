@@ -18,7 +18,7 @@ public class Dealer implements DealerInterface{
 	public Card hit(Shoe s){
 		// se a carta recebida for um ace e fizer bust, ace passa a valer 1
 		Card c = s.getNext();
-		if(c.getSymbol() == 'A') c.setScore(1);
+		if(c.getSymbol() == 'A' && hand.getScore() > 10) c.setScore(1);
 		hand.addCard(c);
 		return c;
 	}

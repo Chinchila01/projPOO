@@ -67,6 +67,11 @@ public class PlayingAreaSimulation extends PlayingArea {
 		//No messages are printed in simulation mode
 	//}
 	
+	/**
+	 * Prepares for next round of blackjack, according to the mode's needs<br>
+	 * It resets both player's and dealer's hands, returning the cards to the shoe.<br>
+	 * In simulation mode, it also checks if the shuffling percentage was reached,<br>
+	 */
 	public void prepareNextRound(){
 		super.prepareNextRound();
 		//Shuffle checking is needed in this mode
