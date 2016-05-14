@@ -63,9 +63,6 @@ public class HiLoStrategy {
 	
 	
 	public char getStrat(Hand playerHand, Card dealerCard, boolean canInsure) {
-		
-		//DEBUG
-		System.out.println("TRUCOUNT: " + trueCount);
 		/**
 		 * Illustrious18
 		 */

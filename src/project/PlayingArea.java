@@ -1,5 +1,7 @@
 package project;
 
+import java.util.Arrays;
+
 /**
  * @author Filipe Correia
  * @author Helder Duarte
@@ -49,14 +51,18 @@ public abstract class PlayingArea {
 		Hand playerCurrHand = player.getCurrHand();
 		String[] cmdHelper;
 		
-		if(cmd.charAt(0)=='b') {
+		if(cmd.charAt(0)=='b' && (cmd.length() == 1 || cmd.charAt(1)==' ')) {
 			if(dealDone==true) throw new IllegalCmdException("b: illegal command");
 			
 			if(cmd.length()==1)		//betting without specifying value will default to last bet
 				bet = this.previousBet;
 			else if(cmd.length()>1) {
 				cmdHelper = cmd.split(" ");
-				bet = Integer.parseInt(cmdHelper[1]);
+				try{
+					bet = Integer.parseInt(cmdHelper[1]);
+				}catch(NumberFormatException e){
+					throw new IllegalCmdException();
+				}
 			}
 			
 			try{
@@ -220,7 +226,8 @@ public abstract class PlayingArea {
 		}
 		
 		if(cmd.equals("ad")) {	// advice
-			if(!dealDone) System.out.println("bet\t " + ad.advise(previousBet));
+			if(!betDone) printMessage("bet\t " + ad.advise(previousBet));
+			else if(!dealDone) printMessage("deal");
 			else {
 				String[] strategies = ad.advise(dealDone, player, dealer.hand.cards.iterator().next());
 				
