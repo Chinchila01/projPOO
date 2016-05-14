@@ -1,6 +1,7 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /** Hand class
  * A hand is composed of two or more cards.
@@ -133,6 +134,11 @@ public class Hand {
 	
 	public boolean doubleAvailable(){
 		return (this.getScore()>8 && this.getScore()<12 && !sideRuleDone() && !hitDone && !standDone);
+	}
+	
+	public boolean cardsEqual(){
+		Iterator<Card> it = cards.iterator();
+		return it.next()==it.next();
 	}
 	
 }

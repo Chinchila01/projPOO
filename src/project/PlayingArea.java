@@ -197,7 +197,7 @@ public abstract class PlayingArea {
 				printMessage("split not available");
 				return;
 			} catch(NotEnoughMoneyException e){
-				printMessage("split not possible: " + e.getMessage());
+				handleMoneyException("split not possible: " + e.getMessage());
 			}
 			
 		}
@@ -218,7 +218,7 @@ public abstract class PlayingArea {
 				return;
 			}
 		}
-			//TODO: DONT FORGET ABOUT 10 score
+		
 		if(cmd.equals("ad")) {	// advice
 			if(!dealDone) System.out.println("bet\t " + ad.advise(previousBet));
 			else {

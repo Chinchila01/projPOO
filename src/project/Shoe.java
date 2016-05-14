@@ -20,9 +20,7 @@ public class Shoe {
 	 * @see Deck
 	 * @see Card
 	 */
-	private Deck[] decks;
 	private ArrayList<Card> cards;
-	private int currentDeck;
 	private int totalDecks;
 	private int playedCards;
 	
@@ -30,7 +28,6 @@ public class Shoe {
 	 * Constructor for a Shoe of n decks
 	 * @param n is the number of decks in the deck array. Must be between 2 and 8
 	 */
-	//TODO: add exception in case  n<2 or n>8
 	public Shoe(int n) throws IllegalDeckNumberException{
 		cards = new ArrayList<Card>();
 		if(n < 2 || n > 8) throw new IllegalDeckNumberException();
@@ -57,7 +54,7 @@ public class Shoe {
 		Scanner s = new Scanner(new File(shoefile));
 		cards = new ArrayList<Card>();
 		while(s.hasNext()){
-			this.cards.add(new Card(s.next())); //TODO: add constructor to Card with String
+			this.cards.add(new Card(s.next()));
 			nbCards++;
 		}
 		this.totalDecks = nbCards/52; //52 is the number of cards in a complete deck
@@ -69,7 +66,10 @@ public class Shoe {
 	 * @return next available card from the shoe
 	 */
 	public Card getNext(){
-		return cards.remove(0);
+		//ensure Ace has score of 11
+		Card c = cards.remove(0);
+		if(c.getSymbol() == 'A') c.setScore(11);
+		return c;
 	}
 	
 	/**

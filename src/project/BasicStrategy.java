@@ -129,7 +129,7 @@ public class BasicStrategy {
 	static private boolean hasAces(Hand hand) {
 		
 		for(Card c : hand.cards) {
-			if(c.getSymbol() == 'A')
+			if(c.getSymbol() == 'A' && c.getScore() == 11)
 				return true;
 		}
 		

@@ -45,7 +45,7 @@ public class Player implements PlayerInterface{
 				Card aux = iterator.next();
 				Card aux2 = iterator.next();
 				
-				if(!aux.equals(aux2)) throw new IllegalHandException("cards are not equal"); // TODO: throw exception if false
+				if(!aux.equals(aux2)) throw new IllegalHandException("cards are not equal");
 				this.addPlayerMoney(-h.curBet); //check if player has enough money
 				
 				iterator.remove();//remove last (repeated) card from hand
@@ -58,7 +58,7 @@ public class Player implements PlayerInterface{
 				currHand = hand.size()-1;
 				hit(s); //Immediately get a new card for newHand
 				currHand = tempIndex; //putting it back
-				newHand.curBet=h.curBet; //set the same bet for newHand TODO: need to remove money from player
+				newHand.curBet=h.curBet; //set the same bet for newHand
 				
 		}
 	}
@@ -133,7 +133,7 @@ public class Player implements PlayerInterface{
 	@Override
 	public Hand getNextHand(){
 		Hand h = hand.listIterator(currHand).next(); 
-		if(h.busted || h.standDone || h.surrenderDone) { // means hand is not valid TODO: replace with attribute
+		if(h.busted || h.standDone || h.surrenderDone) { // means hand is not valid
 			if(currHand >= this.hand.size()-1){
 				currHand = 0;
 				return null;
@@ -157,13 +157,22 @@ public class Player implements PlayerInterface{
 	
 	@Override
 	public Card hit(Shoe s) {
+		Hand h = getCurrHand();
 		Card c = s.getNext();
-		//if(c.getSymbol() == 'A' && hand.iterator().next().getScore() > 10) c.setScore(1);
-		this.getCurrHand().addCard(c);
+		if(c.getSymbol() == 'A' && h.getScore() > 10) 
+			c.setScore(1);
+		
+		for(Card ca : h.getCards()){
+			if(ca.getSymbol() == 'A') {
+				if((c.getScore() + h.getScore()) < 21) break;
+				ca.setScore(1); 		
+			}
+		}
+		
+		h.addCard(c);
 		return c;
 	}
 	
-	//TODO: isto nao devia ser um toString? s� esta a retornar uma textual description
 	@Override
 	public String getHand() {
 		StringBuilder sb = new StringBuilder();
@@ -191,7 +200,7 @@ public class Player implements PlayerInterface{
 	}
 	
 	public boolean splitAvailable(){
-		return (hand.size()<4 && getCurrHand().getSize()==2);
+		return (hand.size()<4 && getCurrHand().getSize()==2 && getCurrHand().cardsEqual());
 	}
 
 	@Override
