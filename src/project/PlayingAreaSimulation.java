@@ -43,7 +43,6 @@ public class PlayingAreaSimulation extends PlayingArea {
 		if(!dealDone && !betDone) return ad.betInterpret(ad.advise(previousBet));
 		if(betDone && !dealDone)   return "d";
 		else return ad.cmdInterpret(dealDone,player, ad.advise(dealDone, player,  dealer.hand.cards.iterator().next()));
-		
 	}
 	
 	//TODO: Fix, temporary
@@ -81,6 +80,12 @@ public class PlayingAreaSimulation extends PlayingArea {
 			ad.resetStrats();
 		}
 		betDone = false;
+	}
+	
+	@Override
+	public void handleMoneyException(String e){
+		super.handleMoneyException(e);
+		quit();
 	}
 
 }

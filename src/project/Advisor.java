@@ -93,16 +93,15 @@ public class Advisor {
 	}
 	
 	public String cmdInterpret(boolean dealDone, Player player, String[] s){
-		String str = (useBasicStrat) ? this.basicInterpret(dealDone, player, s[0]) : this.hlInterpret(dealDone,player,s[1]);
+		String str = (useBasicStrat) ? this.basicInterpret(dealDone, player, s[0]) : this.basicInterpret(dealDone,player,s[1]);
 		
 		if(str.equals("hit")) return "h";
-		if(str.equals("stand")) return "s";
-		if(str.equals("split")) return "p";
-		if(str.equals("double")) return "2";
-		if(str.equals("surrender")) return "u";
-		if(str.equals("insurance")) return "i";
-		
-		return "";
+		else if(str.equals("stand")) return "s";
+		else if(str.equals("split")&& player.splitAvailable()) return "p"; 
+		else if(str.equals("double") && !player.getCurrHand().sideRuleDone()) return "2";
+		else if(str.equals("surrender") && !player.getCurrHand().sideRuleDone()) return "u";
+		else if(str.equals("insurance") && !player.getCurrHand().sideRuleDone()) return "i";
+		else return player.getCurrHand().getScore()>=17 ?  "s" : "h";
 	}
 	
 	public String betInterpret(String s){
@@ -111,22 +110,22 @@ public class Advisor {
 	
 	
 	public String basicInterpret(boolean dealDone, Player player, String s){
-		if(s.equals("H")) return "hit";
-		if(s.equals("S")) return "stand";
-		if(s.equals("P")) return "split";
+		if(s.equals("H") || s.equals("h")) return "hit";
+		if(s.equals("S")|| s.equals("s")) return "stand";
+		if(s.equals("P")|| s.equals("p")) return "split";
 		if(s.equals("Dh")){
-			if(dealDone) return "hit";
-			else return "double";
+			if(dealDone && !player.getCurrHand().hitDone && !player.getCurrHand().standDone ) return "double";
+			else return "hit";
 		}
-		if(s.equals("Ds")){
-			if(dealDone) return "stand";
-			else return "double";
+		if(s.equals("Ds") || s.equals("d")){
+			if(dealDone && !player.getCurrHand().hitDone && !player.getCurrHand().standDone ) return "double";
+			else return "stand";
 		}
-		if(s.equals("Rh")){
-			if(player.hand.size() > 1 || dealDone){
-				return "hit";
+		if(s.equals("Rh") || s.equals("u")){
+			if(!player.getCurrHand().surrenderDone && player.hand.size() == 1 && dealDone && !player.getCurrHand().hitDone && !player.getCurrHand().standDone){
+				return "surrender";
 			}
-			else return "surrender";
+			else return "hit";
 		}
 		else return s;
 	}
@@ -134,14 +133,11 @@ public class Advisor {
 	public String hlInterpret(boolean dealDone, Player player, String hlStrats){
 		char hlStrat = (hlStrats.length() == 1) ? hlStrats.charAt(0) : '0';
 		switch(hlStrat){
-			case 's':
-			case 'S': return "stand";
-			case 'h':
-			case 'H': return "hit";
+			case 's': return "stand";
+			case 'h': return "hit";
 			case 'd': return "double";
 			case 'u': return "surrender";
-			case 'p':
-			case 'P': return "split";
+			case 'p': return "split";
 			case 'i': return "insurance";
 		}
 		

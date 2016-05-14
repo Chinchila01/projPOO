@@ -63,7 +63,7 @@ public abstract class PlayingArea {
 				player.addPlayerMoney(-bet);
 				playerCurrHand.addBet(bet);
 			}catch(NotEnoughMoneyException e){
-				printMessage("betting not possible: " + e.getMessage());
+				handleMoneyException("betting not possible: " + e.getMessage());
 			}catch(IllegalCmdException e){
 				printMessage("betting not possible: " + e.getMessage());
 				try{
@@ -159,26 +159,24 @@ public abstract class PlayingArea {
 			
 		if(cmd.equals("u")) {	// surrender
 
-			if(!dealDone || playerCurrHand.hitDone || playerCurrHand.standDone) throw new IllegalCmdException("u: illegal command");
+			if(!dealDone || playerCurrHand.surrenderDone || playerCurrHand.hitDone || playerCurrHand.standDone) 
+				throw new IllegalCmdException("u: illegal command");
 			
 			float money = 0;
 			try {
 				money = player.surrender(dealer.hand);
 				player.addPlayerMoney(money);
-				return;
 			} catch(IllegalHandException e){
 				printMessage("surrender not possible: " + e.getMessage());
-				return;
 			} catch(NotEnoughMoneyException e){
 				printMessage("surrender not possible: " + e.getMessage());
 				try{
 					player.addPlayerMoney(-money);
-					return;
 				}catch(NotEnoughMoneyException ex){
 					printMessage(e.getMessage());
-					return;
 				}
 			}
+			
 			//if(itPlayer.hasNext()) 
 			//	playerCurrHand=itPlayer.next();//gets next hand if exists
 			//else pa.validHands = false;
@@ -216,7 +214,7 @@ public abstract class PlayingArea {
 				printMessage("doubling not possible: " + e.getMessage());
 				return;
 			} catch (NotEnoughMoneyException e) {
-				printMessage("doubling not possible: " + e.getMessage());
+				handleMoneyException("doubling not possible: " + e.getMessage());
 				return;
 			}
 		}
@@ -255,7 +253,7 @@ public abstract class PlayingArea {
 		for(Hand eachHand : player.hand){
 			 
 			//TODO: escolher valor do as
-			if(eachHand.surrender){
+			if(eachHand.surrenderDone){
 				printMessage("player's current balance is " + player.getPlayerMoney());
 				ad.updateStdStrat(true);
 				stat.addLoss();
@@ -264,7 +262,7 @@ public abstract class PlayingArea {
 			else if(eachHand.hasBlackjack){
 				stat.addPlayerBJ();
 				if(dealer.hand.hasBlackjack) { // dealer tambem tem blackjack
-					if(eachHand.insured) {
+					if(eachHand.insuranceDone) {
 						try{
 							player.addPlayerMoney(eachHand.curBet); //the player gets twice the current money
 						}catch(NotEnoughMoneyException e){
@@ -310,7 +308,7 @@ public abstract class PlayingArea {
 				stat.addWin();
 				ad.updateStdStrat(false);
 			}
-			else if(dealer.hand.hasBlackjack && eachHand.insured){
+			else if(dealer.hand.hasBlackjack && eachHand.insuranceDone){
 				try{
 					player.addPlayerMoney(eachHand.curBet);
 				}catch(NotEnoughMoneyException e){
@@ -419,5 +417,11 @@ public abstract class PlayingArea {
 	public void printMessage(Object o){
 		printMessage(o.toString());
 	}
-
+	
+	/**
+	 * Handle the exception - useful for the different modes in subclasses 
+	 */
+	public void handleMoneyException(String e ){
+		System.out.println(e);
+	}
 }

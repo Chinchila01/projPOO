@@ -7,12 +7,11 @@ import java.util.ListIterator;
 
 public class Player implements PlayerInterface{
 	
-
+	
 	 float playerMoney;
 	 ArrayList<Hand> hand;
 	 int minBet,maxBet;
 	 int currHand;
-	
 	/**
 	 * Constructor for a Player object. Needs a object player to be created.
 	 * 
@@ -60,6 +59,7 @@ public class Player implements PlayerInterface{
 				hit(s); //Immediately get a new card for newHand
 				currHand = tempIndex; //putting it back
 				h.curBet=h.curBet; //set the same bet for newHand TODO: need to remove money from player
+				
 		}
 	}
 	
@@ -77,9 +77,9 @@ public class Player implements PlayerInterface{
 			if (dealerHand.getCards().iterator().next().getSymbol()!='A') throw new IllegalHandException("dealer does not have an Ace");
 			Hand playerHand = hand.listIterator(currHand).next();
 			if(playerHand.getSize() != 2) throw new IllegalHandException("not at the beginning of the hand");
-			if(playerHand.surrender) throw new IllegalHandException("player has already surrendered");
+			if(playerHand.surrenderDone) throw new IllegalHandException("player has already surrendered");
 			if(playerHand.standDone) throw new IllegalHandException("player has standed, insurance not available");
-			playerHand.insured = true;//insurance bet 
+			playerHand.insuranceDone = true;//insurance bet 
 	}
 	
 	/**
@@ -95,26 +95,27 @@ public class Player implements PlayerInterface{
 	public float surrender(Hand dealerHand) throws IllegalHandException{
 		if(this.hand.size() != 1) throw new IllegalHandException("surrender is valid only if hand is not split");
 		Hand currentHand = hand.listIterator(currHand).next();
-		currentHand.surrender = true;
-		if(dealerHand.getSize() == 2 && dealerHand.getScore() == 21) {
-			return 0;
-		}
-		else
-			return currentHand.curBet/2;
+		currentHand.surrenderDone = true;
+		//No late surrender
+		if(dealerHand.getSize() == 2 && dealerHand.getScore() == 21) return 0;
+		else return currentHand.curBet/2;
 		
 	}
 	
 	@Override
 	public boolean doubleBet() throws IllegalHandException, NotEnoughMoneyException{
 		Hand h = hand.listIterator(currHand).next();
-		if(hand.size() != 1 || h.getSize() != 2 || h.getScore() < 8 || h.getScore() > 12) throw new IllegalHandException();
+		if(h.sideRuleDone() || hand.size() != 1 || h.getSize() != 2 || h.getScore() < 8 || h.getScore() > 12) 
+			throw new IllegalHandException();
 		addPlayerMoney(-h.curBet);
 		try{
 			h.addBet(h.curBet);
 		}catch(IllegalCmdException e){
 			throw new IllegalHandException(e.getMessage());
 		}
+		h.doubleDone=true;
 		return true;
+		
 	}
 	
 	@Override
@@ -131,7 +132,7 @@ public class Player implements PlayerInterface{
 	@Override
 	public Hand getNextHand(){
 		Hand h = hand.listIterator(currHand).next(); 
-		if(h.busted || h.standDone || h.surrender) { // means hand is not valid TODO: replace with attribute
+		if(h.busted || h.standDone || h.surrenderDone) { // means hand is not valid TODO: replace with attribute
 			if(currHand >= this.hand.size()-1){
 				currHand = 0;
 				return null;
@@ -156,6 +157,7 @@ public class Player implements PlayerInterface{
 	@Override
 	public Card hit(Shoe s) {
 		Card c = s.getNext();
+		//if(c.getSymbol() == 'A' && hand.iterator().next().getScore() > 10) c.setScore(1);
 		this.getCurrHand().addCard(c);
 		return c;
 	}
@@ -185,6 +187,10 @@ public class Player implements PlayerInterface{
 		}
 	
 		hand.add(new Hand(null, null,minBet,maxBet));
+	}
+	
+	public boolean splitAvailable(){
+		return hand.size()<4;
 	}
 
 	@Override

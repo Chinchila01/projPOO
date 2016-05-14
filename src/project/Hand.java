@@ -9,7 +9,13 @@ import java.util.ArrayList;
  * @author Helder Duarte
  * @author Joao Vieira
  */
+
 public class Hand {
+
+	static final int DOUBLE=1;
+	static final int SURRENDER=2;
+	static final int SPLIT=3;
+	static final int INSURANCE=4;
 	/**
 	 * ArrayList where the Hand is stored. Minimum size is 2, as that is the amount of cards first dealt by the dealer to each player
 	 * @see Card
@@ -18,11 +24,11 @@ public class Hand {
 	int curBet,minBet,maxBet;
 	boolean busted;
 	boolean hasBlackjack;	//TODO: isto devia ser um metodo nao? as vezes nao detecta blackjack
-	boolean insured;
-	//boolean stand; //to know if the hand has been completed
-	boolean surrender;
+	boolean insuranceDone;
 	boolean hitDone;
 	boolean standDone;
+	boolean doubleDone;
+	boolean surrenderDone;
 	
 	/**
 	 * Constructor for a Hand object. Needs 2 cards to be created, a minimum bet value and a maximum bet value
@@ -46,6 +52,9 @@ public class Hand {
 		curBet=0;
 		hitDone=false;
 		standDone=false;
+		doubleDone=false;
+		surrenderDone=false;
+		insuranceDone=false;
 	}
 	
 	
@@ -98,7 +107,7 @@ public class Hand {
 	 */
 	public int getScore() {
 		int points=0;
-		//TODO: testar se ha um Ás, se houver e fizer bust, mudar o valor para 1
+		//TODO: testar se ha um Ã�s, se houver e fizer bust, mudar o valor para 1
 		for(Card c : cards) {
 			points += c.getScore();
 		}
@@ -109,7 +118,9 @@ public class Hand {
 		return points;
 	}
 
-
+	public boolean sideRuleDone(){
+		return insuranceDone || doubleDone || surrenderDone;
+	}
 	
 	@Override
 	public String toString(){
