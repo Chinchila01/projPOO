@@ -9,8 +9,6 @@ package project;
  */
 public interface DealerInterface {
 	
-	//TODO: make this a superclass
-	
 	/**
 	 * This method is used to ask for one card that will be randomly picked from shoe
 	 * 
@@ -30,5 +28,6 @@ public interface DealerInterface {
 	public String getHand();
 	
 	public void resetHands(Shoe s);
+	
 }
 
