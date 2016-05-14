@@ -58,7 +58,7 @@ public class Player implements PlayerInterface{
 				currHand = hand.size()-1;
 				hit(s); //Immediately get a new card for newHand
 				currHand = tempIndex; //putting it back
-				h.curBet=h.curBet; //set the same bet for newHand TODO: need to remove money from player
+				newHand.curBet=h.curBet; //set the same bet for newHand TODO: need to remove money from player
 				
 		}
 	}
@@ -105,12 +105,13 @@ public class Player implements PlayerInterface{
 	@Override
 	public boolean doubleBet() throws IllegalHandException, NotEnoughMoneyException{
 		Hand h = hand.listIterator(currHand).next();
-		if(h.sideRuleDone() || hand.size() != 1 || h.getSize() != 2 || h.getScore() < 8 || h.getScore() > 12) 
+		if(!h.doubleAvailable()) 
 			throw new IllegalHandException();
 		addPlayerMoney(-h.curBet);
 		try{
 			h.addBet(h.curBet);
 		}catch(IllegalCmdException e){
+			addPlayerMoney(h.curBet);
 			throw new IllegalHandException(e.getMessage());
 		}
 		h.doubleDone=true;
@@ -197,6 +198,6 @@ public class Player implements PlayerInterface{
 	public String toString() {
 		return "player's hand " + getHand();
 	}
-	
+
 	
 }

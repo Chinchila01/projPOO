@@ -98,7 +98,7 @@ public class Advisor {
 		if(str.equals("hit")) return "h";
 		else if(str.equals("stand")) return "s";
 		else if(str.equals("split")&& player.splitAvailable()) return "p"; 
-		else if(str.equals("double") && !player.getCurrHand().sideRuleDone()) return "2";
+		else if(str.equals("double") && player.getCurrHand().doubleAvailable()) return "2";
 		else if(str.equals("surrender") && !player.getCurrHand().sideRuleDone()) return "u";
 		else if(str.equals("insurance") && !player.getCurrHand().sideRuleDone()) return "i";
 		else return player.getCurrHand().getScore()>=17 ?  "s" : "h";

@@ -131,6 +131,8 @@ public class Hand {
 		return sb.toString();
 	}
 	
-	
+	public boolean doubleAvailable(){
+		return (this.getScore()>8 && this.getScore()<12 && !sideRuleDone() && !hitDone && !standDone);
+	}
 	
 }

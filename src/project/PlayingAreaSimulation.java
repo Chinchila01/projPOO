@@ -58,6 +58,7 @@ public class PlayingAreaSimulation extends PlayingArea {
 			System.out.println("no rounds were played");
 		}
 		System.out.println("GAME OVER");
+		System.out.println("number of rounds played: " + nbShuffles);
 		System.exit(0);
 	}
 	
