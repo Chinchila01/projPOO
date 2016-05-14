@@ -204,6 +204,13 @@ public class Player implements PlayerInterface{
 		return (hand.size()<4 && getCurrHand().getSize()==2 && getCurrHand().cardsEqual());
 	}
 
+	public boolean hasBustedHands(){
+		for(Hand h : hand){
+			if (h.busted==true)
+				return true;
+		}
+		return false;
+	}
 	@Override
 	public String toString() {
 		return "player's hand " + getHand();

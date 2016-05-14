@@ -80,14 +80,12 @@ public abstract class PlayingArea {
 					printMessage(e.getMessage());
 				}
 			}
-			printMessage("Player is betting "+bet);
-			
-			System.out.println("Previous Bet=" + previousBet);
+			printMessage("player is betting "+bet);
 			betDone=true;
 		}
 			
 		if(cmd.equals("$")) {	// prints current player balance
-			printMessage("Current balance: " + player.getPlayerMoney());
+			printMessage("player current balance is " + player.getPlayerMoney());
 		}
 			
 		if(cmd.equals("d")) {	// deal
@@ -363,20 +361,15 @@ public abstract class PlayingArea {
 		dealerCurrHand.getCards().listIterator(1).next().isTurnedUp = true; //turn hole
 		
 		printMessage("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
-		
-		while(dealerCurrHand.getScore() < 17) { //dealer stands on all 17s
-			ad.observeCard(dealer.hit(shoe),shoe.getDecksLeft());
-			printMessage("dealer hits");
-			printMessage("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
+		if (!player.hasBustedHands()){//dealer stops playing when player busts
+			while(dealerCurrHand.getScore() < 17 ) { //dealer stands on all 17s
+				ad.observeCard(dealer.hit(shoe),shoe.getDecksLeft());
+				printMessage("dealer hits");
+				printMessage("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
+			}
+			printMessage("dealer stands");
 		}
-		
-		if(dealerCurrHand.hasBlackjack) {
-			printMessage("blackjack!!");
-		}
-		
-		printMessage("dealer stands");
 	}
-	
 	/**
 	 * Prepares for next round, by putting the hands in the shoe
 	 * 
@@ -391,7 +384,7 @@ public abstract class PlayingArea {
 		dealDone=false;
 		betDone=false;		
 		
-		printMessage("Starting a new round");
+		//printMessage("Starting a new round");
 	}
 	
 	/**
