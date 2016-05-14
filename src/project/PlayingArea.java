@@ -3,6 +3,7 @@ package project;
 import java.util.Arrays;
 
 /**
+ * Abstract Playing Area Class
  * @author Filipe Correia
  * @author Helder Duarte
  * @author Joao Vieira
@@ -26,7 +27,12 @@ public abstract class PlayingArea {
 	Dealer dealer;
 	int handIndex;
 	
-	
+	/**
+	 * Constructor to Playing Area Class
+	 * @param minBet
+	 * @param maxBet
+	 * @param initial player's money
+	 */
 	public PlayingArea(int minBet, int maxBet, float initialMoney) {
 		this.minBet = minBet;
 		this.maxBet = maxBet;

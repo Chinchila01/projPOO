@@ -4,24 +4,27 @@ import java.io.*;
 import java.util.Scanner;
 
 /**
+ * Constructor for Playing Area Debug
  * @author Filipe Correia
  * @author Helder Duarte
  * @author Joao Vieira
  *
  */
 public class PlayingAreaDebug extends PlayingArea {
-	
 	Scanner cmdFile;
 	String cmds;
-	//int handIndex;
-	//public int previousBet;
 	public static int minimumBet;
 	
+	/**
+	 * Constructor for Playing Area Debug
+	 * @param minBet
+	 * @param maxBet
+	 * @param initialMoney
+	 * @param shoeFile - contains all the cards to be apart of the Shoe
+	 * @param inCmdFile - contains the commands to be played
+	 */
 	public PlayingAreaDebug(int minBet, int maxBet, float initialMoney, String shoeFile, String inCmdFile) {
-		
-		
 		super(minBet, maxBet, initialMoney);
-		
 		try{
 			this.shoe = new Shoe(shoeFile);  //create shoe from shoe file
 		}catch(FileNotFoundException e){
@@ -32,7 +35,6 @@ public class PlayingAreaDebug extends PlayingArea {
 			System.exit(1);
 		}
 		
-		//this.shoeFile = args[4];
 		try {
 			cmdFile = new Scanner(new File(inCmdFile)); //import cmd file	
 		}catch(FileNotFoundException e){
@@ -41,7 +43,6 @@ public class PlayingAreaDebug extends PlayingArea {
 		}
 		
 		previousBet = minBet;
-		
 		ad = new Advisor(minBet,maxBet,shoe.getNbDecks());
 	}
 	
@@ -55,6 +56,7 @@ public class PlayingAreaDebug extends PlayingArea {
 			return cmd;
 		} else throw new NoMoreCmdsException();
 	}
+	
 	
 	public void quit(){
 		cmdFile.close();

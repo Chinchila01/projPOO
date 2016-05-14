@@ -1,5 +1,12 @@
 package project;
 
+/**
+ * Statistics Class
+ * @author Filipe Correia
+ * @author Helder Duarte
+ * @author Joao Vieira
+ *
+ */
 public class Statistics {
 	private int playerBJ, dealerBJ;
 	private int wins,losses,pushes;
@@ -7,11 +14,19 @@ public class Statistics {
 	private double balance;
 	public final double initBalance;
 	
+	/**
+	 * Statistics Class constructor
+	 * @param initBalance
+	 */
 	public Statistics(double initBalance){
 		this.initBalance = initBalance;
 		this.balance = initBalance;
 	}
 	
+	/**
+	 * Set Balance
+	 * @param balance
+	 */
 	public void setBalance(double balance){
 		this.balance = balance;
 	}

@@ -14,19 +14,24 @@ public class PlayingAreaSimulation extends PlayingArea {
 	String strategy;
 	public static int minimumBet;
 	
+	/**
+	 * Playing Area Simulator Constructor
+	 * @param minBet
+	 * @param maxBet
+	 * @param initialMoney
+	 * @param nbDecks
+	 * @param shufflePercent
+	 * @param nbShuffles
+	 * @param strat
+	 */
 	public PlayingAreaSimulation(int minBet, int maxBet, float initialMoney, int nbDecks, int shufflePercent, int nbShuffles, String strat) {
-		//TODO:faltam restriçoes na passagem dos comandos - ver enunciado. 
-		//Muito provavelmente falta tb nos outros modos de jogo
 		super(minBet, maxBet, initialMoney);
-
 		this.nbDecksInShoe = nbDecks;
 		this.shufflePercentage = shufflePercent;
 		this.nbShuffles = nbShuffles;
 		this.shufflesPlayed = 0;
 		this.strategy = strat;
 		
-		
-		//Creating advisor
 		this.ad = new Advisor(minBet, maxBet, nbDecks, strat);
 		
 		try{
@@ -43,7 +48,7 @@ public class PlayingAreaSimulation extends PlayingArea {
 		else return ad.cmdInterpret(dealDone,player, ad.advise(dealDone, player,  dealer.hand.cards.iterator().next()));
 	}
 	
-	//TODO: Fix, temporary
+	
 	public boolean hasNextCommand(){
 		if(shufflesPlayed > nbShuffles) quit();
 		return true;
@@ -59,11 +64,6 @@ public class PlayingAreaSimulation extends PlayingArea {
 		System.out.println("number of rounds played: " + nbShuffles);
 		System.exit(0);
 	}
-	
-	//@Override
-	//public void printMessage(String s){
-		//No messages are printed in simulation mode
-	//}
 	
 	/**
 	 * Prepares for next round of blackjack, according to the mode's needs<br>

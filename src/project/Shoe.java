@@ -38,7 +38,8 @@ public class Shoe {
 	}
 	
 	/**
-	 * Default no-arg constructor - defaults to 4 decks
+	 * Shoe Constructor - defaults to 4 decks
+	 * @throws IllegalDeckNumberException
 	 */
 	public Shoe() throws IllegalDeckNumberException{
 		this(4);
@@ -46,8 +47,9 @@ public class Shoe {
 	
 	/**
 	 * Constructor for a shoe taken from a shoe file
-	 * 
-	 * @params shoeFile String of path of shoefile
+	 * @param shoefile - String of path of shoefile
+	 * @throws FileNotFoundException
+	 * @throws NotParseableException
 	 */
 	public Shoe(String shoefile) throws FileNotFoundException,NotParseableException{
 		int nbCards = 0;
@@ -81,6 +83,10 @@ public class Shoe {
 		cards.add(c);
 	}
 	
+	/**
+	 * Add array of cards ca to array cards
+	 * @param ca - array of cards to be added
+	 */
 	public void addLast(ArrayList<Card> ca){
 		playedCards += ca.size();
 		cards.addAll(ca);
@@ -114,7 +120,6 @@ public class Shoe {
 	 * @param shufflePercentage percentage of played shoe required to shuffle the deck 
 	 */
 	public boolean shuffle(int shufflePercentage){
-		
 		if(100.0*playedCards/(totalDecks*52) > shufflePercentage || 100.0*playedCards/(totalDecks*52) == 100) {
 			shuffle();
 			playedCards = 0;
@@ -123,6 +128,10 @@ public class Shoe {
 		return false;
 	}
 	
+	/**
+	 * Get the total number of decks
+	 * @return number of decks
+	 */
 	public int getNbDecks(){
 		return this.totalDecks;
 	}

@@ -66,13 +66,7 @@ public class Player implements PlayerInterface{
 				
 		}
 	}
-	
-	/**
-	 * Insurance method:
-	 * When the dealer's face-up card is an ace, each player gets the chance to bet on whether the
-	 * dealer has a blackjack. 
-	 * @param Hand dealerHand -  dealer's hand
-	 */
+
 	@Override
 	public void insurance(Hand dealerHand) throws IllegalHandException{
 			//only check the card that is initially faced up
@@ -84,15 +78,6 @@ public class Player implements PlayerInterface{
 			playerHand.insuranceDone = true;//insurance bet 
 	}
 	
-	/**
-	 * Surrender method:
-	 * Surrenders a hand, returning half of the value of the bet associated with the player's current hand
-	 * @param playerHand
-	 * @return value to be bet
-	 * @throws HandIsSplitException
-	 * 
-	 * @see 
-	 */
 	@Override
 	public float surrender(Hand dealerHand) throws IllegalHandException{
 		if(this.hand.size() != 1) throw new IllegalHandException("surrender is valid only if hand is not split");
@@ -122,6 +107,7 @@ public class Player implements PlayerInterface{
 		
 	}
 	
+
 	@Override
 	public double getPlayerMoney() {
 		return playerMoney;
@@ -202,10 +188,18 @@ public class Player implements PlayerInterface{
 		hand.add(new Hand(null, null,minBet,maxBet));
 	}
 	
+	/**
+	 * Check if split can to be executed
+	 * @return true if success
+	 */
 	public boolean splitAvailable(){
 		return (hand.size()<4 && getCurrHand().getSize()==2 && getCurrHand().cardsEqual());
 	}
 
+	/**
+	 * Check if player has busted hands
+	 * @return true if success
+	 */
 	public boolean hasBustedHands(){
 		for(Hand h : hand){
 			if (h.busted==true)
@@ -213,6 +207,7 @@ public class Player implements PlayerInterface{
 		}
 		return false;
 	}
+	
 	@Override
 	public String toString() {
 		return "player's hand " + getHand();
