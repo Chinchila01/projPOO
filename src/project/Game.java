@@ -9,6 +9,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
@@ -16,16 +18,63 @@ import javax.swing.JComboBox;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.awt.FlowLayout;
+import java.awt.Dimension;
 
 public class Game {
 
 	private JFrame frmBlackjack;
-	private JTextField textField;
+	private JTextField txtMinimumBet;
+	private JTextField txtMaximumBet;
+	private JTextField txtBalance;
+	private JTextField txtShoe;
+	private JTextField txtShuffle;
+	private JButton btnPlay;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JPanel dealerArea;
+	private JPanel playingAreaPanel;
+	private JPanel chipsArea;
+	private JPanel commandArea;
+	private JPanel chips;
+	private JPanel dealerCards;
+	private JTextField txtDealerpoints;
+	private JPanel playerCards;
+	private JTextField txtPlayerPoints;
+	private JTextField pot;
+	private JButton btnChipBlack;
+	private JButton btnChipWhite;
+	private JButton btnChipGreen;
+	private JButton btnChipRed;
+	private JButton btnHit;
+	private JButton btnStand;
+	private JButton btnInsurance;
+	private JButton btnDouble;
+	private JButton btnSplit;
+	private JButton btnSurrender;
+	private JButton btnQuiet;
+	private JPanel menu;
+	private JPanel game;
+	
+	//Argument variables
+	int minBet, maxBet, nbDecks, shufflePercentage;
+	float initialMoney;
+	
+	
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		PlayingArea pa = null;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,9 +92,11 @@ public class Game {
 			System.exit(-1);
 		}
 		
+		
 		//Argument variables
 		int minBet, maxBet, nbDecks, shufflePercentage;
 		float initialMoney;
+		
 		
 		//TODO: do argument checking
 		switch(args[0].charAt(1)) {
@@ -101,7 +152,8 @@ public class Game {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			ClientGUI clientgui = new ClientGUI();
+			
+			
 			
 			break;
 			
@@ -156,22 +208,194 @@ public class Game {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frmBlackjack = new JFrame();
 		frmBlackjack.setTitle("BlackJack");
 		frmBlackjack.getContentPane().setBackground(new Color(0, 128, 0));
 		frmBlackjack.setBounds(100, 100, 600, 400);
 		frmBlackjack.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmBlackjack.getContentPane().setLayout(new BoxLayout(frmBlackjack.getContentPane(), BoxLayout.Y_AXIS));
+		//frmBlackjack.getContentPane().setLayout(new BoxLayout(frmBlackjack.getContentPane(), BoxLayout.X_AXIS));
+		frmBlackjack.getContentPane().setLayout(new FlowLayout());
 		
-		JPanel panel = new JPanel();
-		frmBlackjack.getContentPane().add(panel);
-		panel.setLayout(new GridLayout(1, 0, 0, 0));
+		menu = new JPanel();
+		frmBlackjack.getContentPane().add(menu);
+		menu.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		textField = new JTextField();
-		textField.setToolTipText("Minimum Bet");
-		panel.add(textField);
-		textField.setColumns(10);
+		txtMinimumBet = new JTextField();
+		txtMinimumBet.setText("Minimum Bet");
+		txtMinimumBet.setToolTipText("");
+		menu.add(txtMinimumBet);
+		txtMinimumBet.setColumns(10);
+		
+		txtMaximumBet = new JTextField();
+		txtMaximumBet.setToolTipText("");
+		txtMaximumBet.setText("Maximum Bet");
+		txtMaximumBet.setColumns(10);
+		menu.add(txtMaximumBet);
+		
+		txtBalance = new JTextField();
+		txtBalance.setToolTipText("");
+		txtBalance.setText("Balance");
+		txtBalance.setColumns(10);
+		menu.add(txtBalance);
+		
+		txtShoe = new JTextField();
+		txtShoe.setToolTipText("");
+		txtShoe.setText("Shoe");
+		txtShoe.setColumns(10);
+		menu.add(txtShoe);
+		
+		txtShuffle = new JTextField();
+		txtShuffle.setToolTipText("");
+		txtShuffle.setText("Shuffle");
+		txtShuffle.setColumns(10);
+		menu.add(txtShuffle);
+		
+		game = new JPanel();
+		//frmBlackjack.getContentPane().add(game);
+		game.setLayout(new BoxLayout(game, BoxLayout.X_AXIS));
+		
+		playingAreaPanel = new JPanel();
+		game.add(playingAreaPanel);
+		playingAreaPanel.setOpaque(false);
+		playingAreaPanel.setLayout(new BoxLayout(playingAreaPanel, BoxLayout.Y_AXIS));
+		
+		dealerArea = new JPanel();
+		dealerArea.setOpaque(false);
+		playingAreaPanel.add(dealerArea);
+		dealerArea.setLayout(new BoxLayout(dealerArea, BoxLayout.Y_AXIS));
+		
+		dealerCards = new JPanel();
+		dealerCards.setOpaque(false);
+		dealerCards.setMaximumSize(new Dimension(100, 100));
+		dealerArea.add(dealerCards);
+		
+		txtDealerpoints = new JTextField();
+		txtDealerpoints.setMaximumSize(new Dimension(20, 20));
+		txtDealerpoints.setText("dealerPoints");
+		dealerArea.add(txtDealerpoints);
+		txtDealerpoints.setColumns(10);
+		
+		JPanel playerArea = new JPanel();
+		playerArea.setOpaque(false);
+		playingAreaPanel.add(playerArea);
+		playerArea.setLayout(new BoxLayout(playerArea, BoxLayout.Y_AXIS));
+		
+		playerCards = new JPanel();
+		playerCards.setOpaque(false);
+		playerCards.setMaximumSize(new Dimension(100, 100));
+		playerArea.add(playerCards);
+		
+		txtPlayerPoints = new JTextField();
+		txtPlayerPoints.setText("playerPoints");
+		txtPlayerPoints.setMaximumSize(new Dimension(20, 20));
+		playerArea.add(txtPlayerPoints);
+		txtPlayerPoints.setColumns(10);
+		
+		commandArea = new JPanel();
+		commandArea.setOpaque(false);
+		playingAreaPanel.add(commandArea);
+		commandArea.setLayout(new BoxLayout(commandArea, BoxLayout.X_AXIS));
+		
+		btnHit = new JButton("hit");
+		commandArea.add(btnHit);
+		
+		btnStand = new JButton("stand");
+		commandArea.add(btnStand);
+		
+		btnInsurance = new JButton("insurance");
+		commandArea.add(btnInsurance);
+		
+		btnDouble = new JButton("double");
+		commandArea.add(btnDouble);
+		
+		btnSplit = new JButton("split");
+		commandArea.add(btnSplit);
+		
+		btnSurrender = new JButton("surrender");
+		commandArea.add(btnSurrender);
+		
+		btnQuiet = new JButton("quit");
+		commandArea.add(btnQuiet);
+		
+		chipsArea = new JPanel();
+		game.add(chipsArea);
+		chipsArea.setOpaque(false);
+		chipsArea.setLayout(new BoxLayout(chipsArea, BoxLayout.X_AXIS));
+		
+		pot = new JTextField();
+		chipsArea.add(pot);
+		pot.setMaximumSize(new Dimension(20, 20));
+		pot.setColumns(10);
+		
+		chips = new JPanel();
+		chips.setOpaque(false);
+		chipsArea.add(chips);
+		chips.setLayout(new BoxLayout(chips, BoxLayout.Y_AXIS));
+		
+		
+		btnChipBlack = new JButton("");
+		btnChipBlack.setOpaque(false);
+		btnChipBlack.setPreferredSize(new Dimension(33, 20));
+		btnChipBlack.setContentAreaFilled(false);
+		btnChipBlack.setIcon(new ImageIcon(Game.class.getResource("/project/assets/chips/blackchip.png")));
+		chips.add(btnChipBlack);
+		
+		btnChipWhite = new JButton("");
+		btnChipWhite.setContentAreaFilled(false);
+		btnChipWhite.setOpaque(false);
+		btnChipWhite.setIcon(new ImageIcon(Game.class.getResource("/project/assets/chips/whitechip.png")));
+		chips.add(btnChipWhite);
+		
+		btnChipGreen = new JButton("");
+		btnChipGreen.setContentAreaFilled(false);
+		btnChipGreen.setOpaque(false);
+		btnChipGreen.setIcon(new ImageIcon(Game.class.getResource("/project/assets/chips/greenchip.png")));
+		chips.add(btnChipGreen);
+		
+		btnChipRed = new JButton("");
+		btnChipRed.setContentAreaFilled(false);
+		btnChipRed.setOpaque(false);
+		btnChipRed.setIcon(new ImageIcon(Game.class.getResource("/project/assets/chips/redchip.png")));
+		chips.add(btnChipRed);
+		
+		btnPlay = new JButton("Play!");
+		frmBlackjack.getContentPane().add(btnPlay);
+		btnPlay.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+					minBet = Integer.parseInt(txtMinimumBet.getText());
+					maxBet = Integer.parseInt(txtMaximumBet.getText());
+					initialMoney = Float.parseFloat(txtBalance.getText());
+					nbDecks = Integer.parseInt(txtShoe.getText());
+					shufflePercentage = Integer.parseInt(txtShuffle.getText());
+					
+					//txtMinimumBet.setTxtMinimumBetEnabled(false);
+					
+					frmBlackjack.remove(menu);
+					frmBlackjack.getContentPane().add(game);
+					game.setVisible(true);
+					frmBlackjack.getContentPane().setLayout(new BoxLayout(frmBlackjack.getContentPane(), BoxLayout.X_AXIS));
+					frmBlackjack.repaint();
+					btnPlay.setVisible(false);
+					
+				}catch(NumberFormatException e1) {
+					//do nothing
+				}
+				
+				
+				
+			}
+		});
+		buttonGroup.add(btnPlay);
+		
+		game.setVisible(false);
+		
+		
 	}
+	
 	
 
 
