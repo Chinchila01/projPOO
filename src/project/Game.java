@@ -4,9 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.BoxLayout;
@@ -47,7 +44,6 @@ public class Game {
 		int minBet, maxBet, nbDecks, shufflePercentage;
 		float initialMoney;
 		
-		//TODO: do argument checking
 		switch(args[0].charAt(1)) {
 		case 'i':
 			//Checking arguments
@@ -95,13 +91,6 @@ public class Game {
 			break;
 			
 		case 'g':
-			try {
-				UIManager.setLookAndFeel(UIManager.getLookAndFeel());
-			} catch (UnsupportedLookAndFeelException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			ClientGUI clientgui = new ClientGUI();
 			
 			break;
 			

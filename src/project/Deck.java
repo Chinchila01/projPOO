@@ -12,9 +12,8 @@ import java.util.ListIterator;
  * The deck has each of the above cards in each of the 4 suits: Clubs, Diamonds, Spades, Hearts
  * 
  * @author Filipe Correia
- * @author Hélder Duarte
- * @author João Vieira
- * @version 1.0
+ * @author Helder Duarte
+ * @author Joao Vieira
  */
 public class Deck {
 	/**
@@ -30,9 +29,6 @@ public class Deck {
 	 * @see Deck
 	 */
 	private static final char[] suits = new char[] {'C','D','S','H'};
-	//private static final char[] types = new char[] {'N','J','K','Q','A'};
-	//private int[] nCardsPerValue;
-	//private int[] nCardsPerSuit;
 	
 	/**
 	 * Total number of cards currently in the {@link Deck}
@@ -48,10 +44,6 @@ public class Deck {
 	 * <p>Consists of each of the following cards in the 4 {@link suits} available: <br>
 	 * 	Number cards: 2,3,4,5,6,7,8,9,10 <br>
 	 *  Face cards: A, J, Q, K </p>
-	 * 
-	 * @author Filipe Correia
-	 * @author Hélder Duarte
-	 * @author João Vieira
 	 */
 	public Deck(){
 		cards = new ArrayList<Card>();
@@ -149,6 +141,10 @@ public class Deck {
 		return total;
 	}
 	
+	/**
+	 * Prints deck's cards
+	 * @return String of cards
+	 */
 	public String toString(){
 		ListIterator<Card> it = cards.listIterator();
 		StringBuilder sb = new StringBuilder();

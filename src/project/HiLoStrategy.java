@@ -1,7 +1,6 @@
 package project;
 
-/** HiLoStrategy class
- * 
+/** Hi-Lo Strategy class
  * 
  * @author Filipe Correia
  * @author Helder Duarte
@@ -14,6 +13,9 @@ public class HiLoStrategy {
 	float trueCount = 0;
 	float nbDecksLeft = 0;
 	
+	/**
+	 * Constructor for the Hi-lo Strategy class
+	 */
 	public HiLoStrategy() {
 		runningCount = 0;
 		trueCount = 0;
@@ -23,7 +25,7 @@ public class HiLoStrategy {
 	 * Table for HiLo strategy
 	 * 
 	 * @param rank - char indicating rank of card. T means 10.
-	 * @return value of card according to the HiLo startegy.
+	 * @return value of card according to the HiLo strategy.
 	 */
 	public int getValue(char rank) {
 		
@@ -45,23 +47,29 @@ public class HiLoStrategy {
 		case 'A':
 			return -1;
 		default:
-			//TODO: throw exception
 		}
 		// should never reach here
 		return 0;
 	}
 	
-	
+	/**
+	 * Update running and true count
+	 * @param newCard
+	 * @param nbDecksLeft
+	 */
 	public void updateCount(Card newCard, float nbDecksLeft) {
-		
 		runningCount += getValue(newCard.getSymbol());
 		trueCount = runningCount/nbDecksLeft;
-		
 	}
 	
-	//TODO: in some cases Illustrious18 and Fab4 overlap
-	
-	
+	/**
+	 * Depending on player's and dealer's cards get the advised move to be played,
+	 * accordingly to this strategy
+	 * @param playerHand
+	 * @param dealerCard
+	 * @param canInsure
+	 * @return
+	 */
 	public char getStrat(Hand playerHand, Card dealerCard, boolean canInsure) {
 		/**
 		 * Illustrious18
@@ -162,6 +170,9 @@ public class HiLoStrategy {
 		return '0';
 	}
 	
+	/**
+	 * reset Hi-lo Strategy counts
+	 */
 	public void reset(){
 		runningCount = 0;
 		trueCount = 0;

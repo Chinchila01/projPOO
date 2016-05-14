@@ -4,8 +4,8 @@ package project;
  * This class contains all methods that operate/are related to the Card object.
  * 
  * @author Filipe Correia
- * @author Hélder Duarte
- * @author João Vieira
+ * @author Helder Duarte
+ * @author Joao Vieira
  *
  */
 public class Card {
@@ -30,7 +30,8 @@ public class Card {
 	static final char[] symbols = new char[] {'2','3','4','5','6','7','8','9','T','J','K','Q','A'};
 	
 	/**
-	 * Used to convert char representations of cards to int representation @see Cards#types
+	 * Used to convert char representations of cards into int representation 
+	 * @see Cards#types
 	 */
 	static final int[] scores = new int[] {2,3,4,5,6,7,8,9,10,10,10,10,11};
 	
@@ -64,7 +65,7 @@ public class Card {
 	/**Card Constructor
 	 * Constructor of a {@link Card} object
 	 * 
-	 * By default, the card is constructed turned up. 
+	 * By default, the card is turned up. 
 	 * 
 	 * @return new {@link Card} object
 	 * @param suit of the card being created, according to {@link Card#suits}
@@ -80,7 +81,7 @@ public class Card {
 	/**Card Constructor
 	 * Constructor of a {@link Card} object
 	 * 
-	 * By default, the card is constructed turned up. 
+	 * By default, the card is turned up. 
 	 * 
 	 * @return new {@link Card} object
 	 * @param card String depicting card in format [symbol|suit]
@@ -138,15 +139,13 @@ public class Card {
 		return score;
 	}
 	/**
-	 * Because the Ace card can have two different values (1 or 11),<br> this method is needed to set the score according to what the<br> player chose.
+	 * Because the Ace card can have two different values (1 or 11),<br> this method is needed to set the score
 	 * @params newScore new score of the {@link Card} object 
 	 */
 	public void setScore(int newScore){
 		//The Ace has multiple possible values
 		this.score = newScore;
 	}
-	
-	
 	
 	@Override
 	public String toString(){

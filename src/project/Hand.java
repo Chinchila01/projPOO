@@ -12,11 +12,6 @@ import java.util.Iterator;
  */
 
 public class Hand {
-
-	static final int DOUBLE=1;
-	static final int SURRENDER=2;
-	static final int SPLIT=3;
-	static final int INSURANCE=4;
 	/**
 	 * ArrayList where the Hand is stored. Minimum size is 2, as that is the amount of cards first dealt by the dealer to each player
 	 * @see Card
@@ -103,12 +98,10 @@ public class Hand {
 	
 	/**
 	 * Iterates over cards and returns sum of each card's score.
-	 * 
 	 * @return total score of hand
 	 */
 	public int getScore() {
 		int points=0;
-		//TODO: testar se ha um Ã�s, se houver e fizer bust, mudar o valor para 1
 		for(Card c : cards) {
 			points += c.getScore();
 		}
@@ -119,9 +112,14 @@ public class Hand {
 		return points;
 	}
 
+	/**
+	 * Test if any side rule has been done
+	 * @return
+	 */
 	public boolean sideRuleDone(){
 		return insuranceDone || doubleDone || surrenderDone;
 	}
+	
 	
 	@Override
 	public String toString(){
@@ -132,10 +130,18 @@ public class Hand {
 		return sb.toString();
 	}
 	
+	/**
+	 * Checks if the double side rule is available to be executed
+	 * @return boolean
+	 */
 	public boolean doubleAvailable(){
 		return (this.getScore()>8 && this.getScore()<12 && !sideRuleDone() && !hitDone && !standDone);
 	}
 	
+	/**
+	 * Check if the next card is equal to the actual card
+	 * @return boolean
+	 */
 	public boolean cardsEqual(){
 		Iterator<Card> it = cards.iterator();
 		return it.next()==it.next();

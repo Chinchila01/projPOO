@@ -127,11 +127,7 @@ public abstract class PlayingArea {
 		if(cmd.equals("s")) {	//stand
 			
 			if(dealDone==false) throw new IllegalCmdException("s: illegal command");
-			
-			//if(itPlayer.hasNext()) 
-			//	playerCurrHand=itPlayer.next();//gets next hand if exists
-			//else pa.validHands = false;
-			
+
 			player.stand();
 			playerCurrHand.standDone=true;
 			if(player.hand.size() == 1)
@@ -182,10 +178,7 @@ public abstract class PlayingArea {
 					printMessage(e.getMessage());
 				}
 			}
-			
-			//if(itPlayer.hasNext()) 
-			//	playerCurrHand=itPlayer.next();//gets next hand if exists
-			//else pa.validHands = false;
+
 		}
 			
 		if(cmd.equals("p")) {	// splitting
@@ -232,7 +225,7 @@ public abstract class PlayingArea {
 				String[] strategies = ad.advise(dealDone, player, dealer.hand.cards.iterator().next());
 				
 				if(!strategies[0].equals("")) printMessage("basic\t" + ad.basicInterpret(dealDone, player, strategies[0]));
-				if(!strategies[1].equals("")) printMessage("hilo\t" + ((strategies[1].length() < 2) ? ad.hlInterpret(dealDone,player,strategies[1]) : ad.basicInterpret(dealDone, player, strategies[1])));
+				if(!strategies[1].equals("")) printMessage("hilo\t" + ((strategies[1].length() < 2) ? ad.basicInterpret(dealDone,player,strategies[1]) : ad.basicInterpret(dealDone, player, strategies[1])));
 			}
 		}
 			
