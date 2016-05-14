@@ -1,6 +1,5 @@
 package project;
 
-//import java.util.Iterator;
 import java.util.Scanner;
 
 /** 
@@ -15,8 +14,6 @@ public class PlayingAreaInteractive extends PlayingArea{
 	
 	int nbDecksInShoe;
 	int shufflePercentage;
-	//int handIndex;
-	//public int previousBet;
 	private Scanner reader;
 	
 	/**

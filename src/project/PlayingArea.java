@@ -1,6 +1,7 @@
 package project;
 
 /**
+ * Abstract Playing Area Class
  * @author Filipe Correia
  * @author Helder Duarte
  * @author Joao Vieira
@@ -24,7 +25,12 @@ public abstract class PlayingArea {
 	Player player;
 	Dealer dealer;
 	
-	
+	/**
+	 * Constructor to Playing Area Class
+	 * @param minBet
+	 * @param maxBet
+	 * @param initial player's money
+	 */
 	public PlayingArea(int minBet, int maxBet, float initialMoney) {
 		this.minBet = minBet;
 		this.maxBet = maxBet;

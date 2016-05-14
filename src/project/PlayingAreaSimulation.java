@@ -15,10 +15,7 @@ public class PlayingAreaSimulation extends PlayingArea {
 	public static int minimumBet;
 	
 	public PlayingAreaSimulation(int minBet, int maxBet, float initialMoney, int nbDecks, int shufflePercent, int nbShuffles, String strat) {
-		//TODO:faltam restriçoes na passagem dos comandos - ver enunciado. 
-		//Muito provavelmente falta tb nos outros modos de jogo
 		super(minBet, maxBet, initialMoney);
-
 		this.nbDecksInShoe = nbDecks;
 		this.shufflePercentage = shufflePercent;
 		this.nbShuffles = nbShuffles;
