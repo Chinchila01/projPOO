@@ -12,8 +12,8 @@ public class PlayingAreaSimulation extends PlayingArea {
 	int shufflePercentage;
 	int nbShuffles,shufflesPlayed;
 	String strategy;
-	int handIndex;
-	int previousBet;
+	//int handIndex;
+	//int previousBet;
 	public static int minimumBet;
 	
 	public PlayingAreaSimulation(int minBet, int maxBet, float initialMoney, int nbDecks, int shufflePercent, int nbShuffles, String strat) {

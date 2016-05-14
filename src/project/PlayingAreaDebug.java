@@ -13,8 +13,8 @@ public class PlayingAreaDebug extends PlayingArea {
 	
 	Scanner cmdFile;
 	String cmds;
-	int handIndex;
-	public int previousBet;
+	//int handIndex;
+	//public int previousBet;
 	public static int minimumBet;
 	
 	public PlayingAreaDebug(int minBet, int maxBet, float initialMoney, String shoeFile, String inCmdFile) {

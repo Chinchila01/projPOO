@@ -1,7 +1,5 @@
 package project;
 
-import java.util.Arrays;
-
 /**
  * @author Filipe Correia
  * @author Helder Duarte
@@ -16,7 +14,7 @@ public abstract class PlayingArea {
 	int minBet;
 	int maxBet;
 	int previousBet;
-	//int handIndex;
+	int handIndex;
 	float initialMoney;
 	Shoe shoe;
 	Statistics stat;
@@ -67,6 +65,7 @@ public abstract class PlayingArea {
 			}
 			
 			try{
+				bet = (bet > maxBet) ? maxBet : (bet < minBet) ? minBet : bet;
 				player.addPlayerMoney(-bet);
 				playerCurrHand.addBet(bet);
 				this.previousBet = playerCurrHand.curBet;
