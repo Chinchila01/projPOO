@@ -16,6 +16,10 @@ public interface PlayerInterface extends DealerInterface{
 	
 	public Hand getNextHand();
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Hand getCurrHand();
 	
 }

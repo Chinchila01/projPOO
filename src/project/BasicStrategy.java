@@ -57,7 +57,12 @@ public class BasicStrategy {
 											{"P", "P", "P", "P", "P", "P", "P", "P", "P", "P"}
 										 };
 	
-
+	/**
+	 * Advisor for Basic Strategy
+	 * @param playerHand
+	 * @param dealerCard
+	 * @return Command to be executed
+	 */
 	static public String advise(Hand playerHand, Card dealerCard) {
 		
 		int x, y;
@@ -104,13 +109,11 @@ public class BasicStrategy {
 		return "";
 	}
 	
-	//TODO: estes metodos precisam de ser static certo?
-	
 	/**
 	 * Checks for pairs in hand
 	 * 
 	 * @param hand
-	 * @return
+	 * @return Boolean
 	 */
 	static private boolean hasPairs(Hand hand) {
 		Iterator<Card> it = hand.cards.iterator();
@@ -124,7 +127,7 @@ public class BasicStrategy {
 	 * Checks for aces in hand
 	 * 
 	 * @param hand
-	 * @return
+	 * @return boolean
 	 */
 	static private boolean hasAces(Hand hand) {
 		
@@ -140,7 +143,7 @@ public class BasicStrategy {
 	 * Checks for pair of aces in hand
 	 * 
 	 * @param hand
-	 * @return
+	 * @return boolean
 	 */
 	static private boolean hasAcePair(Hand hand) {
 		Iterator<Card> it = hand.cards.iterator();

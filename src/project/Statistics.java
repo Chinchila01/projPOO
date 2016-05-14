@@ -67,9 +67,7 @@ public class Statistics {
 	 */
 	public void presentStatistics() throws NoPlayedRoundsException{
 		if(plays == 0) throw new NoPlayedRoundsException();
-		System.out.printf("PLAYS %d\n", plays);
 		System.out.printf("BJ P/D %6.2f/%.2f\n",(float)playerBJ/plays,(float)dealerBJ/plays);
-		System.out.printf("BJ P/D %6.2f/%.2f\n",(float)playerBJ,(float)dealerBJ);
 		System.out.printf("Win %11.2f\n",(float)wins/plays);
 		System.out.printf("Lose %10.2f\n",(float)losses/plays);
 		System.out.printf("Push %10.2f\n",(float)pushes/plays);

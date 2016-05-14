@@ -24,6 +24,12 @@ public class Advisor {
 	private int minBet;
 	private int maxBet;
 	
+	/**
+	 * Constructor for the advisor used in Debug and Interactive Mode
+	 * @param minBet
+	 * @param maxBet
+	 * @param nbDecks
+	 */
 	public Advisor(int minBet, int maxBet, int nbDecks) {
 		a5 = new AceFiveStrategy(minBet, maxBet);
 		hls = new HiLoStrategy();
@@ -35,7 +41,13 @@ public class Advisor {
 		this.maxBet = maxBet;
 		
 	}
-	
+	/**
+	 * Constructor for the advisor used in Simulation Mode
+	 * @param minBet
+	 * @param maxBet
+	 * @param nbDecks
+	 * @param comb
+	 */
 	public Advisor(int minBet, int maxBet, int nbDecks, String comb) {
 		String[] s = comb.split("-");
 		if(s.length == 1) useAF = false;
@@ -56,27 +68,31 @@ public class Advisor {
 		this.maxBet = maxBet;
 	}
 	
+	/**
+	 * Counts cards dealt according to strategy used
+	 * @param c - observed card
+	 * @param decksLeft
+	 */
 	public void observeCard(Card c,float decksLeft){
 		if(useAF) a5.observeCard(c);
 		if(useHiLo) hls.updateCount(c, decksLeft);
 	}
 	
+	/**
+	 * Method called to advice based on player's and dealer's hand
+	 * @param dealDone
+	 * @param player
+	 * @param dealerCard
+	 * @return command advised by the basic and hi-lo strategy
+	 */
 	public String[] advise(boolean dealDone,Player player, Card dealerCard){
 			Hand h = player.getCurrHand();
 			boolean canInsure = !h.hitDone && dealDone && !h.standDone;
 			char hlStratChar = '0';
-			//String basicStrat = this.basicInterpret(dealDone,player,BasicStrategy.advise(h,dealerCard));
 			if(useHiLo) hlStratChar = hls.getStrat(h, dealerCard, canInsure);
-			
-			//if(useBasicStrat) System.out.println("basic\t" + basicStrat);
-			//if(useHiLo && useBasicStrat) System.out.println("hi-lo\t" + ((hlStrat == '0') ? basicStrat : hlInterpret(hlStrat)));
-			
-			//String basicStrat = (useBasicStrat) ? this.basicInterpret(dealDone,player,BasicStrategy.advise(h,dealerCard)) : "";
-			//String hlStrat = (useBasicStrat && useHiLo) ? ((hlStratChar == '0') ? basicStrat : hlInterpret(hlStratChar)) : "";
 			
 			String basicStrat = (useBasicStrat) ? BasicStrategy.advise(h,dealerCard) : "";
 			String hlStrat = (useHiLo) ? ((hlStratChar == '0') ? BasicStrategy.advise(h,dealerCard) : String.valueOf(hlStratChar)) : "";
-			
 			
 			String[] str = new String[2];
 			str[0] = basicStrat;
@@ -84,14 +100,24 @@ public class Advisor {
 			return str;
 	}
 	
+	/**
+	 * Advised the bet value
+	 * @param lastBet
+	 * @return String bet value
+	 */
 	public String advise(int lastBet){
-		//if(useAF) System.out.println("ace-five\tbet " + a5.adviseBet(lastBet));
-		//else System.out.println("Standard\tbet " + stdStratBet);
-		
 		if(useAF) return String.valueOf(a5.adviseBet(lastBet));
 		else return String.valueOf(stdStratBet);
 	}
 	
+	/**
+	 * Interprets the commands received from advisor into executable commands interpreted by the class PlayingArea
+	 * @param dealDone
+	 * @param player
+	 * @param s
+	 * @return commands to be executed
+	 * @see PlayingArea
+	 */
 	public String cmdInterpret(boolean dealDone, Player player, String[] s){
 		String str = (useBasicStrat) ? this.basicInterpret(dealDone, player, s[0]) : this.basicInterpret(dealDone,player,s[1]);
 		
@@ -104,11 +130,22 @@ public class Advisor {
 		else return player.getCurrHand().getScore()>=17 ?  "s" : "h";
 	}
 	
+	/**
+	 * Receives the bet value and return an executable command that bets the value received
+	 * @param s - value to bet
+	 * @return executable command bet
+	 */
 	public String betInterpret(String s){
 		return "b " + s;
 	}
 	
-	
+	/**
+	 * Interpreter of commands received from the advisor, using Basic and Hi-lo strategy 
+	 * @param dealDone
+	 * @param player
+	 * @param s - commands to be interpreted
+	 * @return executable command
+	 */
 	public String basicInterpret(boolean dealDone, Player player, String s){
 		if(s.equals("H") || s.equals("h")) return "hit";
 		if(s.equals("S")|| s.equals("s")) return "stand";
@@ -130,32 +167,30 @@ public class Advisor {
 		else return s;
 	}
 	
-	public String hlInterpret(boolean dealDone, Player player, String hlStrats){
-		char hlStrat = (hlStrats.length() == 1) ? hlStrats.charAt(0) : '0';
-		switch(hlStrat){
-			case 's': return "stand";
-			case 'h': return "hit";
-			case 'd': return "double";
-			case 'u': return "surrender";
-			case 'p': return "split";
-			case 'i': return "insurance";
-		}
-		
-		return basicInterpret(dealDone,player,hlStrats);
-	}
-	
+	/**
+	 * Update Standard strategy - If the player wins, increase the bet by
+	 * min-bet (up to max-bet). If the player loses, decrease the bet by min-bet (down to min-bet).
+	 * If the player pushes, keep the bet
+	 * @param playerLost
+	 */
 	public void updateStdStrat(boolean playerLost){
 		stdStratBet += (playerLost) ? -minBet : minBet;
 		if(stdStratBet < minBet) stdStratBet = minBet;
 		if(stdStratBet > maxBet) stdStratBet = maxBet;
 	}
 	
+	/**
+	 * Reset strategies
+	 */
 	public void resetStrats(){
 		resetStdStrat();
 		if(useAF) a5.reset();
 		if(useHiLo) hls.reset();
 	}
 	
+	/**
+	 * Reset Standard strategy
+	 */
 	public void resetStdStrat(){
 		stdStratBet = minBet;
 	}

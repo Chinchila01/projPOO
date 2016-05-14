@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-
+/**
+ * Player Class
+ * @author Filipe Correia
+ * @author Helder Duarte
+ * @author Joao Vieira
+ */
 public class Player implements PlayerInterface{
 	
 	
@@ -12,6 +17,7 @@ public class Player implements PlayerInterface{
 	 ArrayList<Hand> hand;
 	 int minBet,maxBet;
 	 int currHand;
+	 
 	/**
 	 * Constructor for a Player object. Needs a object player to be created.
 	 * 
@@ -27,14 +33,12 @@ public class Player implements PlayerInterface{
 	}
 
 	/**
+	 * Split method:
 	 * When you get two starting cards of the same face value, you have the option to split the hand 
 	 * in two. You place another bet of the same size as the original bet and play on with two hands.
 	 * 
 	 * @param Hand h to be split 
 	 * @param Shoe s, from which the new card will be picked through hit method
-	 * 
-	 * 
-	 * @see 
 	 */
 	@Override
 	public void split(Hand h, Shoe s) throws IllegalHandException, NotEnoughMoneyException{
@@ -64,12 +68,10 @@ public class Player implements PlayerInterface{
 	}
 	
 	/**
+	 * Insurance method:
 	 * When the dealer's face-up card is an ace, each player gets the chance to bet on whether the
 	 * dealer has a blackjack. 
-	 * @param Hand dh -  dealer's hand
-	 * @return insurance bet value
-	 * 
-	 * @see 
+	 * @param Hand dealerHand -  dealer's hand
 	 */
 	@Override
 	public void insurance(Hand dealerHand) throws IllegalHandException{
@@ -83,10 +85,10 @@ public class Player implements PlayerInterface{
 	}
 	
 	/**
+	 * Surrender method:
 	 * Surrenders a hand, returning half of the value of the bet associated with the player's current hand
-	 * @param dealer hand - hand of the dealer
 	 * @param playerHand
-	 * @return
+	 * @return value to be bet
 	 * @throws HandIsSplitException
 	 * 
 	 * @see 
@@ -105,6 +107,7 @@ public class Player implements PlayerInterface{
 	@Override
 	public boolean doubleBet() throws IllegalHandException, NotEnoughMoneyException{
 		Hand h = hand.listIterator(currHand).next();
+		System.out.println(h.curBet);
 		if(!h.doubleAvailable()) 
 			throw new IllegalHandException();
 		addPlayerMoney(-h.curBet);
@@ -203,6 +206,13 @@ public class Player implements PlayerInterface{
 		return (hand.size()<4 && getCurrHand().getSize()==2 && getCurrHand().cardsEqual());
 	}
 
+	public boolean hasBustedHands(){
+		for(Hand h : hand){
+			if (h.busted==true)
+				return true;
+		}
+		return false;
+	}
 	@Override
 	public String toString() {
 		return "player's hand " + getHand();

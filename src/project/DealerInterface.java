@@ -4,8 +4,8 @@ package project;
  * Interface to the basic movements a BlackJack player can execute
  * 
  * @author Filipe Correia
- * @author Hélder Duarte
- * @author João Vieira
+ * @author Helder Duarte
+ * @author Joao Vieira
  */
 public interface DealerInterface {
 	
@@ -27,8 +27,16 @@ public interface DealerInterface {
 	 */
 	public void stand();
 	
+	/**
+	 * Gets the available hand from the dealer
+	 * @return String of dealer's cards
+	 */
 	public String getHand();
 	
+	/**
+	 * Reset Dealer's cards
+	 * @param Shoe
+	 */
 	public void resetHands(Shoe s);
 }
 
