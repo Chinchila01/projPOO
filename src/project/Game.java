@@ -7,26 +7,33 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import java.awt.GridLayout;
+import javax.swing.JComboBox;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JTextField;
 
 public class Game {
 
-	private JFrame frame;
+	private JFrame frmBlackjack;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		PlayingArea pa = null;
-		/*EventQueue.invokeLater(new Runnable() {
+		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Game window = new Game();
-					window.frame.setVisible(true);
+					window.frmBlackjack.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-		});*/
+		});
 		
 		if(args.length < 1){ // minimum arg size
 			System.out.println("Not enough arguments");
@@ -134,10 +141,21 @@ public class Game {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		frmBlackjack = new JFrame();
+		frmBlackjack.setTitle("BlackJack");
+		frmBlackjack.getContentPane().setBackground(new Color(0, 128, 0));
+		frmBlackjack.setBounds(100, 100, 600, 400);
+		frmBlackjack.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmBlackjack.getContentPane().setLayout(new BoxLayout(frmBlackjack.getContentPane(), BoxLayout.Y_AXIS));
+		
+		JPanel panel = new JPanel();
+		frmBlackjack.getContentPane().add(panel);
+		panel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		textField = new JTextField();
+		textField.setToolTipText("Minimum Bet");
+		panel.add(textField);
+		textField.setColumns(10);
 	}
 	
 
