@@ -26,7 +26,7 @@ public class PlayingAreaSimulation extends PlayingArea {
 		this.nbShuffles = nbShuffles;
 		this.shufflesPlayed = 0;
 		this.strategy = strat;
-		previousBet = minBet;
+		
 		
 		//Creating advisor
 		this.ad = new Advisor(minBet, maxBet, nbDecks, strat);

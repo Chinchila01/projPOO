@@ -105,6 +105,7 @@ public class Player implements PlayerInterface{
 	@Override
 	public boolean doubleBet() throws IllegalHandException, NotEnoughMoneyException{
 		Hand h = hand.listIterator(currHand).next();
+		System.out.println(h.curBet);
 		if(!h.doubleAvailable()) 
 			throw new IllegalHandException();
 		addPlayerMoney(-h.curBet);

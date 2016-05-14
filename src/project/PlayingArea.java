@@ -16,6 +16,7 @@ public abstract class PlayingArea {
 	int minBet;
 	int maxBet;
 	int previousBet;
+	//int handIndex;
 	float initialMoney;
 	Shoe shoe;
 	Statistics stat;
@@ -68,6 +69,7 @@ public abstract class PlayingArea {
 			try{
 				player.addPlayerMoney(-bet);
 				playerCurrHand.addBet(bet);
+				this.previousBet = playerCurrHand.curBet;
 			}catch(NotEnoughMoneyException e){
 				handleMoneyException("betting not possible: " + e.getMessage());
 			}catch(IllegalCmdException e){
@@ -80,7 +82,8 @@ public abstract class PlayingArea {
 				}
 			}
 			printMessage("Player is betting "+bet);
-			this.previousBet = playerCurrHand.curBet;
+			
+			System.out.println("Previous Bet=" + previousBet);
 			betDone=true;
 		}
 			
