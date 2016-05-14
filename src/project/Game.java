@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.BoxLayout;
@@ -90,9 +93,21 @@ public class Game {
 			
 			pa = new PlayingAreaSimulation(minBet, maxBet, initialMoney, nbDecks, shufflePercentage, nbShuffles, strategy);
 			break;
+			
+		case 'g':
+			try {
+				UIManager.setLookAndFeel(UIManager.getLookAndFeel());
+			} catch (UnsupportedLookAndFeelException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			ClientGUI clientgui = new ClientGUI();
+			
+			break;
+			
 		default: System.exit(-1);
 		}
-
+		
 		//PlayingAreaDebug pa = new PlayingAreaDebug(args);
 		
 		String cmd;
