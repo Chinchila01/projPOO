@@ -191,7 +191,7 @@ public class Player implements PlayerInterface{
 	}
 	
 	public boolean splitAvailable(){
-		return hand.size()<4;
+		return (hand.size()<4 && getCurrHand().getSize()==2);
 	}
 
 	@Override
