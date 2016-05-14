@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -65,6 +66,7 @@ public class Game {
 	int minBet, maxBet, nbDecks, shufflePercentage;
 	float initialMoney;
 	
+	PlayingAreaGUI pag;
 	
 
 	/**
@@ -73,16 +75,10 @@ public class Game {
 	public static void main(String[] args) {
 		
 		PlayingArea pa = null;
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Game window = new Game();
-					window.frmBlackjack.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
+		
+		
+		
 		
 		if(args.length < 1){ // minimum arg size
 			System.out.println("Not enough arguments");
@@ -142,7 +138,19 @@ public class Game {
 			break;
 			
 		case 'g':
+			
+			initializeMenu();
 
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						Game window = new Game();
+						window.frmBlackjack.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
 			
 			break;
 			
@@ -190,14 +198,14 @@ public class Game {
 	 * Create the application.
 	 */
 	public Game() {
-		initialize();
+		initializeGame();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
-		
+	private void initializeMenu() {
+				
 		frmBlackjack = new JFrame();
 		frmBlackjack.setTitle("BlackJack");
 		frmBlackjack.getContentPane().setBackground(new Color(0, 128, 0));
@@ -305,9 +313,16 @@ public class Game {
 		commandArea.add(btnSurrender);
 		
 		btnQuiet = new JButton("quit");
+		btnQuiet.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pa.cmdBuffer
+			}
+		});
 		commandArea.add(btnQuiet);
 		
 		chipsArea = new JPanel();
+		chipsArea.setBorder(null);
 		game.add(chipsArea);
 		chipsArea.setOpaque(false);
 		chipsArea.setLayout(new BoxLayout(chipsArea, BoxLayout.X_AXIS));
@@ -318,33 +333,77 @@ public class Game {
 		pot.setColumns(10);
 		
 		chips = new JPanel();
+		chips.setBorder(null);
 		chips.setOpaque(false);
 		chipsArea.add(chips);
 		chips.setLayout(new BoxLayout(chips, BoxLayout.Y_AXIS));
 		
 		
 		btnChipBlack = new JButton("");
+		btnChipBlack.setBorderPainted(false);
+		btnChipBlack.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnChipBlack.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnChipBlack.setBorderPainted(false);
+			}
+		});
 		btnChipBlack.setOpaque(false);
-		btnChipBlack.setPreferredSize(new Dimension(33, 20));
 		btnChipBlack.setContentAreaFilled(false);
 		btnChipBlack.setIcon(new ImageIcon(Game.class.getResource("/project/assets/chips/blackchip.png")));
 		chips.add(btnChipBlack);
 		
 		btnChipWhite = new JButton("");
-		btnChipWhite.setContentAreaFilled(false);
+		btnChipWhite.setBorderPainted(false);
+		btnChipWhite.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnChipWhite.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnChipWhite.setBorderPainted(false);
+			}
+		});
 		btnChipWhite.setOpaque(false);
+		btnChipWhite.setContentAreaFilled(false);
 		btnChipWhite.setIcon(new ImageIcon(Game.class.getResource("/project/assets/chips/whitechip.png")));
 		chips.add(btnChipWhite);
 		
 		btnChipGreen = new JButton("");
-		btnChipGreen.setContentAreaFilled(false);
+		btnChipGreen.setBorderPainted(false);
+		btnChipGreen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnChipGreen.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnChipGreen.setBorderPainted(false);
+			}
+		});
 		btnChipGreen.setOpaque(false);
+		btnChipGreen.setContentAreaFilled(false);
 		btnChipGreen.setIcon(new ImageIcon(Game.class.getResource("/project/assets/chips/greenchip.png")));
 		chips.add(btnChipGreen);
 		
 		btnChipRed = new JButton("");
-		btnChipRed.setContentAreaFilled(false);
+		btnChipRed.setBorderPainted(false);
+		btnChipRed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnChipRed.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnChipRed.setBorderPainted(false);
+			}
+		});
 		btnChipRed.setOpaque(false);
+		btnChipRed.setContentAreaFilled(false);
 		btnChipRed.setIcon(new ImageIcon(Game.class.getResource("/project/assets/chips/redchip.png")));
 		chips.add(btnChipRed);
 		
@@ -382,6 +441,10 @@ public class Game {
 		
 		game.setVisible(false);
 		
+		
+	}
+	
+	public void initializeGame() {
 		
 	}
 	

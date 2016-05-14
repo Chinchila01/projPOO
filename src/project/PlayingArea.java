@@ -1,5 +1,7 @@
 package project;
 
+import java.util.Arrays;
+
 /**
  * @author Filipe Correia
  * @author Helder Duarte
@@ -14,7 +16,6 @@ public abstract class PlayingArea {
 	int minBet;
 	int maxBet;
 	int previousBet;
-	int handIndex;
 	float initialMoney;
 	Shoe shoe;
 	Statistics stat;
@@ -23,6 +24,7 @@ public abstract class PlayingArea {
 	Advisor ad;
 	Player player;
 	Dealer dealer;
+	int handIndex;
 	
 	
 	public PlayingArea(int minBet, int maxBet, float initialMoney) {
@@ -65,10 +67,8 @@ public abstract class PlayingArea {
 			}
 			
 			try{
-				bet = (bet > maxBet) ? maxBet : (bet < minBet) ? minBet : bet;
 				player.addPlayerMoney(-bet);
 				playerCurrHand.addBet(bet);
-				this.previousBet = playerCurrHand.curBet;
 			}catch(NotEnoughMoneyException e){
 				handleMoneyException("betting not possible: " + e.getMessage());
 			}catch(IllegalCmdException e){
@@ -80,12 +80,13 @@ public abstract class PlayingArea {
 					printMessage(e.getMessage());
 				}
 			}
-			printMessage("player is betting "+bet);
+			printMessage("Player is betting "+bet);
+			this.previousBet = playerCurrHand.curBet;
 			betDone=true;
 		}
 			
 		if(cmd.equals("$")) {	// prints current player balance
-			printMessage("player current balance is " + player.getPlayerMoney());
+			printMessage("Current balance: " + player.getPlayerMoney());
 		}
 			
 		if(cmd.equals("d")) {	// deal
@@ -127,7 +128,11 @@ public abstract class PlayingArea {
 		if(cmd.equals("s")) {	//stand
 			
 			if(dealDone==false) throw new IllegalCmdException("s: illegal command");
-
+			
+			//if(itPlayer.hasNext()) 
+			//	playerCurrHand=itPlayer.next();//gets next hand if exists
+			//else pa.validHands = false;
+			
 			player.stand();
 			playerCurrHand.standDone=true;
 			if(player.hand.size() == 1)
@@ -178,7 +183,10 @@ public abstract class PlayingArea {
 					printMessage(e.getMessage());
 				}
 			}
-
+			
+			//if(itPlayer.hasNext()) 
+			//	playerCurrHand=itPlayer.next();//gets next hand if exists
+			//else pa.validHands = false;
 		}
 			
 		if(cmd.equals("p")) {	// splitting
@@ -354,15 +362,20 @@ public abstract class PlayingArea {
 		dealerCurrHand.getCards().listIterator(1).next().isTurnedUp = true; //turn hole
 		
 		printMessage("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
-		if (!player.hasBustedHands()){//dealer stops playing when player busts
-			while(dealerCurrHand.getScore() < 17 ) { //dealer stands on all 17s
-				ad.observeCard(dealer.hit(shoe),shoe.getDecksLeft());
-				printMessage("dealer hits");
-				printMessage("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
-			}
-			printMessage("dealer stands");
+		
+		while(dealerCurrHand.getScore() < 17) { //dealer stands on all 17s
+			ad.observeCard(dealer.hit(shoe),shoe.getDecksLeft());
+			printMessage("dealer hits");
+			printMessage("dealer's hand " + dealer.getHand() + " (" + dealerCurrHand.getScore() + ")");
 		}
+		
+		if(dealerCurrHand.hasBlackjack) {
+			printMessage("blackjack!!");
+		}
+		
+		printMessage("dealer stands");
 	}
+	
 	/**
 	 * Prepares for next round, by putting the hands in the shoe
 	 * 
@@ -377,7 +390,7 @@ public abstract class PlayingArea {
 		dealDone=false;
 		betDone=false;		
 		
-		//printMessage("Starting a new round");
+		printMessage("Starting a new round");
 	}
 	
 	/**
