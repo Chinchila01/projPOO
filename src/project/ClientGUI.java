@@ -226,7 +226,7 @@ public class ClientGUI {
 
 	private void createAndShowGUI() {
 		//Used to prevent repeated keys
-		new RepeatingReleasedEventsFixer().install();
+		//new RepeatingReleasedEventsFixer().install();
 
 		//set up buttons
 		setupButtons();
