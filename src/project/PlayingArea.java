@@ -1,6 +1,9 @@
 package project;
 
+import java.util.Arrays;
+
 /**
+ * Abstract Playing Area Class
  * @author Filipe Correia
  * @author Helder Duarte
  * @author Joao Vieira
@@ -14,7 +17,6 @@ public abstract class PlayingArea {
 	int minBet;
 	int maxBet;
 	int previousBet;
-	int handIndex;
 	float initialMoney;
 	Shoe shoe;
 	Statistics stat;
@@ -23,8 +25,14 @@ public abstract class PlayingArea {
 	Advisor ad;
 	Player player;
 	Dealer dealer;
+	int handIndex;
 	
-	
+	/**
+	 * Constructor to Playing Area Class
+	 * @param minBet
+	 * @param maxBet
+	 * @param initial player's money
+	 */
 	public PlayingArea(int minBet, int maxBet, float initialMoney) {
 		this.minBet = minBet;
 		this.maxBet = maxBet;
@@ -65,10 +73,8 @@ public abstract class PlayingArea {
 			}
 			
 			try{
-				bet = (bet > maxBet) ? maxBet : (bet < minBet) ? minBet : bet;
 				player.addPlayerMoney(-bet);
 				playerCurrHand.addBet(bet);
-				this.previousBet = playerCurrHand.curBet;
 			}catch(NotEnoughMoneyException e){
 				handleMoneyException("betting not possible: " + e.getMessage());
 			}catch(IllegalCmdException e){
@@ -81,8 +87,7 @@ public abstract class PlayingArea {
 				}
 			}
 			printMessage("Player is betting "+bet);
-			
-			System.out.println("Previous Bet=" + previousBet);
+			this.previousBet = playerCurrHand.curBet;
 			betDone=true;
 		}
 			
@@ -234,7 +239,7 @@ public abstract class PlayingArea {
 				String[] strategies = ad.advise(dealDone, player, dealer.hand.cards.iterator().next());
 				
 				if(!strategies[0].equals("")) printMessage("basic\t" + ad.basicInterpret(dealDone, player, strategies[0]));
-				if(!strategies[1].equals("")) printMessage("hilo\t" + ((strategies[1].length() < 2) ? ad.hlInterpret(dealDone,player,strategies[1]) : ad.basicInterpret(dealDone, player, strategies[1])));
+				if(!strategies[1].equals("")) printMessage("hilo\t" + ((strategies[1].length() < 2) ? ad.basicInterpret(dealDone,player,strategies[1]) : ad.basicInterpret(dealDone, player, strategies[1])));
 			}
 		}
 			
