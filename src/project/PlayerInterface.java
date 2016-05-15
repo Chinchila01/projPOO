@@ -34,8 +34,8 @@ public interface PlayerInterface extends DealerInterface{
 	
 	/**
 	 * Doubling Down method:
-	 * If you’re fairly sure that your hand will beat the dealer’s, you can double your original bet. 
-	 * You’re sometimes allowed to double down for any amount up to the original bet amount.
+	 * If you are fairly sure that your hand will beat the dealer, you can double your original bet. 
+	 * You are sometimes allowed to double down for any amount up to the original bet amount.
 	 * @return true if double done with success
 	 * @throws IllegalHandException
 	 * @throws NotEnoughMoneyException

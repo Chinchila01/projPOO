@@ -61,7 +61,6 @@ public class PlayingAreaSimulation extends PlayingArea {
 			System.out.println("no rounds were played");
 		}
 		System.out.println("GAME OVER");
-		System.out.println("number of rounds played: " + nbShuffles);
 		System.exit(0);
 	}
 	
@@ -85,6 +84,11 @@ public class PlayingAreaSimulation extends PlayingArea {
 	public void handleMoneyException(String e){
 		super.handleMoneyException(e);
 		quit();
+	}
+	
+	@Override
+	public void printMessage(String s){
+		//no messages are printed in simulation mode
 	}
 
 }

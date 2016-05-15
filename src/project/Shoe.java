@@ -32,7 +32,6 @@ public class Shoe {
 		cards = new ArrayList<Card>();
 		if(n < 2 || n > 8) throw new IllegalDeckNumberException();
 		this.totalDecks = n;
-		//this.decks = new Deck[totalDecks];
 		cards.addAll((new Deck()).cards);
 		shuffle();
 	}
@@ -111,7 +110,6 @@ public class Shoe {
 	 * Shuffles the shoe
 	 */
 	public void shuffle(){
-		System.out.println("Shuffling the shoe...");
 		Collections.shuffle(cards);
 	}
 	 

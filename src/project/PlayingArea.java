@@ -1,7 +1,5 @@
 package project;
 
-import java.util.Arrays;
-
 /**
  * Abstract Playing Area Class
  * @author Filipe Correia
@@ -29,9 +27,9 @@ public abstract class PlayingArea {
 	
 	/**
 	 * Constructor to Playing Area Class
-	 * @param minBet
-	 * @param maxBet
-	 * @param initial player's money
+	 * @param minBet is the minimum bet allowed
+	 * @param maxBet is the maximum bet allowed
+	 * @param initialMoney is the initial player's money
 	 */
 	public PlayingArea(int minBet, int maxBet, float initialMoney) {
 		this.minBet = minBet;
@@ -48,9 +46,8 @@ public abstract class PlayingArea {
 	/**
 	 * Takes in a command and executes the command accordingly
 	 * 
-	 * @param cmd
-	 * @param player object
-	 * @param dealer object
+	 * @param cmd is the command to be executed
+	 * @throws IllegalCmdException when command is not recognized
 	 */
 	public void executePlayerAction(String cmd) throws IllegalCmdException {
 		
@@ -189,10 +186,6 @@ public abstract class PlayingArea {
 					printMessage(e.getMessage());
 				}
 			}
-			
-			//if(itPlayer.hasNext()) 
-			//	playerCurrHand=itPlayer.next();//gets next hand if exists
-			//else pa.validHands = false;
 		}
 			
 		if(cmd.equals("p")) {	// splitting
@@ -259,14 +252,10 @@ public abstract class PlayingArea {
 	
 	/**
 	 * checks win/lose conditions and pays the player if applicable
-	 * @param player object
-	 * @param dealer object
 	 */
 	public void payOut(){
 		
 		for(Hand eachHand : player.hand){
-			 
-			//TODO: escolher valor do as
 			if(eachHand.surrenderDone){
 				printMessage("player's current balance is " + player.getPlayerMoney());
 				ad.updateStdStrat(true);
@@ -294,7 +283,6 @@ public abstract class PlayingArea {
 					// Update statistics
 					stat.addPush();
 					stat.addDealerBJ();
-					//update stdstrat
 				}
 				else{ // dealer nao tem blackjack
 					try{
@@ -360,7 +348,6 @@ public abstract class PlayingArea {
 	
 	/**
 	 * plays the dealer's turn. The dealer stands on all 17s and hits otherwise
-	 * @param dealer
 	 */
 	public void dealerTurn(){
 		
@@ -384,9 +371,6 @@ public abstract class PlayingArea {
 	
 	/**
 	 * Prepares for next round, by putting the hands in the shoe
-	 * 
-	 * @param player
-	 * @param dealer
 	 */
 	public void prepareNextRound(){
 		
@@ -402,6 +386,7 @@ public abstract class PlayingArea {
 	/**
 	 * Gets the next command to be played
 	 * @return next command to be played
+	 * @throws NoMoreCmdsException when no more commands are available
 	 */
 	public abstract String getCommand() throws NoMoreCmdsException;
 	
@@ -420,6 +405,8 @@ public abstract class PlayingArea {
 	
 	/**
 	 * Prints a message
+	 * 
+	 * @param s - string to be printed
 	 */
 	public void printMessage(String s){
 		System.out.println(s);
@@ -427,6 +414,8 @@ public abstract class PlayingArea {
 	
 	/**
 	 * Prints an object's textual description
+	 * 
+	 * @param o object to be printed
 	 */
 	public void printMessage(Object o){
 		printMessage(o.toString());
@@ -434,8 +423,10 @@ public abstract class PlayingArea {
 	
 	/**
 	 * Handle the exception - useful for the different modes in subclasses 
+	 * 
+	 * @param e string from exception to be handled
 	 */
 	public void handleMoneyException(String e ){
-		System.out.println(e);
+		printMessage(e);
 	}
 }

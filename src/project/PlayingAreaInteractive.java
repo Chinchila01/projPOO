@@ -72,6 +72,7 @@ public class PlayingAreaInteractive extends PlayingArea{
 		super.prepareNextRound();
 		//Shuffle checking is needed in this mode
 		if(shoe.shuffle(shufflePercentage)){
+			System.out.println("shuffling the shoe...");
 			//reset strategies
 			ad.resetStrats();
 		}
